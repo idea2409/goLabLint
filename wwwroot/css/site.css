@@ -45,6 +45,7 @@ nav.navbar {
   display: flex;
   align-items: center;
   position: fixed;
+  z-index: 100;
 }
 
 img.logo {
@@ -105,4 +106,8 @@ p.user-name {
 
 p.user-id {
   color: #7B7B7B;
+}
+.nothing {
+  display:flex;
+  flex-direction:column;
 }

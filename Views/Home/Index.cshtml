@@ -2,9 +2,145 @@
     ViewData["Title"] = "Home Page";
 }
 @section styles {
-    <link rel="stylesheet" href="~/css/home.css" type="text/css"/>
+<link rel="stylesheet" href="~/css/home.css" type="text/css" />
 }
-
 <div>
-    
+    <nav class="navbar">
+        <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
+        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Home" ?"navbar current-page": "navbar")"
+            asp-controller="Home" asp-action="Index" asp-area="">หน้าแรก</a>
+        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Equipment" ?"navbar current-page": "navbar")"
+            asp-controller="Equipment" asp-action="Index" asp-area="">อุปกรณ์</a>
+        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Other" ?"navbar current-page": "navbar")"
+            asp-controller="Other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
+        <div class="user">
+            <div class="user-description">
+                <p class="user-name">โสภิตา เอี่ยมจุ้ย</p>
+                <p class="user-id">นักศึกษา</p>
+            </div>
+            <img class="user-profile" src="~/image/goLabLint.png" alt="user profile" />
+        </div>
+    </nav>
+    <div class="background-container">
+        <img src="~/image/home background.png" alt="background" class="background" />
+        <div class="title-container">
+            <img src="~/image/icon.png" alt="logo" class="home-logo" />
+            <h1 class="home-title">จองง่าย...ได้เร็ว<br />ยืมอุปกรณ์ที่ต้องการอย่างสะดวก</h1>
+            <p class="home-subtitle">นักศึกษาสามารถยืมอุปกรณ์ที่ต้องการได้<br />จากในทุกห้องปฏิบัติการ ผ่านการจองออนไลน์
+                ด้วย GoLabLint</p>
+            <button class="home-button">จองเลย!</button>
+        </div>
+    </div>
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+
+    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
+    vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
+    dolorem, quisquam veritatis molestias accusamus similique asperiores ratione, architecto praesentium voluptates
+    autem temporibus?
+    Lorem ipsum dolor sit amet consectetur adipisicing elit. Sapiente quas, tempore consectetur nulla doloribus nihil
+    architecto ullam blanditiis at eveniet ipsum quibusdam unde! Blanditiis, placeat nulla aliquid laudantium rem
+    minima.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempora, nihil temporibus sit exercitationem animi dolor.
+    Ex quas enim esse quis. Enim alias sapiente dolorem non minima minus saepe ipsum sed.
+    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Possimus cupiditate dolor necessitatibus, vero error ipsam
+    accusamus facere aut magnam molestias nam doloremque omnis quisquam, iure eligendi eum ipsum corrupti neque!
+
 </div>
