@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c915dfcf-2d90-46a6-9f8c-37c880d4efe4/resourceGroups/appsvc_windows_centralus/providers/Microsoft.Web/sites/goLabLint",
+    "appService.deploySubpath": "publish"
+}
