@@ -23,7 +23,7 @@ namespace golablint.Controllers
             if(!ModelState.IsValid) {
                 return BadRequest();;
             }
-            User user = new User();
+            // User user = new User();
             // user.name = name;
             // user.surname = surname;
             // user.email = email;
