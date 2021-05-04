@@ -6,27 +6,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - golablint</title>
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
     @RenderSection("styles",false)
 </head>
 
 <body>
     <header>
-        <nav class="navbar">
-            <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
-            <a class="@((string)ViewContext.RouteData.Values["controller"] == "Home" ?"navbar current-page": "navbar")"
-                asp-controller="Home" asp-action="Index" asp-area="">หน้าแรก</a>
-            <a class="@((string)ViewContext.RouteData.Values["controller"] == "Equipment" ?"navbar current-page": "navbar")"
-                asp-controller="Equipment" asp-action="Index" asp-area="">อุปกรณ์</a>
-            <a class="@((string)ViewContext.RouteData.Values["controller"] == "Other" ?"navbar current-page": "navbar")"
-                asp-controller="Other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
-            <div class="user">
-                <div class="user-description">
-                    <p class="user-name">โสภิตา เอี่ยมจุ้ย</p>
-                    <p class="user-id">นักศึกษา</p>
+        @{
+            string controller = (string)ViewContext.RouteData.Values["controller"];
+            <nav class="navbar">
+                <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
+                <a class="@(controller == "Home" ?"current-page navbar": "navbar")" asp-controller="Home" asp-action="Index"
+                asp-area="">หน้าแรก</a>
+                <a class="@(controller == "Equipment" ?"current-page navbar": "navbar")" asp-controller="Equipment"
+                asp-action="Index" asp-area="">อุปกรณ์</a>
+                <a class="@(controller == "Other" ?"current-page navbar": "navbar")" asp-controller="Other"
+                asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
+                <div class="user">
+                    <div class="user-description">
+                        <p class="user-name">โสภิตา เอี่ยมจุ้ย</p>
+                        <p class="user-id">นักศึกษา</p>
+                    </div>
+                    <img class="user-profile" src="~/image/goLabLint.png" alt="user profile" />
                 </div>
-                <img class="user-profile" src="~/image/goLabLint.png" alt="user profile" />
-            </div>
-        </nav>
+            </nav>}
     </header>
     <div>
         <main role="main">@RenderBody()</main>

@@ -5,6 +5,17 @@
   --blue-color: #3DB1E7;
 }
 
+@font-face {
+  font-family: Sukhumvit;
+  src: url("/font/SukhumvitSet-Medium.ttf");
+}
+
+@font-face {
+  font-family: Sukhumvit;
+  src: url("/font/SukhumvitSet-Bold.ttf");
+  font-weight: bold;
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -15,6 +26,11 @@
 a,
 button {
   cursor: pointer;
+}
+
+button,input {
+  font-family: Sukhumvit;
+  border: none;
 }
 
 a {
@@ -34,10 +50,10 @@ html {
 body {
   width: 100vw;
   height: 100vh;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Sukhumvit, Arial, Helvetica, sans-serif;
   padding-top: 4vw;
+  overflow-y: overlay;
 }
-
 nav.navbar {
   width: 100%;
   height: 4vw;
@@ -107,7 +123,8 @@ p.user-name {
 p.user-id {
   color: #7B7B7B;
 }
+
 .nothing {
-  display:flex;
-  flex-direction:column;
+  display: flex;
+  flex-direction: column;
 }
