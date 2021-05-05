@@ -1,7 +1,12 @@
 @{
     ViewData["Title"] = "Register";
 }
+
 <div class="nothing">
+    @foreach (var passwordError in ViewBag.errors.password)
+    {
+        <div>@passwordError</div>
+    }    
     <div>
         <label for="email">Email:</label>
         <input id="email" type="email"></input>

@@ -1,3 +1,5 @@
 @{
-    Layout =  "_Layout";
+    string controller = (string)ViewContext.RouteData.Values["controller"] ;
+    @* Layout =  controller != "Register" && controller != "Login"? "_Layout" : null; *@
+    Layout = "_Layout";
 }

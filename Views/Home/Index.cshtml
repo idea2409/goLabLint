@@ -5,21 +5,16 @@
 <link rel="stylesheet" href="~/css/home.css" type="text/css" />
 }
 <div>
-    <nav class="navbar">
-        <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
-        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Home" ?"navbar current-page": "navbar")"
+    <nav class="home-navbar navbar">
+        <input class="home-search"></input>
+        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Home" ?"home-navbar home-current-page": "home-navbar")"
             asp-controller="Home" asp-action="Index" asp-area="">หน้าแรก</a>
-        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Equipment" ?"navbar current-page": "navbar")"
+        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Equipment" ?"home-navbar home-current-page": "home-navbar")"
             asp-controller="Equipment" asp-action="Index" asp-area="">อุปกรณ์</a>
-        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Other" ?"navbar current-page": "navbar")"
+        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Other" ?"home-navbar home-current-page": "home-navbar")"
             asp-controller="Other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
-        <div class="user">
-            <div class="user-description">
-                <p class="user-name">โสภิตา เอี่ยมจุ้ย</p>
-                <p class="user-id">นักศึกษา</p>
-            </div>
-            <img class="user-profile" src="~/image/goLabLint.png" alt="user profile" />
-        </div>
+        <a class="@((string)ViewContext.RouteData.Values["controller"] == "Other" ?"home-navbar home-current-page": "home-navbar")"
+            asp-controller="Other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
     </nav>
     <div class="background-container">
         <img src="~/image/home background.png" alt="background" class="background" />
