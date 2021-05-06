@@ -1,130 +1,133 @@
 ﻿:root {
-  --orange-color: #F37634;
-  --light-gray-color: #EEEEEE;
-  --dark-gray-color: #757575;
-  --blue-color: #3DB1E7;
+    --orange-color: #F37634;
+    --light-gray-color: #EEEEEE;
+    --dark-gray-color: #757575;
+    --blue-color: #3DB1E7;
+    --blue-sky-color: #F1FAFF;
 }
 
 @font-face {
-  font-family: Sukhumvit;
-  src: url("/font/SukhumvitSet-Medium.ttf");
+    font-family: Sukhumvit;
+    src: url("/font/SukhumvitSet-Medium.ttf");
 }
 
 @font-face {
-  font-family: Sukhumvit;
-  src: url("/font/SukhumvitSet-Bold.ttf");
-  font-weight: bold;
+    font-family: Sukhumvit;
+    src: url("/font/SukhumvitSet-Bold.ttf");
+    font-weight: bold;
 }
 
 * {
-  margin: 0;
-  padding: 0;
-  top: 0;
-  left: 0;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
 }
 
 a,
 button {
-  cursor: pointer;
+    cursor: pointer;
 }
 
-button,input {
-  font-family: Sukhumvit;
-  border: none;
+button,
+input {
+    font-family: Sukhumvit;
+    border: none;
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
-  font-family: Sukhumvit, Arial, Helvetica, sans-serif;
-  padding-top: 4vw;
-  overflow-y: overlay;
+    width: 100vw;
+    height: 100vh;
+    font-family: Sukhumvit, Arial, Helvetica, sans-serif;
+    padding-top: 4vw;
+    overflow-y: overlay;
 }
+
 nav.navbar {
-  width: 100%;
-  height: 4vw;
-  background-color: var(--light-gray-color);
-  display: flex;
-  align-items: center;
-  position: fixed;
-  z-index: 100;
+    width: 100%;
+    height: 4vw;
+    background-color: var(--light-gray-color);
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
 }
 
 img.logo {
-  padding: 0 0 0 3%;
-  width: 15%;
+    padding: 0 0 0 3%;
+    width: 15%;
 }
 
 a.navbar {
-  color: var(--dark-gray-color);
-  margin: 0 0 0 7%;
-  font-weight: bold;
-  height: 100%;
-  padding: 0 2.5%;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  border: 0.25rem solid transparent;
+    color: var(--dark-gray-color);
+    margin: 0 0 0 7%;
+    font-weight: bold;
+    height: 100%;
+    padding: 0 2.5%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border: 0.25rem solid transparent;
 }
 
 a.navbar:hover,
 a.current-page {
-  color: var(--orange-color);
+    color: var(--orange-color);
 }
 
 a.current-page {
-  border-bottom: 0.25rem solid var(--orange-color);
+    border-bottom: 0.25rem solid var(--orange-color);
 }
 
 div.user-description {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-end;
-  font-size: 0.8rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 0.8rem;
 }
 
 div.user {
-  display: flex;
-  flex: 1;
-  justify-content: flex-end;
-  margin-right: 3%;
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    margin-right: 3%;
 }
 
 img.user-profile {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-left: 5%;
-  border: 1px solid black;
-  box-sizing: border-box;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-left: 5%;
+    border: 1px solid black;
+    box-sizing: border-box;
 }
 
 p.user-name {
-  color: #646464;
-  font-weight: bold;
+    color: #646464;
+    font-weight: bold;
 }
 
 p.user-id {
-  color: #7B7B7B;
+    color: #7B7B7B;
 }
 
 .nothing {
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 }

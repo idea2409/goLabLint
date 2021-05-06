@@ -4,6 +4,7 @@
 }
 @section styles {
 <link rel="stylesheet" href="~/css/home.css" type="text/css" />
+<link rel="stylesheet" href="~/css/card.css" type="text/css" />
 }
 <div>
     <nav class="navbar">
@@ -32,28 +33,7 @@
             <button class="home-button">จองเลย!</button>
         </div>
     </div>
-    <div class="grid-container">
-        @foreach (var item in Model)
-        {
-            <div class="card">
-                <div class="card-img-top">
-                    <img src="@item.img" />
-                </div>
-                <div class="card-body">
-                    <div class="card-title">
-                        <h2>@item.title</h2>
-                    </div>
-                    <div class="card-text">
-                        <p>@item.text</p>
-                    </div>
-                </div>
-                <div class="card-avialable-num">
-                    <p>ว่าง</p>
-                    <h1>@item.avialable</h1>
-                </div>
-            </div>    
-        }
-    </div>
+    
     Lorem ipsum, dolor sit amet consectetur adipisicing elit. Rem voluptatem recusandae, odio fugiat sunt earum ipsum
     vel similique deleniti iusto atque molestiae eos quam. Illo, error consequatur. Repudiandae, repellendus neque.
     Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem id nostrum beatae obcaecati quos unde aut reprehenderit
