@@ -25,7 +25,7 @@ namespace golablint {
             services.AddAuthentication(
                     CertificateAuthenticationDefaults.AuthenticationScheme)
                 .AddCertificate();
-            services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection")));
             services.AddControllersWithViews();
         }
 

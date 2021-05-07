@@ -9,6 +9,7 @@ using golablint.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.EntityFrameworkCore;
 
 namespace golablint.Controllers {
     public class RegisterController : Controller {
@@ -33,6 +34,13 @@ namespace golablint.Controllers {
             var re = new Regex("^\\d+$");
             user.role = user.email != null && re.Matches(user.email.Remove(user.email.IndexOf('@'))).Count > 0 ? "นักศึกษา" : "อาจารย์";
             if (!TryValidateModel(user, nameof(user))) {
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
+                return View();
+            }
+            if(_db.User.FromSqlRaw($"SELECT * FROM \"User\" WHERE email = \'{user.email}\' LIMIT 1").Count() > 0) {
+                ModelState.AddModelError("email","This email is already used.");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
