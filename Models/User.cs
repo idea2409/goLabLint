@@ -11,17 +11,17 @@ namespace golablint.Models {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid id { get; set; }
 
-        [Required(ErrorMessage = "Name is required.")]
+        [Required(ErrorMessage = "Name is required.",AllowEmptyStrings=false)]
         public string name { get; set; }
 
-        [Required(ErrorMessage = "Surname is required.")]
+        [Required(ErrorMessage = "Surname is required.",AllowEmptyStrings=false)]
         public string surname { get; set; }
 
-        [Required(ErrorMessage = "Email is required.")]
+        [Required(ErrorMessage = "Email is required.",AllowEmptyStrings=false)]
         [EmailAddress(ErrorMessage = "Email is invalid.")]
         public string email { get; set; }
 
-        [Required(ErrorMessage = "Password is required.")]
+        [Required(ErrorMessage = "Password is required.",AllowEmptyStrings=false)]
         [MinLength(8, ErrorMessage = "Password length must be greater than 8.")]
         [Number(ErrorMessage = "Password must contain digits 0-9")]
         [LowerCase(ErrorMessage = "Password must contain at least one or more lowercase character a-z")]
@@ -29,6 +29,10 @@ namespace golablint.Models {
         public string password { get; set; }
 
         public string role { get; set; }
+        [NotMapped]
+        [Required(ErrorMessage = "Confirmation password is required.",AllowEmptyStrings=false)]
+        [Compare("password",ErrorMessage = "Confirmation password does not match the password above.")]
+        public string confirmPassword {get;set;}
     }
 }
 

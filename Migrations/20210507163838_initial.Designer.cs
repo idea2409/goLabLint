@@ -10,7 +10,7 @@ using golablint.Data;
 namespace golablint.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20210507115630_initial")]
+    [Migration("20210507163838_initial")]
     partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

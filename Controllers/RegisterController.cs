@@ -24,13 +24,14 @@ namespace golablint.Controllers {
         [Route("~/api/register")]
         [HttpPost]
         // [ValidateAntiForgeryToken]
-        public IActionResult Index(string name, string surname, string email, string password) {
+        public IActionResult Index(string name, string surname, string email, string password, string confirmPassword) {
             User user = new User();
             user.id = Guid.NewGuid();
             user.name = name;
             user.surname = surname;
             user.email = email;
-            user.password = BCrypt.Net.BCrypt.HashPassword(password);
+            user.password = password;
+            user.confirmPassword = confirmPassword;
             var re = new Regex("^\\d+$");
             user.role = user.email != null && re.Matches(user.email.Remove(user.email.IndexOf('@'))).Count > 0 ? "นักศึกษา" : "อาจารย์";
             if (!TryValidateModel(user, nameof(user))) {
@@ -46,6 +47,8 @@ namespace golablint.Controllers {
                 ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
                 return View();
             }
+            user.password = BCrypt.Net.BCrypt.HashPassword(user.password);
+            user.confirmPassword = BCrypt.Net.BCrypt.HashPassword(user.confirmPassword);
             _db.User.Add(user);
             _db.SaveChanges();
             return RedirectToRoute(new {
