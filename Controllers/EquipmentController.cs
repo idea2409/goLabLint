@@ -165,6 +165,12 @@ namespace golablint.Controllers
             lobj.Add(obj);
 
             return View(lobj);
-        }        
+        }
+        
+        [Route("~/equipment/admin/create")]
+        public IActionResult Create()
+        {
+            return View();
+        }              
     }
 }
