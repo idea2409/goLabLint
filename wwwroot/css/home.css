@@ -2,7 +2,7 @@ img.home-logo {
     width: 40%;
 }
 
-div.background-container> div:first-child {
+div.background-container>div:first-child {
     height: 100%;
     /* width: 100%; */
     display: flex;
