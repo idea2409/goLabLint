@@ -37,8 +37,7 @@ p.home-subtitle {
     color: #FFDAC7;
     font-weight: normal;
 }
-
-button.home-button {
+a.home-button {
     width: 35%;
     height: 10%;
     color: #355A8A;
@@ -46,6 +45,13 @@ button.home-button {
     border-radius: 0.5rem;
     font-size: 1.25rem;
     background-color: #F4F4F4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+a.home-button:hover {
+    filter: brightness(90%);
 }
 
 a.home-navbar {
@@ -58,4 +64,124 @@ a.home-navbar {
     align-items: center;
     box-sizing: border-box;
     border: 0.25rem solid transparent;
+}
+
+div.howto {
+    position: relative;
+    text-align: center;
+    padding-top: 5%;
+}
+
+div.watermark {
+    color: #F1F5F9;
+    font-weight: bold;
+    position: absolute;
+    z-index: -1;
+    font-size: 7rem;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+}
+
+h2.step-title {
+    color: #444444;
+    margin-bottom: 5%;
+}
+
+div.steps {
+    margin: 0 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+}
+
+div.step-card {
+    width: 20%;
+    background-color: white;
+    box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.2), 0px 3px 4px rgba(0, 0, 0, 0.12), 0px 2px 4px rgba(0, 0, 0, 0.14);
+    border-radius: 0.125rem;
+    color: #E35205;
+    font-size: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1% 0.5%;
+    position: relative;
+}
+
+div.step-number {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    width: 2.5vw;
+    height: 2.5vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #3DB1E7;
+    color: white;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50%;
+    transform: translate(-50%);
+}
+
+img.step-img {
+    width: 18%;
+    align-self: center;
+}
+
+div.authen-background-container {
+    position: relative;
+    background-color: var(--orange-color);
+    width: 100%;
+    height: calc(100vh - 4vw - 20vh);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+img.authen-background {
+    width: 30%;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    bottom: 0;
+    margin: auto 0;
+    transform: translateX(-150%);
+}
+
+div.authen-background-container>h1 {
+    margin-bottom: 5%;
+}
+
+div.authen-background-container * {
+    margin-left: 5%;
+}
+
+div.circle {
+    background-color: #C6EDFF;
+    width: 12vw;
+    height: 12vw;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
+    border-radius: 100% 0 0 0;
+    left: 100%;
+    top:100%;
+    transform: translate(-100%,-100%);
+}
+
+div.circle>div {
+    position: absolute;
+    background-color: #3DB1E7;
+    border-radius: 100% 0 0 0;
+    width: 10vw;
+    height: 10vw;
+    margin-left: 0;
+    left: 100%;
+    top:100%;
+    transform: translate(-100%,-100%);
 }

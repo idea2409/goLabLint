@@ -11,28 +11,30 @@ namespace golablint.Models {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public Guid id { get; set; }
 
-        [Required(ErrorMessage = "Name is required.",AllowEmptyStrings=false)]
+        [Required(ErrorMessage = "กรุณากรอกชื่อจริง", AllowEmptyStrings = false)]
         public string name { get; set; }
 
-        [Required(ErrorMessage = "Surname is required.",AllowEmptyStrings=false)]
+        [Required(ErrorMessage = "กรุณากรอกนามสกุล", AllowEmptyStrings = false)]
         public string surname { get; set; }
 
-        [Required(ErrorMessage = "Email is required.",AllowEmptyStrings=false)]
-        [EmailAddress(ErrorMessage = "Email is invalid.")]
+        [Required(ErrorMessage = "กรุณากรอกอีเมล", AllowEmptyStrings = false)]
+        [EmailAddress(ErrorMessage = "อีเมลไม่ถูกต้อง")]
         public string email { get; set; }
 
-        [Required(ErrorMessage = "Password is required.",AllowEmptyStrings=false)]
-        [MinLength(8, ErrorMessage = "Password length must be greater than 8.")]
-        [Number(ErrorMessage = "Password must contain digits 0-9")]
-        [LowerCase(ErrorMessage = "Password must contain at least one or more lowercase character a-z")]
-        [UpperCase(ErrorMessage = "Password must contain at least one or more uppercase character A-Z")]
+        [Required(ErrorMessage = "กรุณากรอกรหัสผ่าน", AllowEmptyStrings = false)]
+        [MinLength(8, ErrorMessage = "รหัสผ่านต้องมีความยาวอย่างน้อย 8 อักขระ")]
+        [Number(ErrorMessage = "รหัสผ่านต้องมีตัวเลข 0-9")]
+        [LowerCase(ErrorMessage = "รหัสผ่านต้องมีตัวอักษรพิมพ์เล็ก a-z")]
+        [UpperCase(ErrorMessage = "รหัสผ่านต้องมีตัวอักษรพิมพ์ใหญ่ A-Z")]
         public string password { get; set; }
 
+        [Required]
         public string role { get; set; }
+
         [NotMapped]
-        [Required(ErrorMessage = "Confirmation password is required.",AllowEmptyStrings=false)]
-        [Compare("password",ErrorMessage = "Confirmation password does not match the password above.")]
-        public string confirmPassword {get;set;}
+        [Required(ErrorMessage = "กรุณายืนยันรหัสผ่าน", AllowEmptyStrings = false)]
+        [Compare("password", ErrorMessage = "รหัสผ่านที่ยืนยันไม่ตรงกับรหัสผ่านข้างต้น")]
+        public string confirmPassword { get; set; }
     }
 }
 

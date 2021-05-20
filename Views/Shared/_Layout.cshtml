@@ -13,23 +13,38 @@
 
 <body>
     <header>
+        @using System.Security.Claims;
         @{
             string controller = (string)ViewContext.RouteData.Values["controller"];
-            <nav class="navbar">
-                <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
-                <a class="@(controller == "Home" ?"current-page navbar": "navbar")" asp-controller="Home" asp-action="Index"
-                asp-area="">หน้าแรก</a>
-                <a class="@(controller == "Equipment" ?"current-page navbar": "navbar")" asp-controller="Equipment"
-                asp-action="Index" asp-area="">อุปกรณ์</a>
-                <a class="@(controller == "Other" ?"current-page navbar": "navbar")" asp-controller="Other"
-                asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
-                <div class="user">
-                    <div class="user-description">
-                        <p class="user-name">โสภิตา เอี่ยมจุ้ย</p>
-                        <p class="user-id">นักศึกษา</p>
+            bool isAuthenticated = Context.User.Identity.IsAuthenticated;
+            <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
+                @if (isAuthenticated)
+                {
+                    <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
+                }
+                else
+                {
+                    @* <form class="home-search">
+                        <input type="text" placeholder="ค้นหาอุปกรณ์">
+                        <button type="submit"></button>
+                        </form> *@
+                }
+                <a class="@((controller == "Home" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
+                <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="equipment" asp-action="Index" asp-area="">อุปกรณ์</a>
+                <a class="@((controller == "Other" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
+                @if (isAuthenticated)
+                {
+                    <div class="user">
+                        <div class="user-description">
+                            <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Surname).FirstOrDefault().Value)</p>
+                            <p class="user-id">@(Context.User.Claims.Where(claim =>claim.Type==ClaimTypes.Role).FirstOrDefault().Value == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
+                        </div>
+                        <img class="user-profile" src="~/image/default profile.jpg" alt="user profile" />
                     </div>
-                    <img class="user-profile" src="~/image/goLabLint.png" alt="user profile" />
-                </div>
+                }
             </nav>}
     </header>
     <div>
