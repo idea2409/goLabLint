@@ -74,7 +74,7 @@ a.home-navbar {
     display: flex;
     align-items: center;
     box-sizing: border-box;
-    border: 0.25rem solid transparent;
+    border: 0.25rem solid transparent
 }
 
 div.howto {
