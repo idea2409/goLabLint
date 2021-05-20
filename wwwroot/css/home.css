@@ -2,8 +2,21 @@ img.home-logo {
     width: 40%;
 }
 
-img.background {
+div.background-container > div {
     height: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+img.left-background {
+    height: 100%;
+    /* left:0;
+    position: absolute; */
+}
+img.right-background {
+    height: 100%;
+    /* right:0;
+    position: absolute; */
 }
 
 div.background-container {

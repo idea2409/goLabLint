@@ -1,7 +1,5 @@
-﻿@model List<golablint.Models.Card>;
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
-    @* Context.User. *@
 }
 @section styles {
 <link rel="stylesheet" href="~/css/home.css" type="text/css" />
@@ -14,13 +12,18 @@
             <h1 class="home-title">จองง่าย...ได้เร็ว<br />ยืมอุปกรณ์ที่ต้องการอย่างสะดวก</h1>
             <p class="home-subtitle">นักศึกษาสามารถยืมอุปกรณ์ที่ต้องการได้<br />จากในทุกห้องปฏิบัติการ ผ่านการจองออนไลน์
                 ด้วย GoLabLint</p>
-                <div class="circle"><div></div></div>
+            <div class="circle">
+                <div></div>
+            </div>
         </div>
     }
     else
     {
         <div class="background-container">
-            <img src="~/image/home background.png" alt="background" class="background" />
+            <div>
+                <img src="~/image/home background leftside.png" alt="background" class="left-background" />
+                <img src="~/image/home background rightside.png" alt="background" class="right-background" />
+            </div>
             <div class="title-container">
                 <img src="~/image/icon.png" alt="logo" class="home-logo" />
                 <h1 class="home-title">จองง่าย...ได้เร็ว<br />ยืมอุปกรณ์ที่ต้องการอย่างสะดวก</h1>
