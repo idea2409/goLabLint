@@ -1,67 +1,13 @@
 @{
-    ViewData["Title"] = "ลงทะเบียน";
+    ViewData["Title"] = "Register";
 }
-<div class="register-container">
-    <h1 class="authen-title">ลงทะเบียน</h1>
-    <form method="POST" asp-controller="register" asp-action="index" autocomplete="off">
-        <div class="row">
-            <div class="input-block">
-                <label class="input-label" for="name">ชื่อจริง</label>
-                <input
-                    class="@(ViewBag!=null &&ViewBag.errors != null &&ViewBag.errors.name !=null ? "input-box error" : "input-box")"
-                    id="name" name="name" placeholder="สมชาย"
-                    value="@(ViewBag != null && ViewBag.user != null&& ViewBag.user.name != null?ViewBag.user.name:"")"></input>
-                @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.name != null)
-                {
-                    <div class="error">@(ViewBag.errors.name[0])</div>
-                }
-            </div>
-            <div class="input-block">
-                <label class="input-label" for="surname">นามสกุล</label>
-                <input
-                    class="@(ViewBag!=null &&ViewBag.errors != null &&ViewBag.errors.surname !=null ? "input-box error" : "input-box")"
-                    id="surname" name="surname" placeholder="ใจดี"
-                    value="@(ViewBag != null && ViewBag.user != null&& ViewBag.user.surname != null?ViewBag.user.surname:"")"></input>
-                @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.surname != null)
-                {
-                    <div class="error">@(ViewBag.errors.surname[0])</div>
-                }
-            </div>
-        </div>
-        <div class="input-block">
-            <label class="input-label" for="email">อีเมล</label>
-            <input
-                class="@(ViewBag!=null &&ViewBag.errors != null &&ViewBag.errors.email !=null ? "input-box error" : "input-box")"
-                id="email" name="email" type="email" placeholder="abc@gmail.com"
-                value="@(ViewBag != null && ViewBag.user != null&& ViewBag.user.email != null?ViewBag.user.email:"")"></input>
-            @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.email != null)
-            {
-                <div class="error">@(ViewBag.errors.email[0])</div>
-            }
-        </div>
-        <div class="input-block">
-            <label class="input-label" for="password">รหัสผ่าน</label>
-            <input
-                class="@(ViewBag!=null &&ViewBag.errors != null &&ViewBag.errors.password !=null ? "input-box error" : "input-box")"
-                id="password" name="password" type="password" placeholder="••••••••"
-                value="@(ViewBag != null && ViewBag.user != null&& ViewBag.user.password != null?ViewBag.user.password:"")"></input>
-            @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.password != null)
-            {
-                <div class="error">@(ViewBag.errors.password[0])</div>
-            }
-        </div>
-        <div class="input-block">
-            <label class="input-label" for="confirmPassword">ยืนยันรหัสผ่าน</label>
-            <input
-                class="@(ViewBag!=null &&ViewBag.errors != null &&ViewBag.errors.confirmPassword !=null ? "input-box error" : "input-box")"
-                id="confirmPassword" name="confirmPassword" type="password" placeholder="••••••••"
-                value="@(ViewBag != null && ViewBag.user != null&& ViewBag.user.confirmPassword != null?ViewBag.user.confirmPassword:"")"></input>
-            @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.confirmPassword != null)
-            {
-                <div class="error">@(ViewBag.errors.confirmPassword[0])</div>
-            }
-        </div>
-        <input class="register" type="submit" value="สร้างบัญชีผู้ใช้"></input>
-    </form>
-    <img src="~/image/icon.png" alt="logo" class="register-logo" />
+<div class="nothing">
+    <div>
+        <label for="email">Email:</label>
+        <input id="email" type="email"></input>
+    </div>
+    <div>
+        <label for="password">Password:</label>
+        <input type="password"></input>
+    </div>
 </div>
