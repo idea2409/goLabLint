@@ -21,6 +21,13 @@ namespace golablint.Controllers
             return View();
         }
 
+        [Route("~/admin/equipment/{id}")]
+        public IActionResult Describe(Guid id)
+        {
+            ViewBag.equipment = "eiei";
+            return View();
+        }
+
         [Route("~/admin/equipment/add")]
         public IActionResult Add()
         {

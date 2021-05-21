@@ -130,7 +130,7 @@ namespace golablint.Controllers
 
             return View(lobj);
         }
-
+        
         public IActionResult Admin()
         {
             Models.Card obj;
