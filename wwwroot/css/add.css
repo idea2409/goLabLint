@@ -1,6 +1,6 @@
-#container{
-margin-left: 5%;
-margin-top: 3%;
+#container {
+    margin-left: 5%;
+    margin-top: 3%;
 }
 
 section {
@@ -35,17 +35,17 @@ section {
     transform: translate(-50%, -50%);
 }
 
-aside{
+aside {
     margin-top: 3%;
     margin-left: 5%;
 }
 
 aside>label {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
 
-.inputbox{
-    font-size: 1.75rem;
+.inputbox {
+    font-size: 1.5rem;
     border-style: solid;
     border-radius: 10px;
     border-width: 2px;
@@ -54,24 +54,24 @@ aside>label {
     width: 500px;
 }
 
-#confirm-bt{
-    font-size: 1.75rem;
+button {
+    font-size: 1.5rem;
     border-radius: 10px;
-    background-color: var(--orange-color);
     width: 150px;
     height: 50px;
 }
-#back-bt{
-    font-size: 1.75rem;
-    border-radius: 10px;
+
+#confirm-bt {
+    background-color: var(--orange-color);
+}
+
+#back-bt {
     border: 3px solid lightgray;
     background-color: white;
-    width: 150px;
-    height: 50px;
     margin-right: 5%;
 }
 
-#button_container{
+#button_container {
     display: flex;
     justify-content: flex-end;
     margin-top: 80px;

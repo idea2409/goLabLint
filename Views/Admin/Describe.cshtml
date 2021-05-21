@@ -1,9 +1,16 @@
-<div>
-    <h1>ทำตรงนี้</h1>
+@{
+    ViewData["Title"] = "Description";
+}
+@section styles{
+<link rel="stylesheet" href="~/css/describe.css" type="text/css" />
+}
+<section id="main">
+    @* <h1>ทำตรงนี้</h1>
     <p>@ViewBag.equipment.name</p>
     <p>@ViewBag.equipment.description</p>
     <p>@ViewBag.equipment.amount</p>
-    <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>    
+    <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
     <br/>
-    eieizza55plus
-</div>
+    eieizza55plus *@
+    <h1 class="title">อุปกรณ์</h1>
+</section>
