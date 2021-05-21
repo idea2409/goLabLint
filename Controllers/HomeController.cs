@@ -20,8 +20,18 @@ namespace golablint.Controllers
         }
         
         public IActionResult Index()
-        {
-            
+        {            
+            return View();
+        }
+        
+        public IActionResult Booking()
+        {            
+            return View();
+        }
+
+        [Route("~/home/booking/{id}")]
+        public IActionResult Booking(Guid id)
+        {            
             return View();
         }
 

@@ -1,0 +1,104 @@
+@{
+    @using System;
+    ViewData["Title"] = "BookingPage";
+    var d = DateTime.Now;
+    var firstDayOfMonth = new DateTime(d.Year, d.Month, 1);
+    Console.WriteLine((int)firstDayOfMonth.DayOfWeek);
+    Console.WriteLine(DateTime.DaysInMonth(d.Year, d.Month + 1));
+    Console.WriteLine(d.ToString("MMM"));
+}
+@section styles{
+<link rel="stylesheet" href="~/css/booking.css" type="text/css" />
+}
+
+@* <p>Looking for the @ViewData["EquipmentName"]</p> *@
+
+@* <h1>@ViewData["Title"]</h1> *@
+
+<div class="booking-left">
+    <div id="calendar">
+        <div id="month-year">
+
+            <div>
+                <p id="month"></p>
+                <p id="year"></p>
+            </div>
+
+            <div id="monthButton">
+                <button onclick="prevMonth()">
+                    << /button>
+                        <button onclick="nextMonth()">></button>
+            </div>
+
+        </div>
+        <div id="calendar-days"></div>
+    </div>
+</div>
+
+<script>
+    var today = new Date();
+    var time = today.getTime();
+    var date = new Date(time);
+
+    setCalendar(date);
+
+    function setCalendar(d) {
+        var day = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        var firstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1).getDay();
+        var lastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDay();
+        var daysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+        var lastDayOfPrevMonth = new Date(d.getFullYear(), d.getMonth(), 0).getDate();
+
+        var m = d.getMonth();
+        var y = d.getFullYear();
+        var i, days = "";
+        var counter = 0;
+
+        document.getElementById("month").innerHTML = months[m];
+        document.getElementById("year").innerHTML = y.toString();
+
+        for (i = 0; i < 7; i++) {
+            days = days + "<div class='days'>" + day[i] + "</div>";
+        }
+        for (i = 0; i < firstDayOfMonth; i++) {
+            var x = lastDayOfPrevMonth - (firstDayOfMonth - i) + 1;
+            days = days + "<div class='notAvailableDay'>" + x + "</div>";
+            counter++;
+        }
+        for (i = 1; i <= daysInMonth; i++) {
+            var dd = i;
+            if (dd < 10) dd = "0" + i;
+            var mm = m;
+            if (mm < 10) mm = "0" + m;
+            days = days + "<div class='mydays' onclick=selectBookingDate('" + dd + mm + y + "')>" + i + "</div>";
+            counter++;
+        }
+        for (i = counter + 1; i <= 42; i++) {
+            var x = i - counter;
+            days = days + "<div class='notAvailableDay'>" + x + "</div>";
+        }
+        document.getElementById("calendar-days").innerHTML = days;
+    }
+
+
+
+    function nextMonth() {
+        var daysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+        date.setDate(date.getDate() + daysInMonth);
+        setCalendar(date);
+    }
+
+    function prevMonth() {
+        if (date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear()) return;
+        var daysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate();
+        date.setDate(date.getDate() - daysInMonth);
+        setCalendar(date);
+    }
+
+    function selectBookingDate(str) {
+        bookingDate = str;
+        document.getElementById("bookingDate").innerHTML = bookingDate;
+    }
+</script>

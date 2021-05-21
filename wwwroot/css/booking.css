@@ -1,0 +1,73 @@
+p {
+    color: orange;
+}
+
+.booking-left {
+    width: 15vw;
+    min-width: 250px;
+    height: calc(100vh - 4vw);
+    background-color: black;
+}
+
+#calendar {
+    background-color: #F37634;
+    min-width: 250px;
+    min-height: 250px;
+    width: 15vw;
+    height: 15vw;
+    display: flex;
+    flex-direction: column;
+}
+
+#month-year {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 25%;
+    /* background-color: yellow; */
+}
+
+#month-year > div {
+    display: flex;
+    flex-direction: row;
+    margin: 0 10px;
+    /* background: chartreuse; */
+}
+
+#calendar button {
+    background: none;
+    border: none;
+    color: white;
+    height: 50%;
+    width: 20px;
+}
+
+#calendar-days {
+    width: 100%;
+    height: 75%;
+    /* background: chartreuse; */
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+#calendar-days div{
+    color: white;
+    text-align: center;
+    font-size: 80%;
+    align-self: center;
+}
+
+.mydays{
+    font-size: 80%;
+    align-self: center;
+    cursor: pointer;
+    widows: 100%;
+    height: 100%;
+    /* background-color: red; */
+}
+
+.notAvailableDay {
+    opacity: 0.5;
+}
