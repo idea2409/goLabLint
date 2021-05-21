@@ -167,10 +167,10 @@ namespace golablint.Controllers
             return View(lobj);
         }
         
-        [Route("~/equipment/admin/create")]
-        public IActionResult Create()
-        {
-            return View();
-        }              
+        // [Route("~/equipment/admin/create")]
+        // public IActionResult Create()
+        // {
+        //     return View();
+        // }              
     }
 }

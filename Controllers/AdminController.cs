@@ -27,10 +27,10 @@ namespace golablint.Controllers
             return View();
         }
 
-        [Route("~/admin/equipment/add")]
-        public IActionResult Add(Guid id)
-        {
-            return View();
-        }
+        // [Route("~/admin/equipment/add")]
+        // public IActionResult Add(Guid id)
+        // {
+        //     return View();
+        // }
     }
 }

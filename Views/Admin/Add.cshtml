@@ -1,8 +1,9 @@
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Equipment";
 }
 @section styles {
-<link rel="stylesheet" href="~/css/create.css" type="text/css" />
+<link rel="stylesheet" href="~/css/add.css" type="text/css" />
+
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 }
 <script>
@@ -12,10 +13,8 @@
     };
 </script>
 <div id="container">
-    <header>
-        <h1>เพิ่มอุปกรณ์ใหม่</h1>
-    </header>
-    <main>
+    <h1>เพิ่มอุปกรณ์ใหม่</h1><br>
+    <section>
         <figure id="photo">
             <input type="file" accept=".jpg, .jpeg, .png, .gif" name="photo" id="upload_button"
                 onchange="loadFile(event)" style="display: none;">
@@ -24,7 +23,6 @@
             </label>
             <img id="output" width="500" />
         </figure>
-        <div id="realdiv"></div>
         <aside>
             <form action="" method="post">
                 <label for="name">ชื่ออุปกรณ์</label>
@@ -40,8 +38,8 @@
                 </select>
                 <div id="button_container">
                     <button type="submit">ยืนยัน</button>
-                </div>    
+                </div>
             </form>
         </aside>
-    </main>
+    </section>
 </div>
