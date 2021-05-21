@@ -18,12 +18,12 @@ div.card {
     transition: box-shadow 0.3s;
 }
 
-div.card:hover {
+div.card:hover, div.admin-card:hover {
     cursor: pointer;
     box-shadow: -1px 1px 10px -1px var(--dark-gray-color);
 }
 
-div.card-img-hover {
+div.card-img-hover, div.admin-card-img-hover {
     display: none;
 }
 
