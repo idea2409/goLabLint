@@ -14,20 +14,20 @@
 </script>
 <div id="container">
     <h1>เพิ่มอุปกรณ์ใหม่</h1><br>
-    <section>
-        <figure id="photo">
-            <input type="file" accept=".jpg, .jpeg, .png, .gif" name="photo" id="upload_button"
-                onchange="loadFile(event)" style="display: none;">
-            <label for="upload_button" style="cursor: pointer;">
-                <i class="material-icons" id="photo_icon">add_photo_alternate</i>
-            </label>
-            <img id="output" width="500" />
-        </figure>
-        <aside>
-            <form action="" method="post">
-                <label for="name">ชื่ออุปกรณ์</label>
+    <form action="" method="post">
+        <section>
+            <figure id="photo">
+                <input type="file" accept=".jpg, .jpeg, .png, .gif" name="photo" id="upload_button"
+                    onchange="loadFile(event)" style="display: none;">
+                <label for="upload_button" style="cursor: pointer;">
+                    <i class="material-icons" id="photo_icon">add_photo_alternate</i>
+                </label>
+                <img id="output" width="500" />
+            </figure>
+            <aside>
+                <label for="name">ชื่ออุปกรณ์</label><br>
                 <input type="text" id="name" class="inputbox"><br><br>
-                <label for="quantity">จำนวน (ชิ้น)</label>
+                <label for="quantity">จำนวน (ชิ้น)</label><br>
                 <input type="number" id="quantity" min="1" class="inputbox"><br><br>
                 <label for="lab">ห้องปฏิบัติการ</label><br>
                 <select name="lab" id="lab" class="inputbox" required>
@@ -37,9 +37,10 @@
                     <option value="lab3">lab3</option>
                 </select>
                 <div id="button_container">
-                    <button type="submit">ยืนยัน</button>
+                    <button type="submit" id="back-bt">ยกเลิก</button>
+                    <button type="button" id="confirm-bt">ยืนยัน</button>
                 </div>
-            </form>
-        </aside>
-    </section>
+            </aside>
+        </section>
+    </form>
 </div>

@@ -5,10 +5,10 @@ margin-top: 3%;
 
 section {
     display: flex;
+    flex-wrap: wrap;
 }
 
 #photo {
-    /* margin-top: 10%; */
     width: 500px;
     height: 500px;
     background-color: white;
@@ -35,16 +35,12 @@ section {
     transform: translate(-50%, -50%);
 }
 
-#realdiv{
-    width: 125px;
-}
-
 aside{
-    margin-top: 5%;
+    margin-top: 3%;
     margin-left: 5%;
 }
 
-form {
+aside>label {
     font-size: 1.75rem;
 }
 
@@ -54,16 +50,25 @@ form {
     border-radius: 10px;
     border-width: 2px;
     border-color: lightgray;
+    border-color: lightgray;
     width: 500px;
 }
 
-button{
+#confirm-bt{
     font-size: 1.75rem;
     border-radius: 10px;
     background-color: var(--orange-color);
     width: 150px;
     height: 50px;
-    margin-right: 10%;
+}
+#back-bt{
+    font-size: 1.75rem;
+    border-radius: 10px;
+    border: 3px solid lightgray;
+    background-color: white;
+    width: 150px;
+    height: 50px;
+    margin-right: 5%;
 }
 
 #button_container{
