@@ -52,11 +52,12 @@ div.card-img-top {
     width: 100%;
     overflow: hidden;
     border-radius: 2% 2% 0 0;
+    height:11.5rem;
 }
 
 div.card-img-top img {
     position: relative;
-    margin: -30% -15%;
+    margin: -20% -15%;
     width: 130%;
 }
 

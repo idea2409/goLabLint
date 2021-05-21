@@ -4,10 +4,9 @@
 }
 @section styles {
 <link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
-<link rel="stylesheet" href="~/css/card.css" type="text/css" />
 }
 <div>
-    <div class="equipment-header">
+    <div class="equipment-header">        
         <div class="eqipment-title">
             <h1>อุปกรณ์ที่สามารถจองได้</h1>
         </div>
@@ -16,29 +15,5 @@
             <button type="submit"></button>
         </form>
     </div>
-    <div class="grid-container">
-        @foreach (var item in Model)
-        {
-            <div class="card">
-                <div class="card-img-top">
-                    <img src="@item.img" />
-                    <div class="card-img-hover">
-                        <button class="more-button">ดูรายละเอียด</button>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="card-title">
-                        <h2>@item.title</h2>
-                    </div>
-                    <div class="card-text">
-                        <p>@item.text</p>
-                    </div>
-                </div>
-                <div class="card-avialable-num">
-                    <p>ว่าง</p>
-                    <h1>@item.avialable</h1>
-                </div>
-            </div>    
-        }
-    </div>
+    @await Component.InvokeAsync("EquipmentCard")    
 </div>

@@ -1,0 +1,25 @@
+<div class="grid-container">    
+    @foreach (var item in ViewBag.equipmentList)
+    {
+        <div class="card">
+            <div class="card-img-top">
+                <img src="@item.image" />
+                <div class="card-img-hover">
+                    <button class="more-button">ดูรายละเอียด</button>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="card-title">
+                    <h2>@item.name</h2>
+                </div>
+                <div class="card-text">
+                    <p>@item.description</p>
+                </div>
+            </div>
+            <div class="card-avialable-num">
+                <p>ว่าง</p>
+                <h1>@item.amount</h1>
+            </div>
+        </div>
+    }
+</div>

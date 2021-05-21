@@ -52,24 +52,6 @@
                 </div>
             </div>
         </div>
-        <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam unde maiores dolorum eos porro perferendis
-            officiis
-            nemo deleniti fugit debitis blanditiis expedita, veritatis, eum temporibus sint ex molestiae odit a.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit doloribus error impedit animi, distinctio
-            doloremque vitae dolor! Ipsa consequuntur pariatur officia dolores rem minus itaque numquam eos iusto esse?
-            Magnam!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum excepturi deserunt quos pariatur odit facilis
-            quidem,
-            ducimus aperiam voluptates tempora blanditiis eius reprehenderit iure eaque commodi iusto eos dolor autem!
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Ab ratione error provident excepturi praesentium
-            perspiciatis quas earum inventore pariatur, odit saepe. Mollitia rem autem aliquam facere. Libero tenetur quasi
-            modi.
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Tenetur architecto explicabo ipsam consequuntur
-            commodi.
-            Inventore dolorem vitae deserunt laboriosam recusandae tempore eius velit, maiores officia suscipit magni
-            officiis
-            fuga sit.
-        </p>
+        @await Component.InvokeAsync("EquipmentCard",new {limit=4})
     }
 </div>
