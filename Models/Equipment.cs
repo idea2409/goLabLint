@@ -20,7 +20,7 @@ namespace golablint.Models
         public string description { get; set; }
 
         [Required(ErrorMessage = "กรุณาใส่รูปภาพ",AllowEmptyStrings=false)]
-        public byte[] image {get;set;}
+        public string image {get;set;}
                 
         [Required(ErrorMessage = "กรุณาระบุจำนวน",AllowEmptyStrings=false)]
         [Range(0,int.MaxValue,ErrorMessage=("กรุณาระบุจำนวนที่ถูกต้อง"))]

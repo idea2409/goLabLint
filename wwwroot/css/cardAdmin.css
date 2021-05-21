@@ -7,7 +7,8 @@
     /* background-color: aqua; */
 }
 
-div.card {
+
+div.admin-card {
     position: relative;
     background-color: var(--blue-sky-color);
     /* width: 100%; */
@@ -18,17 +19,7 @@ div.card {
     box-shadow: 1px 1px 5px -1px var(--dark-gray-color);
     transition: box-shadow 0.3s;
 }
-
-div.card:hover {
-    cursor: pointer;
-    box-shadow: -1px 1px 10px -1px var(--dark-gray-color);
-}
-
-div.card-img-hover {
-    display: none;
-}
-
-div.card:hover .card-img-hover {
+div.admin-card:hover .admin-card-img-hover {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -38,30 +29,20 @@ div.card:hover .card-img-hover {
     background-color: rgb(123, 123, 123, 0.3);
     padding-top: 30%;
 }
-
-button.more-button {
-    width: 50%;
-    height: 20%;
-    font-weight: bold;
-    border-radius: 0.4rem;
-    font-size: 1em;
-    background-color: white;
-}
-
-div.card-img-top {
+div.admin-card-img-top {
     position: relative;
     width: 25%;
     overflow: hidden;
     border-radius: 2% 0 0 2%;
 }
 
-div.card-img-top img {
+div.admin-card-img-top img {
     position: relative;
     margin: -30% -15%;
     width: 130%;
 }
 
-div.card-body {
+div.admin-card-body {
     width: 65%;
     position: relative;
     padding: 4%;
@@ -72,20 +53,7 @@ div.card-body {
     /* background-color: red; */
 }
 
-div.card-title {
-    color: #355A8A;
-    width: 95%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    /* max-width: 25ch */
-}
-
-div.card-text {
-    color: var(--dark-gray-color);
-}
-
-div.card-avialable-num {
+div.admin-card-avialable-num {
     /* position: absolute; */
     /* left: 68%; */
     /* top: 50%; */
@@ -100,11 +68,8 @@ div.card-avialable-num {
     box-shadow: -1px 1px 10px -1px var(--dark-gray-color);
 }
 
-div.card-avialable-num h1 {
+div.admin-card-avialable-num h1 {
     font-size: 4em;
 }
 
 
-/* div.card-avialable-num p {
-    font-size: 0.85em;
-} */
