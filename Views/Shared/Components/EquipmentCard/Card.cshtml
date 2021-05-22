@@ -1,6 +1,6 @@
 <div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">    
     @foreach (var item in ViewBag.equipmentList)
-    {
+    {        
         <div class="@((ViewBag.role == "User" ? "" : "admin-") + "card")">
             <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-top")">
                 <img src="@item.image" />

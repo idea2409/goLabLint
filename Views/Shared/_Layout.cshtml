@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - golablint</title>
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/cardAdmin.css" type="text/css" />    
+    <link rel="stylesheet" href="~/css/cardAdmin.css" type="text/css" />
     <link rel="stylesheet" href="~/css/card.css" type="text/css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
@@ -20,7 +20,8 @@
             string controller = (string)ViewContext.RouteData.Values["controller"];
             string action = (string)ViewContext.RouteData.Values["action"];
             bool isAuthenticated = Context.User.Identity.IsAuthenticated;
-            string role = Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault().Value;
+            string role = "";
+            if (isAuthenticated) role=Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault().Value;
             <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
                 @if (isAuthenticated)
                 {
@@ -36,11 +37,14 @@
                 <a class="@((controller == "Home" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
                 asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
                 <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="equipment" asp-action="Index" asp-area="">อุปกรณ์</a>
-                @if(role == "Admin")
-                    {<a class="@((controller == "Other" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>}
-                else {
+                asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")" asp-area="">อุปกรณ์</a>
+                @if (role != "Admin")
+                {
+                    <a class="@((controller == "Other" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="other" asp-action="index" asp-area="">ห้องปฏิบัติการอื่น</a>
+                }
+                else
+                {
                     <a class="@((controller == "Admin"  && action == "BorrowingList" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
                 asp-controller="admin" asp-action="borrowing-list" asp-area="">การจอง</a>
                 }
@@ -48,8 +52,10 @@
                 {
                     <div class="user">
                         <div class="user-description">
-                            <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Surname).FirstOrDefault().Value)</p>
-                            <p class="user-id">@(Context.User.Claims.Where(claim =>claim.Type==ClaimTypes.Role).FirstOrDefault().Value == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
+                            <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type ==
+                        ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim => claim.Type ==
+                        ClaimTypes.Surname).FirstOrDefault().Value)</p>
+                            <p class="user-id">@(role == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
                         </div>
                         <img class="user-profile" src="~/image/default profile.jpg" alt="user profile" />
                     </div>
