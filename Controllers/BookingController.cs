@@ -142,7 +142,7 @@ namespace golablint.Controllers {
                 return errorJSON;
             }
             var userData = user.OrderBy(item => item.id).FirstOrDefault();
-            if (userData.role == "Admin") {
+            if (userData.role == "อาจารย์") {
                 ModelState.AddModelError("userId", "ผู้ใช้ที่เป็นอาจารย์ไม่สามารถทำรายการจองอุปกรณ์ได้");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
