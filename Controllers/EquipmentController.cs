@@ -24,9 +24,9 @@ namespace golablint.Controllers {
         }
 
         [Route("~/api/equipment")]
-        public Object getEquipment() {
+        public JsonResult getEquipment() {
             var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\"").OrderBy(item => item.id).FirstOrDefault();
-            return JsonConvert.DeserializeObject(JsonConvert.SerializeObject(equipment));
+            return Json(equipment);
         }
 
         [Route("~/api/image-to-string")]

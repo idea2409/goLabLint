@@ -11,21 +11,22 @@
     text-align: center;
 }
 
+.booking {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
+}
 
 .booking-left {
-    width: fit-content;
-    min-width: 250px;
+    width: 290px;
     height: calc(100vh - 4vw);
     background-color: black;
-    /* background-color: #F37634; */
 }
 
 #calendar{
     background-color: black;
-    min-width: 270px;
-    min-height: 250px;
-    width: 15vw;
-    height: 15vw;
+    width: 270px;
+    height: 250px;
     display: flex;
     flex-direction: column;
     padding: 0 10px;
@@ -122,6 +123,51 @@
 .notAvailableDay ,.days{
     color: rgba(255, 255, 255, 0.5);
 }
+
+.booking-right {
+    width: calc(100vw - 290px);
+    background-color: wheat;
+}
+
+.checkTime {
+    /* width: ; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ::selection {
     color: none;

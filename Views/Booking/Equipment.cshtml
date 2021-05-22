@@ -14,42 +14,64 @@
 @* <p>Looking for the @ViewData["EquipmentName"]</p> *@
 
 @* <h1>@ViewData["Title"]</h1> *@
+<div class="booking">
+    <div class="booking-left">
+        @* <div style="color:white">
+        @ViewBag.equipment.name
+        @ViewBag.equipment.description
+        @ViewBag.equipment.amount
+        <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
+        @ViewBag.availableTime.time
+        @foreach (var item in ViewBag.availableTime.time)
+        {
+            <div>@item</div>
+        }
+        </div> *@
+        <div id="equipmentName">
+            <p>@ViewBag.equipment.name</p>
+        </div>
 
-<div class="booking-left">
-    @* <div style="color:white">
-    @ViewBag.equipment.name
-    @ViewBag.equipment.description
-    @ViewBag.equipment.amount
-    <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
-    @ViewBag.availableTime.time
-    @foreach (var item in ViewBag.availableTime.time)
-    {
-        <div>@item</div>
-    }
-    </div> *@
-    <div id="equipmentName">
-        <p>DC Power Supply</p>
+        <div id="calendar">
+            <div id="month-year">
+
+                <div>
+                    <p id="month"></p>
+                    <p id="year"></p>
+                </div>
+
+                <div id="monthButton">
+                    <button onclick="prevMonth()"><</button>
+                    <button onclick="nextMonth()">></button>
+                </div>
+
+            </div>
+            <div id="calendar-days"></div>
+        </div>
     </div>
 
-    <div id="calendar">
-        <div id="month-year">
-
-            <div>
-                <p id="month"></p>
-                <p id="year"></p>
-            </div>
-
-            <div id="monthButton">
-                <button onclick="prevMonth()"><</button>
-                <button onclick="nextMonth()">></button>
-            </div>
-
-        </div>
-        <div id="calendar-days"></div>
+    <div class="booking-right">
+        @for(int i=0;i<8;i++)
+        {
+            <div class="checkTime">eiei</div>
+        }
+        <button onclick="loadDoc()">ButtonJa</button>
     </div>
 </div>
 
 <script>
+    function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange=function(){
+            if(this.readyState == 4 && this.status == 200) {
+                console.log(JSON.parse(this.responseText))
+                console.log(JSON.parse(this.responseText).id);
+            }
+        }
+        xhttp.open("GET","/api/equipment", true);
+        xhttp.send();
+    }
+
+
     var today = new Date();
     var time = today.getTime();
     var date = new Date(time); 
