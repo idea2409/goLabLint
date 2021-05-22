@@ -3,14 +3,79 @@
 }
 @section styles{
 <link rel="stylesheet" href="~/css/describe.css" type="text/css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 }
 <div id="main">
     @* <h1>ทำตรงนี้</h1>
-    <p>@ViewBag.equipment.name</p>
-    <p>@ViewBag.equipment.description</p>
-    <p>@ViewBag.equipment.amount</p>
-    <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
-    <br/>
-    eieizza55plus *@
-    <h1 class="title">@ViewBag.equipment.name</h1>
+        <p>@ViewBag.equipment.name</p>
+        <p>@ViewBag.equipment.description</p>
+        <p>@ViewBag.equipment.amount</p>
+        <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
+        <br/>
+        eieizza55plus *@
+    <div class="head">
+        <h1>@ViewBag.equipment.name</h1>
+        <button type="button" id="delete-button">ลบอุปกรณ์นี้</button>
+    </div>
+    <div id="detail">
+        <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name) id="image" />
+        <table id="detail-table">
+            <th>@ViewBag.equipment.description</th>
+            <tr>
+                <td>จำนวนทั้งหมด</td>
+                <td>@ViewBag.equipment.amount</td>
+            </tr>
+            <tr>
+                <td>สามารถจองได้</td>
+                <td>99</td>
+            </tr>
+            <tr>
+                <td>อยู่ในระหว่างการจอง</td>
+                <td>5</td>
+            </tr>
+        </table>
+    </div>
+    <div id="edit">
+        <h1>แก้ไขจำนวนอุปกรณ์</h1>
+        <div id="input-zone">
+            <div id="add">
+                <i class="material-icons" id="add-bt">add_circle</i>
+                <p>เพิ่มอุปกรณ์</p>
+                <div id="add-input">
+                    <label for="add">จำนวน</label>
+                    <input type="number" name="add">
+                </div>
+            </div>
+            <div id="remove">
+                <i class="material-icons" id="remove-bt">remove_circle</i>
+                <p>นำอุปกรณ์ออก</p>
+                <div id="remove-input">
+                    <label for="remove">จำนวน</label>
+                    <input type="number" name="remove">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="transaction">
+        <h1>ประวัติการแก้ไข</h1>
+        <table id="transaction-table">
+            <thead>
+                <th>รายการ</th>
+                <th>วันเวลา</th>
+                <th>จำนวน</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>นำออก</td>
+                    <td>31/02/2021 17:30</td>
+                    <td>69</td>
+                </tr>
+                <tr>
+                    <td>เพิ่ม</td>
+                    <td>31/02/2021 15:30</td>
+                    <td>420</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
