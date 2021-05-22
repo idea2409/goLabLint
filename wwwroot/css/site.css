@@ -87,7 +87,7 @@ nav.navbar a {
   color: var(--dark-gray-color);
 }
 
-nav.navbar-anonymous>a {
+nav.navbar-anonymous a {
   color: #FFDAC7;
 }
 
