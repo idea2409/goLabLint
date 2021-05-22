@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -21,41 +22,113 @@ namespace golablint.Controllers {
         }
 
         [Route("~/booking/{id}")]
-        public IActionResult Equipment(string id) {
+        public IActionResult Equipment(string id, string date = "") {
             Guid _id;
             if (!Guid.TryParse(id, out _id)) {
                 return BadRequest();
             }
-            var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1").OrderBy(item => item.id).FirstOrDefault();
-            if (equipment == null) return BadRequest();
-            ViewBag.equipment = equipment;
+            var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1");
+            if (equipment.Count() == 0) return BadRequest();
+            var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
+            DateTime start;
+            if (date == "") {
+                start = DateTime.Today;
+            } else {
+                if (!DateTime.TryParseExact(date, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out start)) {
+                    return BadRequest();
+                }
+            }
+            List<DateTime> availableTime = new List<DateTime>();
+            var clockQuery = from offset in Enumerable.Range(9, 8)
+            select TimeSpan.FromHours(offset);
+            foreach (var time in clockQuery) {
+                availableTime.Add(start.Add(time));
+            }
+            IDictionary<string, List<int>> available = new Dictionary<string, List<int>>();
+            List<int> available_amount = new List<int>();
+            foreach (var _startDate in availableTime) {
+                var total = equipmentData.amount;
+                var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{_id}\' AND \"startDate\" = \'{_startDate.ToString("yyyy-MM-dd HH:mm:ss")}\'").Count();
+                available_amount.Add(total - totalBooking);
+            }
+            available.Add("time",available_amount);
+            ViewBag.availableTime = JsonConvert.DeserializeObject(JsonConvert.SerializeObject(available));
+            ViewBag.equipment = equipmentData;
             return View();
         }
 
+        // [Route("~/api/get-available")]
+        // public Object getAvailableAmount(string equipmentId, string startDate) {
+        //     Guid _equipmentId;
+        //     if (!Guid.TryParse(equipmentId, out _equipmentId)) {
+        //         ModelState.AddModelError("equipmentId", "หมายเลขอุปกรณ์ไม่ถูกต้อง");
+        //         var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+        //         var errorJSON = JsonConvert.SerializeObject(errorList);
+        //         return errorJSON;
+        //     }
+        //     DateTime _startDate;
+        //     if (!DateTime.TryParseExact(startDate, "yyyyMMddHH", null, System.Globalization.DateTimeStyles.None, out _startDate)) {
+        //         ModelState.AddModelError("startDate", "วันยืมไม่ตรงตามรูปแบบ yyyyMMddHH");
+        //         var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+        //         var errorJSON = JsonConvert.SerializeObject(errorList);
+        //         return errorJSON;
+        //     }
+        //     var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{equipmentId}\' LIMIT 1");
+        //     if (equipment.Count() == 0) {
+        //         ModelState.AddModelError("equipmentId", "อุปกรณ์ดังกล่าวไม่มีข้อมูลอยู่ในระบบ");
+        //         var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+        //         var errorJSON = JsonConvert.SerializeObject(errorList);
+        //         return errorJSON;
+        //     }
+        //     var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
+
+        //     return null;
+        // }
+
+        [HttpPost]
         [Route("~/api/book")]
-        public Object Book([FromQuery] string userId, [FromQuery] string equipmentId, [FromQuery] string startDate, [FromQuery] string endDate, [FromQuery] int amount = 1) {
+        public Object Book(string userId, string equipmentId, string startDate, string endDate,int amount = 1) {
             Guid _userId, _equipmentId;
             if (!Guid.TryParse(userId, out _userId)) {
-                ModelState.AddModelError("userId", "ผู้ใช้งานดังกล่าวไม่มีในระบบ");
+                ModelState.AddModelError("userId", "หมายเลขผู้ใช้งานไม่ถูกต้อง");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
             if (!Guid.TryParse(equipmentId, out _equipmentId)) {
-                ModelState.AddModelError("equipmentId", "อุปกรณ์ดังกล่าวไม่มีในระบบ");
+                ModelState.AddModelError("equipmentId", "หมายเลขอุปกรณ์ไม่ถูกต้อง");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
+            Console.WriteLine(_equipmentId);
             DateTime _startDate, _endDate;
-            if (!DateTime.TryParseExact(startDate, "yyyyMMddHH", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _startDate)) {
-                ModelState.AddModelError("startDate", "วันยืมไม่ตรงตามรูปแบบ yyyyMMddHH");
+            if (!DateTime.TryParseExact(startDate, "yyyy-MM-dd:HH", null, System.Globalization.DateTimeStyles.None, out _startDate)) {
+                ModelState.AddModelError("startDate", "วันยืมไม่ตรงตามรูปแบบ yyyy-MM-dd:HH");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
-            if (!DateTime.TryParseExact(endDate, "yyyyMMddHH", System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out _endDate)) {
-                ModelState.AddModelError("endDate", "วันคืนไม่ตรงตามรูปแบบ yyyyMMddHH");
+            if (!DateTime.TryParseExact(endDate, "yyyy-MM-dd:HH", null, System.Globalization.DateTimeStyles.None, out _endDate)) {
+                ModelState.AddModelError("endDate", "วันคืนไม่ตรงตามรูปแบบ yyyy-MM-dd:HH");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                return errorJSON;
+            }
+            if (_endDate < _startDate) {
+                ModelState.AddModelError("endDate", "กรุณาระบุวันคืนที่เหมาะสม");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                return errorJSON;
+            }
+            if (DateTime.Now > _startDate) {
+                ModelState.AddModelError("startDate", "กรุณาระบุวันยืมที่เหมาะสม");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                return errorJSON;
+            }
+            if ((_endDate - _startDate).TotalHours != 1) {
+                ModelState.AddModelError("endDate", "กรุณาระบุช่วงเวลายืมไม่เกิน 1 ชั่วโมง");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
@@ -88,26 +161,27 @@ namespace golablint.Controllers {
                 return errorJSON;
             }
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
+            var total = equipmentData.amount;
+            var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{_equipmentId}\' AND \"startDate\" = \'{_startDate.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.CreateSpecificCulture("en-US"))}\'").Count();
+            if (total - totalBooking - amount <= 0) {
+                ModelState.AddModelError("equipmentId", "ไม่สามารถทำการจองได้");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                return errorJSON;
+            }
             Borrowing borrowing = new Borrowing();
             borrowing.id = Guid.NewGuid();
             borrowing.user = userData;
             borrowing.equipment = equipmentData;
             borrowing.startDate = _startDate;
             borrowing.endDate = _endDate;
-            if (borrowing.endDate < borrowing.startDate) {
-                ModelState.AddModelError("endDate", "กรุณาระบุวันคืนที่เหมาะสม");
-                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
-                var errorJSON = JsonConvert.SerializeObject(errorList);
-                return errorJSON;
-            }
             if (!ModelState.IsValid) {
-                Console.WriteLine("model error");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
-            // _db.Borrowing.Add(borrowing);
-            // _db.SaveChanges();            
+            _db.Borrowing.Add(borrowing);
+            _db.SaveChanges();
             return borrowing;
         }
 

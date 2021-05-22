@@ -16,6 +16,17 @@
 @* <h1>@ViewData["Title"]</h1> *@
 
 <div class="booking-left">
+    <div style="color:white">
+    @ViewBag.equipment.name
+    @ViewBag.equipment.description
+    @ViewBag.equipment.amount
+    <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
+    @ViewBag.availableTime.time
+    @foreach (var item in ViewBag.availableTime.time)
+    {
+        <div>@item</div>
+    }
+    </div>
     <div id="calendar">
         <div id="month-year">
 
