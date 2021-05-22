@@ -24,17 +24,6 @@ namespace golablint.Controllers
             return View();
         }
         
-        public IActionResult Booking()
-        {            
-            return View();
-        }
-
-        [Route("~/home/booking/{id}")]
-        public IActionResult Booking(Guid id)
-        {            
-            return View();
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

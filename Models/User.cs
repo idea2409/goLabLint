@@ -35,6 +35,9 @@ namespace golablint.Models {
         [Required(ErrorMessage = "กรุณายืนยันรหัสผ่าน", AllowEmptyStrings = false)]
         [Compare("password", ErrorMessage = "รหัสผ่านที่ยืนยันไม่ตรงกับรหัสผ่านข้างต้น")]
         public string confirmPassword { get; set; }
+
+        [Required]
+        public string status {get; set;}
     }
 }
 
