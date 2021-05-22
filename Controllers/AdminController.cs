@@ -32,5 +32,10 @@ namespace golablint.Controllers
         {
             return View();
         }
+        [Route("~/admin/borrowing-list")]
+        public IActionResult BorrowingList()
+        {
+            return View();
+        }
     }
 }
