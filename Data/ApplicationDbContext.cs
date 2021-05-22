@@ -23,7 +23,17 @@ namespace golablint.Data {
                         surname = "golablint",
                         email = "admin@kmitl.ac.th",
                         password = BCrypt.Net.BCrypt.HashPassword("Go@min123"),
-                        role = "Admin"
+                        role = "อาจารย์",
+                        status = "Normal"
+                },
+                new User{
+                    id = Guid.NewGuid(),
+                        name = "โสภิตา",
+                        surname = "เอี่ยมจุ้ย",
+                        email = "61011163@kmitl.ac.th",
+                        password = BCrypt.Net.BCrypt.HashPassword("Sopita123"),
+                        role = "นักศึกษา",
+                        status = "Normal"
                 }
             );
             modelBuilder.Entity<Equipment>().HasData(

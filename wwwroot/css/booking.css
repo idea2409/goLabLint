@@ -1,0 +1,180 @@
+#equipmentName {
+    width: 100%;
+    background-color: #3DB1E7;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 120%;
+    height: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.booking {
+    /* background-color: red; */
+    display: flex;
+    flex-direction: row;
+}
+
+.booking-left {
+    width: 290px;
+    height: calc(100vh - 4vw);
+    background-color: black;
+}
+
+#calendar{
+    background-color: black;
+    width: 270px;
+    height: 250px;
+    display: flex;
+    flex-direction: column;
+    padding: 0 10px;
+}
+
+#month-year {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    height: 70px;
+    margin: 5px 10px 0 10px;
+    /* background-color: yellow; */
+}
+
+#month-year > div {
+    display: flex;
+    flex-direction: row;
+    margin: 0 10x;
+    /* background: chartreuse; */
+}
+
+#month {
+    color: white;
+    font-size:170%;
+    margin-right: 5px;
+    /* font-weight: bold; */
+}
+
+
+#year {
+    color: red;
+    font-size:170%;
+}
+
+
+#calendar button {
+    background: none;
+    border: none;
+    color: white;
+    height: 50%;
+    width: 17px;
+    font-size: 120%;
+    font-weight: bold;
+}
+
+#calendar-days {
+    width: 100%;
+    height: 70%;
+    /* background: chartreuse; */
+    display: grid;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+#calendar-days div{    
+    text-align: center;
+    font-size: 80%;
+    align-self: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: auto;
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    
+}
+
+.mydays{
+    color: white;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 80%;
+    align-self: center;
+    width: 100%;
+    height: 100%;
+}
+
+.myselectedday {    
+    color: white;
+    background-color: #F37634;
+}
+
+.hover:hover{
+    width: 22px;
+    height: 22px;
+    box-shadow: 0 0 0 1.5px rgba(255, 255, 255, 0.5) inset;
+    cursor: pointer;
+}
+
+.notAvailableDay ,.days{
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.booking-right {
+    width: calc(100vw - 290px);
+    background-color: wheat;
+}
+
+.checkTime {
+    /* width: ; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+::selection {
+    color: none;
+    background: none;
+}
+/* For Mozilla Firefox */
+::-moz-selection {
+    color: none;
+    background: none;
+}

@@ -72,13 +72,7 @@ nav.navbar{
   background-color: var(--light-gray-color);
 }
 
-
-img.logo {
-    padding: 0 0 0 3%;
-    width: 15%;
-}
-
-a.navbar,a.navbar-anonymous {
+nav.navbar a, nav.navbar-anonymous a {
   margin: 0 0 0 7%;
   font-weight: bold;
   height: 100%;
@@ -88,29 +82,34 @@ a.navbar,a.navbar-anonymous {
   box-sizing: border-box;
   border: 0.25rem solid transparent;
 }
-a.navbar {
+
+nav.navbar a {
   color: var(--dark-gray-color);
 }
 
-a.navbar-anonymous {
+nav.navbar-anonymous a {
   color: #FFDAC7;
 }
 
-a.navbar:hover,
-a.current-page {
+img.logo {
+    padding: 0 0 0 3%;
+    width: 15%;
+}
+nav.navbar a:hover,
+nav.navbar a.current-page {
     color: var(--orange-color);
 }
 
-a.current-page {
+nav.navbar a.current-page {
     border-bottom: 0.25rem solid var(--orange-color);
 }
 
-a.navbar-anonymous:hover,
-a.current-page-anonymous {
+nav.navbar-anonymous a:hover,
+nav.navbar-anonymous a.current-page {
   color: white;
 }
 
-a.current-page-anonymous {
+nav.navbar-anonymous a.current-page {
   border-bottom: 0.25rem solid white;
 }
 
