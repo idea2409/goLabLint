@@ -23,7 +23,7 @@ namespace golablint.Data {
                         surname = "golablint",
                         email = "admin@kmitl.ac.th",
                         password = BCrypt.Net.BCrypt.HashPassword("Go@min123"),
-                        role = "Admin",
+                        role = "อาจารย์",
                         status = "Normal"
                 },
                 new User{
@@ -32,7 +32,7 @@ namespace golablint.Data {
                         surname = "เอี่ยมจุ้ย",
                         email = "61011163@kmitl.ac.th",
                         password = BCrypt.Net.BCrypt.HashPassword("Sopita123"),
-                        role = "User",
+                        role = "นักศึกษา",
                         status = "Normal"
                 }
             );
