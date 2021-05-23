@@ -26,10 +26,7 @@ namespace golablint.Models {
         [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy HH:mm}")]
         public DateTime endDate { get; set; }
 
-        // [Required]   
-        // [GreaterThan("startDate")]
-        // public DateTime endDate {get;set;}
-
-        public string state {get;set;}
+        [Required(ErrorMessage = "กรุณาระบุสถานะ", AllowEmptyStrings = false)]
+        public string status {get; set; }
     }
 }

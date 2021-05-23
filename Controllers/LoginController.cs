@@ -45,7 +45,8 @@ namespace golablint.Controllers {
             identity = new ClaimsIdentity(new [] {
                 new Claim(ClaimTypes.Name, userData.name),
                     new Claim(ClaimTypes.Surname, userData.surname),
-                    new Claim(ClaimTypes.Role, userData.role == "อาจารย์" ? "Admin" : "User")
+                    new Claim(ClaimTypes.Role, userData.role == "อาจารย์" ? "Admin" : "User"),
+                    new Claim(ClaimTypes.NameIdentifier, userData.id.ToString()),
             }, CookieAuthenticationDefaults.AuthenticationScheme);
             var principal = new ClaimsPrincipal(identity);
             var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
