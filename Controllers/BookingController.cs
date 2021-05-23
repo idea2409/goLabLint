@@ -170,6 +170,7 @@ namespace golablint.Controllers {
             borrowing.equipment = equipmentData;
             borrowing.startDate = _startDate;
             borrowing.endDate = _endDate;
+            borrowing.status = "Ongoing";
             if (!ModelState.IsValid) {
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
