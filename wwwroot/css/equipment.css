@@ -14,7 +14,6 @@
     width: 50%;
     padding-left: 4.5%;
     color: black;
-    /* background-color: rosybrown; */
 }
 
 form.equipment-search {
@@ -67,4 +66,8 @@ form.equipment-search button:hover {
 
 .topic {
     margin-left: 4.5%;
+}
+
+div.add-bt a:visited{
+    color: white;
 }

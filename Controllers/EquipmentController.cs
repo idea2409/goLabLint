@@ -18,10 +18,11 @@ namespace golablint.Controllers {
         public EquipmentController(ApplicationDbContext db) {
             _db = db;
         }
-        public IActionResult Index(string search ="") {
+        public IActionResult Index(string search = "") {
             ViewBag.search = search;
             return View();
         }
+
         [Route("~/api/equipment")]
         public JsonResult getEquipment(int? limit) {
 
@@ -50,8 +51,10 @@ namespace golablint.Controllers {
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
             return Json(equipmentData);
         }
+
         [Route("~/api/image-to-string")]
         public string ConvertImageToString(List<IFormFile> files) {
+            if (files.Count == 0) return "กรุณาอัปโหลดไฟล์ที่ต้องการ";
             if (files.Count != 1) return "กรุณาส่งมาแค่ไฟล์เดียว";
             string extension = System.IO.Path.GetExtension(files[0].FileName);
             if (extension != ".jpg" && extension != ".png") return "กรุณาส่งไฟล์ประเภท .jpg หรือ .png เท่านั้น";

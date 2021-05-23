@@ -4,17 +4,19 @@
     if (Context.User.Identity.IsAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
     ClaimTypes.Role).FirstOrDefault().Value;
 }
-<div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">
-    @if (ViewBag.equipmentCount != null && ViewBag.equipmentCount == 0)
-    {
-        <div class="equip-notfound">
-            <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
-            <h1 class="title">เราไม่พบผลลัพธ์ใดๆ</h1>
-            <h4>โปรดตรวจสอบให้แน่ใจว่าสะกดถูกต้องทั้งหมดหรือลองคีย์เวิร์ดอื่น</h4>
-        </div>
-    }
-    else
-    {
+@if (ViewBag.equipmentCount != null && ViewBag.equipmentCount == 0)
+{
+    <div class="equip-not-found">
+        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
+        <h1 class="title">เราไม่พบผลลัพธ์ใดๆ</h1>
+        <h4>โปรดตรวจสอบให้แน่ใจว่าสะกดถูกต้องทั้งหมดหรือลองคีย์เวิร์ดอื่น</h4>
+    </div>
+}
+else
+{
+
+    <div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">
+
         @foreach (var item in ViewBag.equipmentList)
         {
             <a asp-controller="@(role=="User" ?"booking": "admin")" asp-action="equipment" asp-route-id="@item.id">
@@ -44,6 +46,5 @@
                     </div> *@
             </a>
         }
-
-    }
-</div>
+    </div>
+}

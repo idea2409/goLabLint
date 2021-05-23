@@ -3,7 +3,6 @@
 }
 @section styles {
 <link rel="stylesheet" href="~/css/home.css" type="text/css" />
-<link rel="stylesheet" href="~/css/card.css" type="text/css" />
 }
 <div class="body">
     @if (Context.User.Identity.IsAuthenticated)
@@ -62,6 +61,9 @@
                 </div>
             </div>
         </div>
-        @await Component.InvokeAsync("EquipmentCard",new {limit=4,role="User"})
+        <div class="more">
+            <h2 class="available-title">อุปกรณ์ที่สามารถจองได้</h2>
+        </div>
+        @await Component.InvokeAsync("EquipmentCard",new {role="User"})
     }
 </div>

@@ -97,21 +97,22 @@ a.navbar-anonymous {
     border: 0.25rem solid transparent;
 }
 
-a.navbar {
+a.for-login-and-register:visited,
+a.navbar,a.navbar:visited {
     color: var(--dark-gray-color);
 }
 
-a.navbar:visited {
-  color: var(--dark-gray-color);
-}
 
-nav.navbar-anonymous a {
+
+nav.navbar-anonymous a,
+nav.navbar-anonymous a:visited {
     color: #FFDAC7;
 }
 
+a.for-login-and-register:hover,
 a.navbar:hover,
-a.current-page {
-    color: black;
+a.current-page,a.current-page:visited {
+    color: var(--orange-color);
 }
 
 a.current-page {
@@ -119,7 +120,8 @@ a.current-page {
 }
 
 nav.navbar-anonymous a:hover,
-nav.navbar-anonymous a.current-page {
+nav.navbar-anonymous a.current-page,
+nav.navbar-anonymous a.current-page:visited {
     color: white;
 }
 
@@ -326,4 +328,47 @@ p.copyright {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
+}
+a.for-login-and-register {
+    font-weight: bold;
+    flex: 1;
+    margin-left: 7%;
+}
+
+form.home-search {
+    width: 35%;
+    height: max-content;
+    position: relative;
+    box-sizing: border-box;
+    margin-left: 1%;
+    margin-right: -18%;
+}
+
+form.home-search input[type=text] {
+    padding: 8px 15px 8px 45px;
+    width: 100%;
+    font-size: 0.9rem;
+    font-weight: bold;
+    border: 2px solid white;
+    width: 50%;
+    border-radius: 10rem ;
+}
+
+form.home-search input[type=text]::placeholder {
+    font-size: 0.9rem;
+    color: #c4c4c4;
+    font-weight: bold;
+}
+
+form.home-search input[type=text]:focus {
+    outline: none;
+    box-shadow: 0 0 5px white;
+}
+
+.home-search-icon {
+    position: absolute;
+    width: 5%;
+    filter: brightness(1.3);
+    top: 50%;
+    transform: translate(70%,-50%);
 }

@@ -29,7 +29,7 @@ namespace golablint.Controllers {
                 return BadRequest();
             }
             var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1");
-            if (equipment.Count() == 0) return BadRequest();
+            if (equipment.Count() == 0) return NoContent();
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
             ViewBag.availableTime = JObject.Parse(JsonConvert.SerializeObject(getAvailable(id))).GetValue("Value");
             ViewBag.equipment = equipmentData;

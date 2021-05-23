@@ -23,7 +23,7 @@ namespace golablint.Models
         public string image {get;set;}
                 
         [Required(ErrorMessage = "กรุณาระบุจำนวน",AllowEmptyStrings=false)]
-        [Range(0,int.MaxValue,ErrorMessage=("กรุณาระบุจำนวนที่ถูกต้อง"))]
+        [Range(1,int.MaxValue,ErrorMessage=("กรุณาระบุจำนวนที่ถูกต้อง"))]
         public int amount { get; set; }
     }
 }

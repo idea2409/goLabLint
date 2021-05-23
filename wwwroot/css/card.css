@@ -40,10 +40,9 @@ div.card:hover .card-img-hover {
     padding-top: 30%;
 }
 
-div.equip-notfound {
+div.equip-not-found {
     display: block;
-    position: absolute;
-    top: 50%;
+    margin-top: 10%;
     left: 35%;
     padding-bottom: 3rem;
     text-align: center;

@@ -5,17 +5,22 @@
 <link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
 }
 <div class="body">
+    @{
+        string name = ViewBag.search != null && !string.IsNullOrEmpty(ViewBag.search) ? ViewBag.search : "";
+    }
     <div class="equipment-header">
         <div class="eqipment-title">
             <div class="add-bt">
-                <h3>+ เพิ่มอุปกรณ์ใหม่</h3>
+                <a asp-controller="admin" asp-action="add">
+                    <h3>+ เพิ่มอุปกรณ์ใหม่</h3>
+                </a>
             </div>
         </div>
-        <form class="equipment-search">
-            <input type="text" placeholder="ค้นหาอุปกรณ์" >
-            <button type="submit"></button>
+        <form class="equipment-search" asp-controller="admin" asp-action="equipment">
+            <input type="text" placeholder="ค้นหาอุปกรณ์" name="search" value="@(name)">
+            <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
         </form>
     </div>
     <h1 class="topic">อุปกรณ์</h1>
-    @await Component.InvokeAsync("EquipmentCard",new {role = "Admin"})    
+    @await Component.InvokeAsync("EquipmentCard",new {role="User",find=name})
 </div>
