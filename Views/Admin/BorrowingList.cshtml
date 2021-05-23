@@ -42,7 +42,7 @@
         </select>
     </div>
     <div class="borrowing-column">
-        <div class="select-btn"></div>
+        <div class="remove-btn"></div>
         <div class="borrowing-equipment"><strong>อุปกรณ์</strong></div>
         <div class="borrowing-user"><strong>นักศึกษาที่จอง</strong></div>
         <div class="borrowing-start"><strong>วันเวลาเริ่มจอง</strong></div>
@@ -51,18 +51,41 @@
         <div class="cancle-btn"></div>
     </div>
    
-    @* @foreach (var a in @ViewBag.borrowingList)
+    @foreach (var a in @ViewBag.borrowingList)
     {
     <div class="borrowing-column">
-        <div class="select-btn"><input type="checkbox"></div>
+        <div class="remove-btn" onclick="openPopupRemove()"><img src="~/image/remove-icon.jpg" alt="remove" class="remove-icon"></div>
         <div class="borrowing-equipment">@a.equipment.name</div>
         <div class="borrowing-user">@a.user.name @a.user.surname @a.user.email</div>
         <div class="borrowing-start">@a.borrowing.startDate</div>
         <div class="borrowing-end">@a.borrowing.endDate</div>
-        <div class="borrowing-status">@a.equipment.description</div>
-        <div class="return-btn"><button onclick="returnEquipment()">คืนอุปกรณ์</button></div>
+        <div class="borrowing-status" id="@a.borrowing.status">@a.borrowing.status</div>
+        <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
+        
+        <div class="form-popup" id="returnEquipment">
+            <form action="" class="popup-container">
+                <h3>ยืนยันการคืนอุปกรณ์</h3>
+                <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
+                <div class="popup-btn">
+                    <button type="submit" class="btn confirm"><h3>ยืนยันการคืน</h3></button>
+                    <button type="button" class="btn cancel" onclick="exitPopupReturn()"><h3>ออก</h3></button>
+                </div>
+            </form>
+        </div>
+
+        <div class="form-popup" id="removeEquipment">
+            <form action="" class="popup-container">
+                <h3>ยกเลิกการจอง</h3>
+                <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
+                <div class="popup-btn">
+                    <button type="submit" class="btn remove"><h3>ยกเลิกจากจอง</h3></button>
+                    <button type="button" class="btn cancel" onclick="exitPopupRemove()"><h3>ออก</h3></button>
+                </div>
+            </form>
+        </div>
     </div>
-    } *@
+    }
+    
     @* @await Component.InvokeAsync("EquipmentCard",new {role="User"})     *@
 <script>
     function triggerState(state) {
@@ -75,8 +98,20 @@
             document.getElementById("trigger2").style.display = "flex";
         }
     }
-    function returnEquipment() {
-        alert("ยืนยันการคืนอุปกรณ์");
+    function openPopupReturn() {
+       document.getElementById("returnEquipment").style.display = "flex";
+    }
+
+    function exitPopupReturn() {
+        document.getElementById("returnEquipment").style.display = "none";
+    }
+
+    function openPopupRemove() {
+       document.getElementById("removeEquipment").style.display = "flex";
+    }
+
+    function exitPopupRemove() {
+        document.getElementById("removeEquipment").style.display = "none";
     }
 </script>
 </div>

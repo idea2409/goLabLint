@@ -4,10 +4,13 @@
     --dark-gray-color: #757575;
     --blue-color: #3DB1E7;
     --blue-sky-color: #F1FAFF;
+    --shadow-gray-color: #c4c4c4;
 }
+
 footer {
-  margin-top: 3%;
+    margin-top: 3%;
 }
+
 @font-face {
     font-family: Sukhumvit;
     src: url("/font/SukhumvitSet-Medium.ttf");
@@ -52,14 +55,15 @@ html {
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
-  font-family: Sukhumvit, Arial, Helvetica, sans-serif;
-  top: 4vw;
-  overflow-y: overlay;
+    width: 100vw;
+    height: 100vh;
+    font-family: Sukhumvit, Arial, Helvetica, sans-serif;
+    top: 4vw;
+    overflow-y: overlay;
 }
+
 .body {
-  padding-top: 4vw;
+    padding-top: 4vw;
 }
 
 nav.navbar,
@@ -102,7 +106,7 @@ a.navbar {
 }
 
 a.navbar:visited {
-  color: var(--dark-gray-color);
+    color: var(--dark-gray-color);
 }
 
 nav.navbar-anonymous a {
