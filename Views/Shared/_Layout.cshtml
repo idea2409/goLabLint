@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - golablint</title>
     <link rel="stylesheet" href="~/css/site.css" />
-    <link rel="stylesheet" href="~/css/cardAdmin.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/cardAdmin.css" type="text/css" />    
     <link rel="stylesheet" href="~/css/card.css" type="text/css" />
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
@@ -20,10 +20,7 @@
             string controller = (string)ViewContext.RouteData.Values["controller"];
             string action = (string)ViewContext.RouteData.Values["action"];
             bool isAuthenticated = Context.User.Identity.IsAuthenticated;
-            string role = "";
-            if (isAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
-            ClaimTypes.Name).FirstOrDefault().Value;
-            <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
+            <nav class="@(controller == "Home" && action == "Index" && !isAuthenticated ? "navbar-anonymous" : "navbar")">
                 @if (isAuthenticated)
                 {
                     <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
@@ -37,58 +34,33 @@
                 }
                 <a class="@(controller == "Home" ?"current-page": "")"
                 asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
-                <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")"
-                asp-area="">อุปกรณ์</a>
-                @if (role != "Admin")
-                {
-                    <a class="@((controller == "Other" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="other" asp-action="index" asp-area="">ห้องปฏิบัติการอื่น</a>
-                }
-                else
-                {
-                    <a class="@((controller == "Admin"  && action == "BorrowingList" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="admin" asp-action="borrowing-list" asp-area="">การจอง</a>
-                }
+                <a class="@(controller == "Equipment" ?"current-page": "")"
+                asp-controller="equipment" asp-action="Index" asp-area="">อุปกรณ์</a>
+                <a class="@(controller == "Other" ?"current-page": "")"
+                asp-controller="other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
                 @if (isAuthenticated)
                 {
-                    <div class="user">
-                        <div class="user-description">
-                            <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type ==
-                        ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim => claim.Type ==
-                        ClaimTypes.Surname).FirstOrDefault().Value)</p>
-                            <p class="user-id">@(role == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
-                        </div>
-                        <div class="user-dropdown">
-                        <img class="user-profile" onclick="myFunction()" src="~/image/default profile.jpg" alt="user profile" />
-                            <div id="myDropdown" class="user-dropcontent hide">
-                                <a href="#" class="history">ประวัติการจอง</a>
-                                <hr>
-                                <a href="#" class="logout">ออกจากระบบ</a>
+                        <div class="user">
+                            <div class="user-description">
+                                <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type ==
+                            ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim =>
+                            claim.Type == ClaimTypes.Surname).FirstOrDefault().Value)</p>
+                                <p class="user-id">@(Context.User.Claims.Where(claim
+                            =>claim.Type==ClaimTypes.Role).FirstOrDefault().Value == "Admin" ? "อาจารย์" : "นักศึกษา")
+                                </p>
                             </div>
+                            <img class="user-profile" src="~/image/default profile.jpg" alt="user profile" />
                         </div>
-                    </div>
                 }
             </nav>}
     </header>
     <div>
         <main role="main">@RenderBody()</main>
     </div>
-
     <footer>
-        <div class="footer">
-            <p>Contact Us</p>
-            <div>
-                <img src="~/image/twitter.png" alt="twitter icon" />
-                <img src="~/image/instagram.png" alt="instagram icon" />
-                <img src="~/image/facebook.png" alt="facebook icon" />
-            </div>
-            <p class="copyright">@@Copyright-GoLabLint-2021</p>
-            <img src="~/image/goLabLint.png" alt="logo" class="footer-img" />
-        </div>
+        <div class="container"></div>
     </footer>
-    <script src="~/js/site.js" asp-append-version="true">
-    </script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

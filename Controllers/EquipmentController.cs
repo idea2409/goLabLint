@@ -14,12 +14,12 @@ using Newtonsoft.Json;
 
 namespace golablint.Controllers {
     public class EquipmentController : Controller {
+
         ApplicationDbContext _db;
         public EquipmentController(ApplicationDbContext db) {
             _db = db;
         }
-        public IActionResult Index(string search ="") {
-            ViewBag.search = search;
+        public IActionResult Index() {
             return View();
         }
         [Route("~/api/equipment")]
