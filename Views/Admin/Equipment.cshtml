@@ -5,14 +5,17 @@
 <link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
 }
 <div>
-    <div class="equipment-header">        
+    <div class="equipment-header">
         <div class="eqipment-title">
-            <h1>อุปกรณ์ที่สามารถจองได้</h1>
+            <div class="add-bt">
+                <h3>+ เพิ่มอุปกรณ์ใหม่</h3>
+            </div>
         </div>
         <form class="equipment-search">
             <input type="text" placeholder="ค้นหาอุปกรณ์" >
             <button type="submit"></button>
         </form>
     </div>
-    @await Component.InvokeAsync("EquipmentCard",new {role="User"})    
+    <h1 class="topic">อุปกรณ์</h1>
+    @await Component.InvokeAsync("EquipmentCard",new {role = "Admin"})    
 </div>

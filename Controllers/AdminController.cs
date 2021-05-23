@@ -35,11 +35,5 @@ namespace golablint.Controllers {
         public IActionResult Add() {
             return View();
         }
-
-        // [Route("~/admin/equipment/add")]
-        // public IActionResult Add(Guid id)
-        // {
-        //     return View();
-        // }
     }
 }
