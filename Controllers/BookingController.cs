@@ -74,7 +74,7 @@ namespace golablint.Controllers {
             List<int> available_amount = new List<int>();
             foreach (var _startDate in availableTime) {
                 var total = equipmentData.amount;
-                var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{_id}\' AND \"startDate\" = \'{_startDate.ToString("yyyy-MM-dd HH:mm:ss")}\'").Count();
+                var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{_id}\' AND \'{_startDate.ToString("yyyy-MM-dd HH:mm:ss")}\' BETWEEN \"startDate\" AND \"endDate\"").Count();
                 available_amount.Add(total - totalBooking);
             }
             available.Add("time", available_amount);
@@ -116,14 +116,20 @@ namespace golablint.Controllers {
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
+            if ( _endDate.Hour < 9 || _endDate.Hour>17) {
+                ModelState.AddModelError("endDate", "กรุณาระบุเวลาคืนภายในเวลาราชการ");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                return errorJSON;
+            }
             if (DateTime.Now > _startDate) {
                 ModelState.AddModelError("startDate", "กรุณาระบุวันยืมที่เหมาะสม");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
-            if ((_endDate - _startDate).TotalHours != 1) {
-                ModelState.AddModelError("endDate", "กรุณาระบุช่วงเวลายืมไม่เกิน 1 ชั่วโมง");
+            if (_startDate.Hour < 9 || _startDate.Hour>17) {
+                ModelState.AddModelError("startDate", "กรุณาระบุเวลายืมภายในเวลาราชการ");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
