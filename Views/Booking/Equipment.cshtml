@@ -1,0 +1,197 @@
+@{
+    @using System;
+    ViewData["Title"] = "BookingPage";
+    var d = DateTime.Now;
+    var firstDayOfMonth = new DateTime(d.Year, d.Month, 1);
+    Console.WriteLine((int)firstDayOfMonth.DayOfWeek);
+    Console.WriteLine(DateTime.DaysInMonth(d.Year, d.Month + 1));
+    Console.WriteLine(d.ToString("MMM"));
+}
+@section styles{
+<link rel="stylesheet" href="~/css/booking.css" type="text/css" />
+}
+
+@* <p>Looking for the @ViewData["EquipmentName"]</p> *@
+
+@* <h1>@ViewData["Title"]</h1> *@
+<div class="booking">
+    <div class="booking-left">
+        @* <div style="color:white">
+        @ViewBag.equipment.name
+        @ViewBag.equipment.description
+        @ViewBag.equipment.amount
+        <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
+        @ViewBag.availableTime.time
+        @foreach (var item in ViewBag.availableTime.time)
+        {
+            <div>@item</div>
+        }
+        </div> *@
+        <div id="equipmentName">
+            <p>@ViewBag.equipment.name</p>
+        </div>
+
+        <div id="calendar">
+            <div id="month-year">
+
+                <div>
+                    <p id="month"></p>
+                    <p id="year"></p>
+                </div>
+
+                <div id="monthButton">
+                    <button onclick="prevMonth()"><</button>
+                    <button onclick="nextMonth()">></button>
+                </div>
+
+            </div>
+            <div id="calendar-days"></div>
+        </div>
+    </div>
+
+    <div class="booking-right">
+        @for(int i=0;i<8;i++)
+        {
+            <div class="checkTime">eiei</div>
+        }
+        <button onclick="loadDoc()">ButtonJa</button>
+    </div>
+</div>
+
+<script>
+    function loadDoc() {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange=function(){
+            if(this.readyState == 4 && this.status == 200) {
+                console.log(JSON.parse(this.responseText))
+                console.log(JSON.parse(this.responseText).id);
+            }
+        }
+        xhttp.open("GET","/api/equipment", true);
+        xhttp.send();
+    }
+
+
+    var today = new Date();
+    var time = today.getTime();
+    var date = new Date(time); 
+
+    setCalendar(date);
+
+    function setCalendar(d) {
+        var day = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        var firstDayOfMonth = new Date(d.getFullYear(), d.getMonth(), 1).getDay();
+        var lastDayOfMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDay();
+        var daysInMonth = new Date(d.getFullYear(), d.getMonth() + 1, 0).getDate();
+        var lastDayOfPrevMonth = new Date(d.getFullYear(), d.getMonth(), 0).getDate();
+
+        var m = d.getMonth();
+        var y = d.getFullYear();
+        var i, days = "";
+        var counter = 0;
+
+        document.getElementById("month").innerHTML = months[m];
+        document.getElementById("year").innerHTML = y.toString();
+
+        for (i = 0; i < 7; i++) {
+            days = days + "<div class='days'>" + day[i] + "</div>";
+        }
+        for (i = 0; i < firstDayOfMonth; i++) {            
+            var x = lastDayOfPrevMonth - (firstDayOfMonth - i) + 1;
+            var theDay = new Date(d.getTime());
+            theDay.setMonth(m-1);
+            theDay.setDate(x-1);
+            var dd = x;
+            var mm = m-1;            
+            var yy = y;
+            if (dd < 10) dd = "0" + dd;
+            if (mm<0) {
+                mm=11;
+                yy-=1;
+            }
+            if (mm < 10) mm = "0" + mm;
+            if( theDay < today){
+                days = days + "<div class='notAvailableDay'>" + x + "</div>";
+            }
+            else
+                days = days + "<div class='notAvailableDay hover' onclick=selectBookingDate('" + dd + mm + yy + "')>" + x + "</div>";
+            counter++;
+        }
+        for (i = 1; i <= daysInMonth; i++) {
+            var theDay = new Date(d.getTime());
+            theDay.setDate(i);
+            theDay.setMonth(m);
+            var dd = i;
+            if (dd < 10) dd = "0" + dd;
+            var mm = m;
+            if (mm < 10) mm = "0" + mm;
+            if( m==d.getMonth()&&
+                i==d.getDate()&&
+                y==d.getFullYear())
+                days = days + "<div class='myselectedday' onclick=selectBookingDate('" + dd + mm + y + "')>" + i + "</div>";
+            else{
+                if( theDay < today){
+                    days = days + "<div class='mydays'>" + i + "</div>";
+                }
+                else
+                    days = days + "<div class='mydays hover' onclick=selectBookingDate('" + dd + mm + y + "')>" + i + "</div>";
+            }
+            counter++;
+        }
+        for (i = counter + 1; i <= 42; i++) {
+            var x = i - counter;
+            var dd = x;
+            if (dd < 10) dd = "0" + dd;
+            var mm = m+1;            
+            var yy = y;
+            if (mm>11) {
+                mm=0;
+                yy+=1;
+            }
+            if (mm < 10) mm = "0" + mm;
+            days = days + "<div class='notAvailableDay hover' onclick=selectBookingDate('" + dd + mm + yy + "')>" + x + "</div>";
+        }
+        document.getElementById("calendar-days").innerHTML = days;
+    }
+
+
+
+    function nextMonth() {
+        @* var daysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate(); *@
+        date.setDate(1);
+        date.setMonth(date.getMonth() + 1);
+        setDate(date);
+    }
+
+    function prevMonth() {
+        if (date.getMonth()==today.getMonth() && date.getFullYear()==today.getFullYear()) return;
+        @* var daysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate(); *@
+        date.setDate(1);
+        date.setMonth(date.getMonth() - 1);
+        if(date>=today)
+            setDate(date);
+        else 
+            setDate(today);
+    }
+
+    function setDate(date) {
+        var d=date.getDate();
+        var m=date.getMonth();
+        var y=date.getFullYear();
+        if(d<10)d="0"+d;
+        if(m<10)m="0"+m;
+        selectBookingDate(d+m+y+"");
+    }
+
+    function selectBookingDate(str) {
+        date.setDate(parseInt(str.substring(0,2)));
+        date.setMonth(parseInt(str.substring(2,4)));
+        date.setFullYear(parseInt(str.substring(4,8)));
+        setCalendar(date);
+        bookingDate = str;
+        console.log(date);
+        document.getElementById("bookingDate").innerHTML = bookingDate;
+    }
+</script>
