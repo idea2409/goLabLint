@@ -4,6 +4,7 @@
     --dark-gray-color: #757575;
     --blue-color: #3DB1E7;
     --blue-sky-color: #F1FAFF;
+    --light-gray-color: #C4C4C4;
 }
 
 @font-face {
@@ -31,8 +32,8 @@ button {
 
 button,
 input {
-  font-family: Sukhumvit;
-  border: none;
+    font-family: Sukhumvit;
+    border: none;
 }
 
 a {
@@ -57,43 +58,47 @@ body {
     overflow-y: overlay;
 }
 
-nav.navbar, nav.navbar-anonymous {
-  width: 100%;
-  height: 4vw;
-  display: flex;
-  align-items: center;
-  position: fixed;
-  z-index: 100;
-}
-nav.navbar-anonymous{
-  background-color: var(--orange-color);
-}
-nav.navbar{
-  background-color: var(--light-gray-color);
+nav.navbar,
+nav.navbar-anonymous {
+    width: 100%;
+    height: 4vw;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
 }
 
+nav.navbar-anonymous {
+    background-color: var(--orange-color);
+}
+
+nav.navbar {
+    background-color: var(--light-gray-color);
+}
 
 img.logo {
     padding: 0 0 0 3%;
     width: 15%;
 }
 
-a.navbar,a.navbar-anonymous {
-  margin: 0 0 0 7%;
-  font-weight: bold;
-  height: 100%;
-  padding: 0 2.5%;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
-  border: 0.25rem solid transparent;
+a.navbar,
+a.navbar-anonymous {
+    margin: 0 0 0 7%;
+    font-weight: bold;
+    height: 100%;
+    padding: 0 2.5%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border: 0.25rem solid transparent;
 }
+
 a.navbar {
-  color: var(--dark-gray-color);
+    color: var(--dark-gray-color);
 }
 
 a.navbar-anonymous {
-  color: #FFDAC7;
+    color: #FFDAC7;
 }
 
 a.navbar:hover,
@@ -107,13 +112,12 @@ a.current-page {
 
 a.navbar-anonymous:hover,
 a.current-page-anonymous {
-  color: white;
+    color: white;
 }
 
 a.current-page-anonymous {
-  border-bottom: 0.25rem solid white;
+    border-bottom: 0.25rem solid white;
 }
-
 
 div.user-description {
     display: flex;
@@ -131,13 +135,13 @@ div.user {
 }
 
 img.user-profile {
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  object-fit: cover;
-  margin: auto 0;
-  margin-left: 5%;
-  box-sizing: border-box;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: auto 0;
+    margin-left: 5%;
+    box-sizing: border-box;
 }
 
 p.user-name {
@@ -150,71 +154,70 @@ p.user-id {
 }
 
 div.panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
 }
 
 div.left-panel {
-  padding: 5% 10%;
-  padding-bottom: 0;
+    padding: 5% 10%;
+    padding-bottom: 0;
 }
 
 div.right-panel {
-  background-color: var(--orange-color);
-  position: fixed;
-  left: 50%;
-  width: 50%;
-  height: 100vh;
-  box-sizing: border-box;
-  padding: 3% 5% 2% 5%;
+    background-color: var(--orange-color);
+    position: fixed;
+    left: 50%;
+    width: 50%;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 3% 5% 2% 5%;
 }
 
 img.authen-logo {
-  width: 40%;
-  transform: translateX(-7%);
+    width: 40%;
+    transform: translateX(-7%);
 }
 
 img.right-image {
-  width: 65%;
-  align-self: center;
+    width: 65%;
+    align-self: center;
 }
 
 div.right-container {
-  display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 100%;
-  justify-content: space-evenly;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    justify-content: space-evenly;
 }
 
 p.right-subtitle {
-  color: #FFDAC7;
-  margin-bottom: 3%;
+    color: #FFDAC7;
+    margin-bottom: 3%;
 }
 
 h2.right-title {
-  color: white;
-  font-weight: bold;
+    color: white;
+    font-weight: bold;
 }
 
 div.right-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-top: 5%;
-  flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 5%;
+    flex-grow: 1;
 }
 
 img.right-deco {
-  width: 20%;
+    width: 20%;
 }
 
 div.right-circle {
-  border: 0.125rem solid white;
-  width: 2.5vw;
-  height: 2.5vw;
-  border-radius: 50%;
-  align-self: flex-end;
+    border: 0.125rem solid white;
+    width: 2.5vw;
+    height: 2.5vw;
+    border-radius: 50%;
+    align-self: flex-end;
 }
-

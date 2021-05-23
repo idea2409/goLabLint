@@ -27,5 +27,7 @@ namespace golablint.Models
         [Required]   
         [GreaterThan("startDate")]
         public DateTime endDate {get;set;}
+
+        public string state {get;set;}
     }
 }

@@ -1,3 +1,91 @@
+@{
+    ViewData["Title"] = "BorrowingList";
+}
+@section styles {
+<link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
+<link rel="stylesheet" href="~/css/borrowingList.css" type="text/css" />
+}
 <div>
-    <h1>eiei</h1>
+    <div class="equipment-header">        
+        <div class="eqipment-title">
+            <h1>รายการจอง</h1>
+        </div>
+        <form class="equipment-search">
+            <input type="text" placeholder="ค้นหาอุปกรณ์" >
+            <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
+        </form>
+    </div>
+    <div class="borrowing-header" id="trigger1">
+        <div class="state-borrowing-container">
+            <button class="borrowing-state" onclick="triggerState(1)"><h3>ระหว่างการจอง</h3></button>
+            <button class="completed-state" onclick="triggerState(2)""><h3>สำเร็จแล้ว</h3></button>
+        </div>
+        <a href="https://localhost:5001/admin/borrowing-list" class="blacklist-btn"><h4>รายชื่อบัญชีดำ</h4></a>
+    </div>
+    <div class="completed-header" id="trigger2">
+        <div class="state-borrowing-container">
+            <button class="completed-state" onclick="triggerState(1)"><h3>ระหว่างการจอง</h3></button>
+            <button class="borrowing-state" onclick="triggerState(2)"><h3>สำเร็จแล้ว</h3></button>
+        </div>
+        <a href="https://localhost:5001/admin/borrowing-list" class="blacklist-btn"><h4>รายชื่อบัญชีดำ</h4></a>
+    </div>
+
+    <div class="borrowing-title">
+        <div class="state-title">
+            <h2>ระหว่างการจอง</h2>
+        </div>
+        <select id="sort-by">
+            <option value="เรียงตามชื่ออุปกรณ์">เรียงตามชื่ออุปกรณ์</option>
+            <option value="เรียงตามวันเวลาเริ่มจอง">เรียงตามวันเวลาเริ่มจอง</option>
+            <option value="เรียงตามวันเวลาคืนอุปกรณ์">เรียงตามวันเวลาคืนอุปกรณ์</option>
+            <option value="เรียงตามนักศึกษาที่จอง">เรียงตามนักศึกษาที่จอง</option>
+        </select>
+    </div>
+    <div class="borrowing-column">
+        <div class="select-btn"></div>
+        <div class="borrowing-equipment"><strong>อุปกรณ์</strong></div>
+        <div class="borrowing-user"><strong>นักศึกษาที่จอง</strong></div>
+        <div class="borrowing-start"><strong>วันเวลาเริ่มจอง</strong></div>
+        <div class="borrowing-end"><strong>วันเวลาคืนอุปกรณ์</strong></div>
+        <div class="borrowing-status"><strong>สถานะ</strong></div>
+        <div class="cancle-btn"></div>
+    </div>
+    @* @if (state==1) { *@
+    <div class="borrowing-column">
+        <div class="select-btn"><input type="checkbox"></div>
+        <div class="borrowing-equipment">DC Power Supply</div>
+        <div class="borrowing-user">61011167 โสภิตา เอี่ยมจุ้ย</div>
+        <div class="borrowing-start">31/03/2021 17:30</div>
+        <div class="borrowing-end">31/03/2021 17:30</div>
+        <div class="borrowing-status">ปกติ</div>
+        <div class="return-btn"><button onclick="returnEquipment()">คืนอุปกรณ์</button></div>
+    </div>
+    @* }
+    else { *@
+    <div class="borrowing-column">
+        <div class="select-btn"><input type="checkbox"></div>
+        <div class="borrowing-equipment">DC Power Supply</div>
+        <div class="borrowing-user">61011167 โสภิตา เอี่ยมจุ้ย</div>
+        <div class="borrowing-start">31/03/2021 17:30</div>
+        <div class="borrowing-end">31/03/2021 17:30</div>
+        <div class="borrowing-status">คืนช้า</div>
+        <div class="return-btn"><button>คืนอุปกรณ์</button></div>
+    </div>
+    @* } *@
+    @* @await Component.InvokeAsync("EquipmentCard",new {role="User"})     *@
+<script>
+    function triggerState(state) {
+        if(state==1){
+            document.getElementById("trigger1").style.display = "flex";
+            document.getElementById("trigger2").style.display = "none";
+        }
+        else{
+            document.getElementById("trigger1").style.display = "none";
+            document.getElementById("trigger2").style.display = "flex";
+        }
+    }
+    function returnEquipment() {
+        alert("ยืนยันการคืนอุปกรณ์");
+    }
+</script>
 </div>
