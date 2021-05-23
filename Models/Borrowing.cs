@@ -28,6 +28,5 @@ namespace golablint.Models {
 
         [Required(ErrorMessage = "กรุณาระบุสถานะ", AllowEmptyStrings = false)]
         public string status {get; set; }
-
     }
 }
