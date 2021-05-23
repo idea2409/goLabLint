@@ -53,7 +53,7 @@ body {
   width: 100vw;
   height: 100vh;
   font-family: Sukhumvit, Arial, Helvetica, sans-serif;
-  padding-top: 4vw;
+  top: 4vw;
   overflow-y: overlay;
 }
 
@@ -93,6 +93,10 @@ a.navbar-anonymous {
 }
 
 a.navbar {
+  color: var(--dark-gray-color);
+}
+
+a.navbar:visited {
   color: var(--dark-gray-color);
 }
 
