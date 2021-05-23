@@ -60,11 +60,20 @@
     padding: 1% 4.5% 1% 4.5%;
 }
 
-.state-title {
+.state-borrowing-title {
     width: 70%;
 }
 
-.state-title h2 {
+.state-borrowing-title h2 {
+    color: var(--dark-gray-color);
+}
+
+.state-completed-title {
+    width: 70%;
+    display: none;
+}
+
+.state-completed-title h2 {
     color: var(--dark-gray-color);
 }
 
