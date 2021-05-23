@@ -38,6 +38,7 @@ namespace golablint.Controllers {
             user.confirmPassword = confirmPassword;
             var re = new Regex("^\\d+$");
             user.role = user.email != null && user.email.IndexOf('@') != -1 && re.Matches(user.email.Remove(user.email.IndexOf('@'))).Count > 0 ? "นักศึกษา" : "อาจารย์";
+            user.status = "Normal";
             ViewBag.user = user;
             if (!TryValidateModel(user, nameof(user))) {
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
