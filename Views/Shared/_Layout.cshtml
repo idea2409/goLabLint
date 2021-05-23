@@ -21,7 +21,8 @@
             string action = (string)ViewContext.RouteData.Values["action"];
             bool isAuthenticated = Context.User.Identity.IsAuthenticated;
             string role = "";
-            if (isAuthenticated) role=Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault().Value;
+            if (isAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
+              ClaimTypes.Name).FirstOrDefault().Value;
             <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
                 @if (isAuthenticated)
                 {
@@ -37,7 +38,8 @@
                 <a class="@((controller == "Home" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
                 asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
                 <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")" asp-area="">อุปกรณ์</a>
+                asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")"
+                asp-area="">อุปกรณ์</a>
                 @if (role != "Admin")
                 {
                     <a class="@((controller == "Other" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
@@ -66,7 +68,16 @@
         <main role="main">@RenderBody()</main>
     </div>
     <footer>
-        <div class="container"></div>
+        <div class="footer">
+            <p>Contact Us</p>
+            <div>
+                <img src="~/image/twitter.png" alt="twitter icon" />
+                <img src="~/image/instagram.png" alt="instagram icon" />
+                <img src="~/image/facebook.png" alt="facebook icon" />
+            </div>
+            <p class="copyright">@@Copyright-GoLabLint-2021</p>
+            <img src="~/image/goLabLint.png" alt="logo" class="footer-img" />
+        </div>
     </footer>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)

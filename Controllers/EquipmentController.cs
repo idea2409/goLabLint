@@ -11,7 +11,9 @@ using Microsoft.Extensions.Logging;
 
 namespace golablint.Controllers {
     public class EquipmentController : Controller {
-        public IActionResult Index() {
+        
+        public IActionResult Index(string search ="") {
+            ViewBag.search = search;
             return View();
         }
 

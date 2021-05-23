@@ -217,4 +217,31 @@ div.right-circle {
   border-radius: 50%;
   align-self: flex-end;
 }
-
+div.footer {
+  position: relative;
+  background-color: #C6EDFF;
+  color: #355A8A;
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  padding: 1% 5%;
+}
+div.footer img {
+  width: 15%;
+}
+div.footer img.footer-img {
+  width: 15%;
+}
+div.footer div {
+  display: flex;
+  justify-content: space-evenly;
+  margin-right: 50%;
+}
+p.copyright {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
