@@ -43,16 +43,18 @@
                 <p>เพิ่มอุปกรณ์</p>
                 <div id="add-input">
                     <label for="add">จำนวน</label>
-                    <input type="number" name="add">
+                    <input type="number" name="add" onclick="disableButton('submit-remove')">
                 </div>
+                <button type="button" id="submit-add" >ยืนยัน</button>
             </div>
             <div id="remove">
                 <i class="material-icons" id="remove-bt">remove_circle</i>
                 <p>นำอุปกรณ์ออก</p>
                 <div id="remove-input">
                     <label for="remove">จำนวน</label>
-                    <input type="number" name="remove">
+                    <input type="number" name="remove" onclick="disableButton('submit-add')">
                 </div>
+                <button type="button" id="submit-remove" >ยืนยัน</button>
             </div>
         </div>
     </div>
@@ -78,4 +80,16 @@
             </tbody>
         </table>
     </div>
+    <script>
+        function disableButton(btn){
+                if(btn == 'submit-add'){
+                    document.getElementById(btn).disabled = true;
+                    document.getElementById('submit-remove').disabled = false;
+                }
+                else {
+                    document.getElementById(btn).disabled = true;
+                    document.getElementById('submit-add').disabled = false;
+                }
+			}
+    </script>
 </div>
