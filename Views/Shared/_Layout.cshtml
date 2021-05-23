@@ -22,7 +22,7 @@
             bool isAuthenticated = Context.User.Identity.IsAuthenticated;
             string role = "";
             if (isAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
-              ClaimTypes.Name).FirstOrDefault().Value;
+            ClaimTypes.Name).FirstOrDefault().Value;
             <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
                 @if (isAuthenticated)
                 {
@@ -59,14 +59,23 @@
                         ClaimTypes.Surname).FirstOrDefault().Value)</p>
                             <p class="user-id">@(role == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
                         </div>
-                        <img class="user-profile" src="~/image/default profile.jpg" alt="user profile" />
+                        <div class="user-dropdown">
+                        <img class="user-profile" onclick="myFunction()" src="~/image/default profile.jpg" alt="user profile" />
+                            <div id="myDropdown" class="user-dropcontent hide">
+                                <a href="#" class="history">ประวัติการจอง</a>
+                                <hr>
+                                <a href="#" class="logout">ออกจากระบบ</a>
+                            </div>
+                        </div>
                     </div>
+
                 }
             </nav>}
     </header>
     <div>
         <main role="main">@RenderBody()</main>
     </div>
+
     <footer>
         <div class="footer">
             <p>Contact Us</p>
@@ -79,7 +88,8 @@
             <img src="~/image/goLabLint.png" alt="logo" class="footer-img" />
         </div>
     </footer>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js" asp-append-version="true">
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 
