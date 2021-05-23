@@ -22,7 +22,6 @@ namespace golablint.Controllers {
         public IActionResult Index() {
             return View();
         }
-
         [Route("~/api/equipment")]
         public JsonResult getEquipment(int? limit) {
 
@@ -51,7 +50,6 @@ namespace golablint.Controllers {
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
             return Json(equipmentData);
         }
-
         [Route("~/api/image-to-string")]
         public string ConvertImageToString(List<IFormFile> files) {
             if (files.Count != 1) return "กรุณาส่งมาแค่ไฟล์เดียว";
