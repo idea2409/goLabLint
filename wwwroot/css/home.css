@@ -226,3 +226,26 @@ div.more a:hover{
 div.second-more h2{
     margin-top: 3%;
 }
+
+div.user-access-deny {
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 35%;
+    padding-bottom: 3rem;
+    text-align: center;
+    color: #7b7b7b  ;
+
+}
+
+img.oops {
+    width: 15rem;
+}
+
+h1.title {
+    color: #E35205;
+    text-decoration: solid;
+    text-align: center;
+    padding-top: 2rem;
+    padding-bottom: 0.8rem;
+}
