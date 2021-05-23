@@ -25,16 +25,19 @@
             </figure>
             <aside>
                 <label for="name">ชื่ออุปกรณ์</label><br>
-                <input type="text" id="name" class="inputbox"><br><br>
+                <input type="text" id="name" name ="name"class="inputbox"><br><br>
                 <label for="quantity">จำนวน (ชิ้น)</label><br>
-                <input type="number" id="quantity" min="1" class="inputbox"><br><br>
+                <input type="number" id="quantity" min="1" name ="amount" class="inputbox"><br><br>
                 <label for="lab">ห้องปฏิบัติการ</label><br>
-                <select name="lab" id="lab" class="inputbox" required>
-                    <option selected disabled hidden>------โปรดระบุ------</option>
-                    <option value="lab1">lab1</option>
-                    <option value="lab2">lab2</option>
-                    <option value="lab3">lab3</option>
-                </select>
+
+                <div id="select"><select name="lab" id="lab" name ="description"class="inputbox" required>
+                        <option selected disabled hidden>------โปรดระบุ------</option>
+                            <option value="ห้องปฏิบัติการ 1">ห้องปฏิบัติการ 1</option>
+                            <option value="ห้องปฏิบัติการ 2">ห้องปฏิบัติการ 2</option>
+                            <option value="ห้องปฏิบัติการ 3">ห้องปฏิบัติการ 3</option>
+                            <option value="ห้องปฏิบัติการ 4">ห้องปฏิบัติการ 4</option>
+                            <option value="ห้องปฏิบัติการ 5">ห้องปฏิบัติการ 5</option>
+                    </select></div>
                 <div id="button_container">
                     <button type="button" id="back-bt">ยกเลิก</button>
                     <button type="submit" id="confirm-bt">ยืนยัน</button>

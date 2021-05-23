@@ -37,13 +37,17 @@
                 asp-controller="other" asp-action="Index" asp-area="">ห้องปฏิบัติการอื่น</a>
                 @if (isAuthenticated)
                 {
-                    <div class="user">
-                        <div class="user-description">
-                            <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim => claim.Type == ClaimTypes.Surname).FirstOrDefault().Value)</p>
-                            <p class="user-id">@(Context.User.Claims.Where(claim =>claim.Type==ClaimTypes.Role).FirstOrDefault().Value == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
+                        <div class="user">
+                            <div class="user-description">
+                                <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type ==
+                            ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim =>
+                            claim.Type == ClaimTypes.Surname).FirstOrDefault().Value)</p>
+                                <p class="user-id">@(Context.User.Claims.Where(claim
+                            =>claim.Type==ClaimTypes.Role).FirstOrDefault().Value == "Admin" ? "อาจารย์" : "นักศึกษา")
+                                </p>
+                            </div>
+                            <img class="user-profile" src="~/image/default profile.jpg" alt="user profile" />
                         </div>
-                        <img class="user-profile" src="~/image/default profile.jpg" alt="user profile" />
-                    </div>
                 }
             </nav>}
     </header>

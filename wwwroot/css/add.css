@@ -3,6 +3,10 @@
     margin-top: 3%;
 }
 
+#container h1 {
+    color: #444444;
+}
+
 section {
     display: flex;
     flex-wrap: wrap;
@@ -17,6 +21,11 @@ section {
     border-color: lightgray;
     border-radius: 20px;
     position: relative;
+    box-sizing: border-box;
+}
+
+#output {
+    border-radius: 20px;
 }
 
 #photo_icon {
@@ -45,13 +54,44 @@ aside>label {
 }
 
 .inputbox {
-    font-size: 1.5rem;
+    font-size: 1.25rem;
     border-style: solid;
     border-radius: 10px;
     border-width: 2px;
     border-color: lightgray;
-    border-color: lightgray;
     width: 500px;
+    padding: 0.5rem 1rem;
+    height: 50px;
+    box-sizing: border-box;
+}
+
+#lab {
+    width: 100%;
+    padding-right: 5rem;
+}
+
+#select {
+    position: relative;
+    width: 100%;
+}
+
+#lab {
+    background: none;
+    appearance: none;
+}
+
+#select::before {
+    content: ">";
+    position: absolute;
+    z-index: -1;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(90deg) translateY(0.5rem);
 }
 
 button {
