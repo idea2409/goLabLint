@@ -20,8 +20,8 @@ namespace golablint.Controllers {
         public IActionResult Index() {
             if (HttpContext.User.Identity.IsAuthenticated)
                 return RedirectToRoute(new {
-                    controller = "home",
-                        action = "index",
+                    controller = "Home",
+                        action = "Index",
                 });
             return View();
         }
@@ -58,8 +58,8 @@ namespace golablint.Controllers {
             _db.User.Add(user);
             _db.SaveChanges();
             return RedirectToRoute(new {
-                controller = "login",
-                    action = "index",
+                controller = "Login",
+                    action = "Index",
             });
         }
     }
