@@ -24,12 +24,12 @@
             if (isAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
             ClaimTypes.Role).FirstOrDefault().Value;
             <nav class="@(controller=="Home" &&action=="Index" &&!isAuthenticated ? "navbar-anonymous" : "navbar")">
-                @if (controller=="Home" &&action=="Index" && !isAuthenticated)
+                @if (controller == "Home" && action == "Index" && !isAuthenticated)
                 {
-                        <form class="home-search" asp-controller="equipment" asp-action="index">
-                            <input type="text" placeholder="ค้นหาอุปกรณ์" name="search">
-                            <img src="~/image/search-icon.png" alt="ค้นหา" class="home-search-icon" />
-                        </form>
+                    <form class="home-search" asp-controller="equipment" asp-action="index">
+                        <input type="text" placeholder="ค้นหาอุปกรณ์" name="search">
+                        <img src="~/image/search-icon.png" alt="ค้นหา" class="home-search-icon" />
+                    </form>
                 }
                 else
                 {
@@ -65,8 +65,8 @@
                             <div id="myDropdown" class="user-dropcontent hide">
                                 @if (role != "Admin")
                                 {
-                                    <a asp-controller="history" asp-action="index"
-                            asp-asp-route-id="@(Context.User.Claims.Where(claim => claim.Type ==ClaimTypes.NameIdentifier).FirstOrDefault().Value)"
+                                    <a asp-route="borrowing-list"
+                                    asp-route-id = "@(Context.User.Claims.Where(claim => claim.Type ==ClaimTypes.NameIdentifier).FirstOrDefault().Value)"
                             class="history">ประวัติการจอง</a>
                                     <hr>
                                 }

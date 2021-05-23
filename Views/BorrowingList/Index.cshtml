@@ -1,6 +1,16 @@
-<div>
-    @* @foreach (var item in ViewBag.)
+<div class="body">
+    <h1>sfsfsf</h1>
+    @foreach (var item in ViewBag.borrowingList)
     {
-        
-    } *@
+        <div>
+            @item.borrowing.startDate</div>
+        <div>
+            @item.borrowing.endDate</div>
+        <div>
+            @item.borrowing.status</div>
+        <div>
+            @item.equipment.name</div>
+        <div>
+            @item.equipment.description</div>
+    }
 </div>
