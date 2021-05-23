@@ -1,0 +1,120 @@
+.borrowing-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 4.5% 0 4.5%;
+}
+
+.completed-header {
+    display: none;
+    justify-content: space-between;
+    padding: 0 4.5% 0 4.5%;
+}
+
+.state-borrowing-container {
+    width: 30%;
+    box-shadow: 1px 1px 5px -1px var(--dark-gray-color);
+    border-radius: 10rem;
+    display: flex;
+}
+
+.borrowing-state {
+    width: 50%;
+    background-color: var(--orange-color);
+    color: white;
+    border-radius: 10rem;
+    padding: 11px 25px 11px 25px;
+}
+
+.completed-state {
+    width: 50%;
+    background-color: white;
+    color: var(--dark-gray-color);
+    border-radius: 10rem;
+    padding: 11px 25px 11px 25px;
+}
+
+.blacklist-btn {
+    width: 15%;
+    background-color: var(--orange-color);
+    color: white;
+    border-radius: 10rem;
+    padding: 11px 0 11px 0;
+    text-align: center;
+}
+
+.borrowing-title {
+    display: flex;
+    justify-content: space-between;
+    padding: 1% 4.5% 1% 4.5%;
+}
+
+.state-title {
+    width: 70%;
+}
+
+.state-title h2 {
+    color: var(--dark-gray-color);
+}
+
+#sort-by {
+    font-family: Sukhumvit;
+    width: 15%;
+    border-radius: 0.5rem;
+    color: var(--dark-gray-color);
+    padding: 0 6px 0 11px;
+}
+
+.borrowing-column {
+    display: flex;
+    margin: 0 4.5% 0 4.5%;
+    padding: 11px 0 11px 0;
+    border-bottom: 1px solid var(--light-gray-color);
+    color: var(--dark-gray-color);
+    /* color: red; */
+}
+
+.borrowing-column strong {
+    color: black;
+}
+
+.select-btn {
+    width: 5%;
+}
+
+input[type="checkbox"] {
+    width: 100%;
+    height: 80%;
+}
+
+.borrowing-equipment {
+    width: 15%;
+}
+
+.borrowing-user {
+    width: 25%;
+}
+
+.borrowing-start {
+    width: 20%;
+}
+
+.borrowing-end {
+    width: 20%;
+}
+
+.borrowing-status {
+    width: 5%;
+}
+
+.cancle-btn {
+    width: 10%;
+    display: flex;
+    justify-content: center;
+}
+
+.return-btn button {
+    color: white;
+    background-color: var(--blue-color);
+    padding: 2px 25px 2px 25px;
+    border-radius: 0.4rem;
+}
