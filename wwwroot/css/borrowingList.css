@@ -34,11 +34,13 @@
 }
 
 #Ongoing {
-    color: green;
+    color: #6FCF97;
+    padding-right: 0.5rem;
 }
 
 #Late {
     color: red;
+    padding-right: 0.5rem;
 }
 
 #Finished {
@@ -91,6 +93,9 @@
     padding: 11px 0 11px 0;
     border-bottom: 1px solid var(--shadow-gray-color);
     color: var(--dark-gray-color);
+    align-items: center;
+    vertical-align: text-bottom;
+    align-content: flex-end;
     /* color: red; */
 }
 
@@ -122,10 +127,12 @@ input[type="checkbox"] {
 
 .borrowing-equipment {
     width: 15%;
+
 }
 
 .borrowing-user {
     width: 25%;
+    align-content: initial;
 }
 
 .borrowing-start {
