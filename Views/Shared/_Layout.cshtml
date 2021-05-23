@@ -22,7 +22,7 @@
             bool isAuthenticated = Context.User.Identity.IsAuthenticated;
             string role = "";
             if (isAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
-            ClaimTypes.Name).FirstOrDefault().Value;
+            ClaimTypes.Role).FirstOrDefault().Value;
             <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
                 @if (isAuthenticated)
                 {
@@ -35,7 +35,7 @@
                         <button type="submit"></button>
                         </form> *@
                 }
-                <a class="@(controller == "Home" ?"current-page": "")"
+                <a class="@((controller == "Home" ?"current-page": "")+ (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
                 asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
                 <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
                 asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")"
@@ -60,11 +60,17 @@
                             <p class="user-id">@(role == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
                         </div>
                         <div class="user-dropdown">
-                        <img class="user-profile" onclick="myFunction()" src="~/image/default profile.jpg" alt="user profile" />
+                            <img class="user-profile" onclick="myFunction()" src="~/image/default profile.jpg"
+                        alt="user profile" />
                             <div id="myDropdown" class="user-dropcontent hide">
-                                <a href="#" class="history">ประวัติการจอง</a>
-                                <hr>
-                                <a href="#" class="logout">ออกจากระบบ</a>
+                                @if (role != "Admin")
+                                {
+                                    <a asp-controller="history" asp-action="index"
+                            asp-asp-route-id="@(Context.User.Claims.Where(claim => claim.Type ==ClaimTypes.NameIdentifier).FirstOrDefault().Value)"
+                            class="history">ประวัติการจอง</a>
+                                    <hr>
+                                }
+                                <a asp-controller="login" asp-action="logout" class="logout">ออกจากระบบ</a>
                             </div>
                         </div>
                     </div>
@@ -74,19 +80,21 @@
     <div>
         <main role="main">@RenderBody()</main>
     </div>
-
-    <footer>
-        <div class="footer">
-            <p>Contact Us</p>
-            <div>
-                <img src="~/image/twitter.png" alt="twitter icon" />
-                <img src="~/image/instagram.png" alt="instagram icon" />
-                <img src="~/image/facebook.png" alt="facebook icon" />
+    @if (controller != "Booking")
+    {
+        <footer>
+            <div class="footer">
+                <p>Contact Us</p>
+                <div>
+                    <img src="~/image/twitter.png" alt="twitter icon" />
+                    <img src="~/image/instagram.png" alt="instagram icon" />
+                    <img src="~/image/facebook.png" alt="facebook icon" />
+                </div>
+                <p class="copyright">@@Copyright-GoLabLint-2021</p>
+                <img src="~/image/goLabLint.png" alt="logo" class="footer-img" />
             </div>
-            <p class="copyright">@@Copyright-GoLabLint-2021</p>
-            <img src="~/image/goLabLint.png" alt="logo" class="footer-img" />
-        </div>
-    </footer>
+        </footer>
+    }
     <script src="~/js/site.js" asp-append-version="true">
     </script>
     @await RenderSectionAsync("Scripts", required: false)

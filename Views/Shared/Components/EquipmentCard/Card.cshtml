@@ -1,17 +1,14 @@
-@* <div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">    
-    @foreach (var item in ViewBag.equipmentList)
-    {    
-        <a href="https://localhost:5001/admin/borrowing-list">    
-        <div class="@((ViewBag.role == "User" ? "" : "admin-") + "card")">
-            <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-top")">
-                <img src="@item.image" />
-                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-hover")">
-                    <button class="more-button">ดูรายละเอียด</button> *@
+@{
+    @using System.Security.Claims;
+    string role = "";
+    if (Context.User.Identity.IsAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
+    ClaimTypes.Role).FirstOrDefault().Value;
+}
 <div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">
     @if (ViewBag.equipmentCount != null && ViewBag.equipmentCount == 0)
     {
         <div class="equip-notfound">
-            <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops"/>
+            <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
             <h1 class="title">เราไม่พบผลลัพธ์ใดๆ</h1>
             <h4>โปรดตรวจสอบให้แน่ใจว่าสะกดถูกต้องทั้งหมดหรือลองคีย์เวิร์ดอื่น</h4>
         </div>
@@ -20,31 +17,31 @@
     {
         @foreach (var item in ViewBag.equipmentList)
         {
-            <a href="https://localhost:5001/admin/borrowing-list"> 
-            <div class="@((ViewBag.role == "User" ? "" : "admin-") + "card")">
-                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-top")">
-                    <img src=@item.image alt=@item.name />
-                    <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-hover")">
-                        <button class="more-button">ดูรายละเอียด</button>
+            <a asp-controller="@(role=="User" ?"booking": "admin")" asp-action="equipment" asp-route-id="@item.id">
+                <div class="@((ViewBag.role == "User" ? "" : "admin-") + "card")">
+                    <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-top")">
+                        <img src=@item.image alt=@item.name />
+                        <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-hover")">
+                            <button class="more-button">ดูรายละเอียด</button>
+                        </div>
+                    </div>
+                    <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-body")">
+                        <div class="card-title">
+                            <h2>@item.name</h2>
+                        </div>
+                        <div class="card-text">
+                            <p>@item.description</p>
+                        </div>
+                    </div>
+                    <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-avialable-num")">
+                        <p>@(ViewBag.role == "User" ? "ว่าง" : "จำนวนทั้งหมด")</p>
+                        <h1>@item.amount</h1>
                     </div>
                 </div>
-                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-body")">
-                    <div class="card-title">
-                        <h2>@item.name</h2>
-                    </div>
-                    <div class="card-text">
-                        <p>@item.description</p>
-                    </div>
-                </div>
-                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-avialable-num")">
+                @* <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-avialable-num")">
                     <p>@(ViewBag.role == "User" ? "ว่าง" : "จำนวนทั้งหมด")</p>
                     <h1>@item.amount</h1>
-                </div>
-            </div>
-            @* <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-avialable-num")">
-                <p>@(ViewBag.role == "User" ? "ว่าง" : "จำนวนทั้งหมด")</p>
-                <h1>@item.amount</h1>
-            </div> *@
+                    </div> *@
             </a>
         }
 

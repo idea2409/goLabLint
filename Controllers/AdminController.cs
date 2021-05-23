@@ -8,10 +8,12 @@ using golablint.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace golablint.Controllers {
+    [Authorize(Roles="Admin")]
     public class AdminController : Controller {
         private readonly ApplicationDbContext _db;
         public AdminController(ApplicationDbContext db) {

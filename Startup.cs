@@ -32,7 +32,13 @@ namespace golablint {
             services.Configure<CookiePolicyOptions>(options => {
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
+                options.ExpireTimeSpan = TimeSpan.FromHours(2);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name="LoginCookie";
+                options.AccessDeniedPath=new PathString("/access-denied");
+                options.LoginPath = new PathString("/login");
+            });
             services.AddControllersWithViews();
 
         }
@@ -53,6 +59,7 @@ namespace golablint {
             app.UseRouting();
             app.UseCookiePolicy();
             app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints => {
                 endpoints.MapControllerRoute(

@@ -2,7 +2,7 @@
     position: relative;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
-    padding: 0 3% 3% 3%;
+    padding: 0 3% 0 3%;
     /* row-gap: 3.5%; */
     /* column-gap: 3.5%; */
     /* background-color: aqua; */
