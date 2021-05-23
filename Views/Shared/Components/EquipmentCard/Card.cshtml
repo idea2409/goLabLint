@@ -1,25 +1,33 @@
-<div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">    
-    @foreach (var item in ViewBag.equipmentList)
+<div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">
+    @if (ViewBag.equipmentCount != null && ViewBag.equipmentCount == 0)
     {
-        <div class="@((ViewBag.role == "User" ? "" : "admin-") + "card")">
-            <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-top")">
-                <img src="@item.image" />
-                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-hover")">
-                    <button class="more-button">ดูรายละเอียด</button>
+        <img src="~/image/icon.png" alt = "logo"/>
+    }
+    else
+    {
+        @foreach (var item in ViewBag.equipmentList)
+        {
+            <div class="@((ViewBag.role == "User" ? "" : "admin-") + "card")">
+                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-top")">
+                    <img src=@item.image alt=@item.name/>
+                    <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-hover")">
+                        <button class="more-button">ดูรายละเอียด</button>
+                    </div>
+                </div>
+                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-body")">
+                    <div class="card-title">
+                        <h2>@item.name</h2>
+                    </div>
+                    <div class="card-text">
+                        <p>@item.description</p>
+                    </div>
+                </div>
+                <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-avialable-num")">
+                    <p>@(ViewBag.role == "User" ? "ว่าง" : "จำนวนทั้งหมด")</p>
+                    <h1>@item.amount</h1>
                 </div>
             </div>
-            <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-body")">
-                <div class="card-title">
-                    <h2>@item.name</h2>
-                </div>
-                <div class="card-text">
-                    <p>@item.description</p>
-                </div>
-            </div>
-            <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-avialable-num")">
-                <p>@(ViewBag.role == "User" ? "ว่าง" : "จำนวนทั้งหมด")</p>
-                <h1>@item.amount</h1>
-            </div>
-        </div>
+        }
+
     }
 </div>
