@@ -35,7 +35,7 @@
                         <button type="submit"></button>
                         </form> *@
                 }
-                <a class="@((controller == "Home" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                <a class="@(controller == "Home" ?"current-page": "")"
                 asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
                 <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
                 asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")"
@@ -68,7 +68,6 @@
                             </div>
                         </div>
                     </div>
-
                 }
             </nav>}
     </header>

@@ -17,7 +17,7 @@ namespace golablint.Controllers {
         public AdminController(ApplicationDbContext db) {
             _db = db;
         }
-
+      
         public IActionResult Index() {
             return View();
         }
@@ -26,13 +26,16 @@ namespace golablint.Controllers {
             return View();
         }
 
-        [Route("~/admin/equipment/add")]
-        public IActionResult Add() {
+        [Route("~/admin/equipment/{id}")]
+        public IActionResult Describe(Guid id) {
+            var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1").OrderBy(item => item.id).FirstOrDefault();
+            if(equipment == null) return BadRequest();
+            ViewBag.equipment = equipment;
             return View();
         }
 
         [Route("~/admin/equipment/add")]
-        public IActionResult Add(Guid id) {
+        public IActionResult Add() {
             return View();
         }
 
