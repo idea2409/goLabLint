@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
 <link rel="stylesheet" href="~/css/borrowingList.css" type="text/css" />
 }
+
 <div class="body">
     <div class="equipment-header">
         <div class="eqipment-title">
@@ -15,19 +16,9 @@
             <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
         </form>
     </div>
-    <div class="borrowing-header" id="trigger1">
-        <div class="state-borrowing-container">
-            <button class="borrowing-state" onclick="triggerState(1)">
-                <h3>ระหว่างการจอง</h3>
-            </button>
-            <button class="completed-state" onclick="triggerState(2)">
-                <h3>สำเร็จแล้ว</h3>
-            </button>
-        </div>
-        <a asp-controller="admin" asp-action="blacklist" class="blacklist-btn">
-            <h4>รายชื่อบัญชีดำ</h4>
-        </a>
-    </div>
+    <a asp-controller="admin" asp-action="blacklist" class="blacklist-btn">
+        <h4>รายชื่อบัญชีดำ</h4>
+    </a>
     <div class="completed-header" id="trigger2">
         <div class="state-borrowing-container">
             <button class="completed-state" onclick="triggerState(1)">
@@ -40,14 +31,28 @@
         <a asp-controller="admin" asp-action="blacklist" class="blacklist-btn">
             <h4>รายชื่อบัญชีดำ</h4>
         </a>
-    </div>
-
-    <div class="borrowing-title">
-        <div class="state-borrowing-title" id="trigger3">
-            <h2>ระหว่างการจอง</h2>
+        <div class="borrowing-title">
+            <div class="state-borrowing-title" id="trigger3">
+                <h2>ระหว่างการจอง</h2>
+            </div>
+            <div class="state-completed-title" id="trigger4">
+                <h2>สำเร็จแล้ว</h2>
+            </div>
+            <select id="sort-by">
+                <option value="เรียงตามชื่ออุปกรณ์">เรียงตามชื่ออุปกรณ์</option>
+                <option value="เรียงตามวันเวลาเริ่มจอง">เรียงตามวันเวลาเริ่มจอง</option>
+                <option value="เรียงตามวันเวลาคืนอุปกรณ์">เรียงตามวันเวลาคืนอุปกรณ์</option>
+                <option value="เรียงตามนักศึกษาที่จอง">เรียงตามนักศึกษาที่จอง</option>
+            </select>
         </div>
-        <div class="state-completed-title" id="trigger4">
-            <h2>สำเร็จแล้ว</h2>
+        <div class="borrowing-column">
+            <div class="remove-btn"></div>
+            <div class="borrowing-equipment"><strong>อุปกรณ์</strong></div>
+            <div class="borrowing-user"><strong>นักศึกษาที่จอง</strong></div>
+            <div class="borrowing-start"><strong>วันเวลาเริ่มจอง</strong></div>
+            <div class="borrowing-end"><strong>วันเวลาคืนอุปกรณ์</strong></div>
+            <div class="borrowing-status"><strong>สถานะ</strong></div>
+            <div class="cancle-btn"></div>
         </div>
         <select id="sort-by">
             <option value="เรียงตามชื่ออุปกรณ์">เรียงตามชื่ออุปกรณ์</option>
@@ -66,83 +71,45 @@
         <div class="cancle-btn"></div>
     </div>
     <output id="borrowing-list">
-
     </output>
-    @* @foreach (var a in null)
-        {
-        <div class="borrowing-column">
-        <div class="remove-btn" onclick="openPopupRemove()"><img src="~/image/remove-icon.jpg" alt="remove"
-        class="remove-icon"></div>
-        <div class="borrowing-equipment">@a.equipment.name</div>
-        <div class="borrowing-user">@a.user.name @a.user.surname @a.user.email</div>
-        <div class="borrowing-start">@a.borrowing.startDate</div>
-        <div class="borrowing-end">@a.borrowing.endDate</div>
-        <div class="borrowing-status-dot" id="@a.borrowing.status">@(@a.borrowing.status == "Ongoing" ? "⦿" : "⦿")</div>
-        <div class="borrowing-status" id="@a.borrowing.status text">@(@a.borrowing.endDate < DateTime.Now ?
-        a.borrowing.status = "Late" : (a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"))</div>
-        <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
-
-        <div class="form-popup" id="returnEquipment">
-        <form action="" class="popup-container">
-        <h3>ยืนยันการคืนอุปกรณ์</h3>
-        <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
-        <div class="popup-btn">
-        <button type="submit" class="btn confirm">
-        <h3>ยืนยันการคืน</h3>
-        </button>
-        <button type="button" class="btn cancel" onclick="exitPopupReturn()">
-        <h3>ออก</h3>
-        </button>
-        </div>
-        </form>
-        </div>
-
-        <div class="form-popup" id="removeEquipment">
-        <form action="" class="popup-container">
-        <h3>ยกเลิกการจอง</h3>
-        <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
-        <div class="popup-btn">
-        <button type="submit" class="btn remove">
-        <h3>ยกเลิกการจอง</h3>
-        </button>
-        <button type="button" class="btn cancel" onclick="exitPopupRemove()">
-        <h3>ออก</h3>
-        </button>
-        </div>
-        </form>
-        </div>
-        </div>
-        } *@
-
-    <script>
-        var select = document.getElementById("sort-by");
-        var output = document.getElementById("borrowing-list");
-        select.onchange = () => {
-            var orderBy = select.value == "เรียงตามชื่ออุปกรณ์" ? "equipmentId" : select.value == "เรียงตามวันเวลาเริ่มจอง" ? "startDate" : select.value == "" ? "endDate" : "userName"
-            getBorrowingList(orderBy);
-        }
-        window.onload = () => {
-            getBorrowingList();
-        }
-        function getBorrowingList(orderBy = "equipmentName") {
-            var xhttp = new XMLHttpRequest();
-            xhttp.onreadystatechange = function () {
-                console.log(this.state);
-                if (this.readyState == 4 && this.status == 200) {
-                    let response = JSON.parse(this.responseText);
-                    console.log(response);
-                    let responseElement = "";
+</div>
+<script>
+    var select = document.getElementById("sort-by");
+    var output = document.getElementById("borrowing-list");
+    select.onchange = () => {
+        var orderBy = select.value == "เรียงตามชื่ออุปกรณ์" ? "equipmentId" : select.value == "เรียงตามวันเวลาเริ่มจอง" ? "startDate" : select.value == "" ? "endDate" : "userName"
+        getBorrowingList(orderBy);
+    }
+    window.onload = () => {
+        getBorrowingList();
+    }
+    function getBorrowingList(orderBy = "equipmentName") {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            console.log(this.state);
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                let responseElement = "";
+                if (this.responseText == null) {
+                    responseElement += `
+                        <div class="equip-not-found">
+                        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
+                        <h1 class="title">อุปส์</h1>
+                        <h4>ไม่มีการจองอุปกรณ์ขณะนี้...กดจองตอนนี้เลย!</h4>
+                        </div>`;
+                }
+                else {
                     for (var a of response) {
                         responseElement += `<div class="borrowing-column">
                         <div class="remove-btn" onclick="openPopupRemove()"><img src="/image/remove-icon.jpg" alt="remove"
                         class="remove-icon"></div>
                         <div class="borrowing-equipment">${a.equipment.name}</div>
-                        <div class="borrowing-user">$${a.user.email.split("@@")[0]} {a.user.name} ${a.user.surname}</div>
+                        <div class="borrowing-user">${a.user.email.split("@@")[0]} ${a.user.name} ${a.user.surname}</div>
                         <div class="borrowing-start">${a.borrowing.startDate}</div>
                         <div class="borrowing-end">${a.borrowing.endDate}</div>
                         <div class="borrowing-status-dot" id="${a.borrowing.status}">${a.borrowing.status == "Ongoing" ? "⦿" : "⦿"}</div>
                         <div class="borrowing-status" id="${a.borrowing.status} text">${a.borrowing.endDate < Date.now() ?
-                                                a.borrowing.status == "Late" : a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"}
+                                a.borrowing.status == "Late" : a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"}
                                     </div >
                         <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
 
@@ -176,27 +143,20 @@
                         </form>
                         </div>
                         </div >`;
-                        console.log(responseElement);
                     }
-                    output.innerHTML = responseElement;
                 }
+                output.innerHTML = responseElement;
             }
-            xhttp.open("GET", "/api/get-borrowing-list?orderBy=" + orderBy, true);
-            xhttp.send();
         }
-        function triggerState(state) {
-            if (state == 1) {
-                document.getElementById("trigger1").style.display = "flex";
-                document.getElementById("trigger2").style.display = "none";
-                document.getElementById("trigger3").style.display = "flex";
-                document.getElementById("trigger4").style.display = "none";
-            }
-            else {
-                document.getElementById("trigger1").style.display = "none";
-                document.getElementById("trigger2").style.display = "flex";
-                document.getElementById("trigger4").style.display = "flex";
-                document.getElementById("trigger3").style.display = "none";
-            }
+        xhttp.open("GET", "/api/get-borrowing-list?orderBy=" + orderBy, true);
+        xhttp.send();
+    }
+    function triggerState(state) {
+        if (state == 1) {
+            document.getElementById("trigger1").style.display = "flex";
+            document.getElementById("trigger2").style.display = "none";
+            document.getElementById("trigger3").style.display = "flex";
+            document.getElementById("trigger4").style.display = "none";
         }
         function openPopupReturn() {
             document.getElementById("returnEquipment").style.display = "flex";
@@ -213,5 +173,5 @@
         function exitPopupRemove() {
             document.getElementById("removeEquipment").style.display = "none";
         }
-    </script>
-</div>
+    }
+</script>

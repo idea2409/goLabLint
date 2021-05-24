@@ -33,14 +33,19 @@
     padding: 11px 25px 11px 25px;
 }
 
+.borrowing-status-dot {
+    padding-right: 0.5rem;
+    color: #F03738;
+}
+
 #Ongoing {
     color: #6FCF97;
-    padding-right: 0.5rem;
+    /* padding-right: 0.5rem; */
 }
 
 #Late {
     color: red;
-    padding-right: 0.5rem;
+    /* padding-right: 0.5rem; */
 }
 
 #Finished {
@@ -127,7 +132,6 @@ input[type="checkbox"] {
 
 .borrowing-equipment {
     width: 15%;
-
 }
 
 .borrowing-user {
@@ -147,8 +151,24 @@ input[type="checkbox"] {
     width: 5%;
 }
 
+.borrowing-equipment-user {
+    width: 20%;
+}
+
+.borrowing-start-user {
+    width: 25%;
+}
+
+.borrowing-end-user {
+    width: 25%;
+}
+
+.borrowing-status-user {
+    width: 10%;
+}
+
 .return-btn {
-    width: 14%;
+    width: 20%;
     display: flex;
     justify-content: center;
 }
@@ -156,6 +176,19 @@ input[type="checkbox"] {
 .return-btn button {
     color: white;
     background-color: var(--blue-color);
+    padding: 2px 25px 2px 25px;
+    border-radius: 0.4rem;
+}
+
+.cancel-btn {
+    width: 14%;
+    display: flex;
+    justify-content: center;
+}
+
+.cancel-btn button {
+    color: white;
+    background-color: red;
     padding: 2px 25px 2px 25px;
     border-radius: 0.4rem;
 }
