@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Cors;
 
 namespace golablint.Controllers {
     public class EquipmentController : Controller {
@@ -22,6 +23,7 @@ namespace golablint.Controllers {
             ViewBag.search = search;
             return View();
         }
+        [EnableCors("AllowAny")]
         [Route("~/api/equipment")]
         public JsonResult getEquipment(int? limit) {
 
@@ -33,6 +35,7 @@ namespace golablint.Controllers {
             }
         }
 
+        [EnableCors("AllowAny")]
         [Route("~/api/equipment/{id}")]
         public JsonResult getEquipment(string id) {
             Guid _id;
