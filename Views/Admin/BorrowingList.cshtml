@@ -24,7 +24,7 @@
                 <h3>สำเร็จแล้ว</h3>
             </button>
         </div>
-        <a href="https://localhost:5001/admin/borrowing-list" class="blacklist-btn">
+        <a asp-controller="admin" asp-action="blacklist" class="blacklist-btn">
             <h4>รายชื่อบัญชีดำ</h4>
         </a>
     </div>
@@ -37,7 +37,7 @@
                 <h3>สำเร็จแล้ว</h3>
             </button>
         </div>
-        <a href="https://localhost:5001/admin/borrowing-list" class="blacklist-btn">
+        <a asp-controller="admin" asp-action="blacklist" class="blacklist-btn">
             <h4>รายชื่อบัญชีดำ</h4>
         </a>
     </div>
@@ -65,54 +65,125 @@
         <div class="borrowing-status"><strong>สถานะ</strong></div>
         <div class="cancle-btn"></div>
     </div>
+    <output id="borrowing-list">
 
-    @foreach (var a in @ViewBag.borrowingList)
-    {
+    </output>
+    @* @foreach (var a in null)
+        {
         <div class="borrowing-column">
-            <div class="remove-btn" onclick="openPopupRemove()"><img src="~/image/remove-icon.jpg" alt="remove"
-                class="remove-icon"></div>
-            <div class="borrowing-equipment">@a.equipment.name</div>
-            <div class="borrowing-user">@a.user.name @a.user.surname @a.user.email</div>
-            <div class="borrowing-start">@a.borrowing.startDate</div>
-            <div class="borrowing-end">@a.borrowing.endDate</div>
-            <div class="borrowing-status-dot" id="@a.borrowing.status">@(@a.borrowing.status == "Ongoing" ? "⦿" : "⦿")</div>
-            <div class="borrowing-status" id="@a.borrowing.status text">@(@a.borrowing.endDate < DateTime.Now ? a.borrowing.status = "Late" : (a.borrowing.status == "Ongoing"  ? "ปกติ" : "คืนช้า"))</div>
-            <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
+        <div class="remove-btn" onclick="openPopupRemove()"><img src="~/image/remove-icon.jpg" alt="remove"
+        class="remove-icon"></div>
+        <div class="borrowing-equipment">@a.equipment.name</div>
+        <div class="borrowing-user">@a.user.name @a.user.surname @a.user.email</div>
+        <div class="borrowing-start">@a.borrowing.startDate</div>
+        <div class="borrowing-end">@a.borrowing.endDate</div>
+        <div class="borrowing-status-dot" id="@a.borrowing.status">@(@a.borrowing.status == "Ongoing" ? "⦿" : "⦿")</div>
+        <div class="borrowing-status" id="@a.borrowing.status text">@(@a.borrowing.endDate < DateTime.Now ?
+        a.borrowing.status = "Late" : (a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"))</div>
+        <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
 
-            <div class="form-popup" id="returnEquipment">
-                <form action="" class="popup-container">
-                    <h3>ยืนยันการคืนอุปกรณ์</h3>
-                    <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
-                    <div class="popup-btn">
+        <div class="form-popup" id="returnEquipment">
+        <form action="" class="popup-container">
+        <h3>ยืนยันการคืนอุปกรณ์</h3>
+        <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
+        <div class="popup-btn">
+        <button type="submit" class="btn confirm">
+        <h3>ยืนยันการคืน</h3>
+        </button>
+        <button type="button" class="btn cancel" onclick="exitPopupReturn()">
+        <h3>ออก</h3>
+        </button>
+        </div>
+        </form>
+        </div>
+
+        <div class="form-popup" id="removeEquipment">
+        <form action="" class="popup-container">
+        <h3>ยกเลิกการจอง</h3>
+        <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
+        <div class="popup-btn">
+        <button type="submit" class="btn remove">
+        <h3>ยกเลิกการจอง</h3>
+        </button>
+        <button type="button" class="btn cancel" onclick="exitPopupRemove()">
+        <h3>ออก</h3>
+        </button>
+        </div>
+        </form>
+        </div>
+        </div>
+        } *@
+
+    <script>
+        var select = document.getElementById("sort-by");
+        var output = document.getElementById("borrowing-list");
+        select.onchange = () => {
+            var orderBy = select.value == "เรียงตามชื่ออุปกรณ์" ? "equipmentId" : select.value == "เรียงตามวันเวลาเริ่มจอง" ? "startDate" : select.value == "" ? "endDate" : "userName"
+            getBorrowingList(orderBy);
+        }
+        window.onload = () => {
+            getBorrowingList();
+        }
+        function getBorrowingList(orderBy = "equipmentName") {
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                console.log(this.state);
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+                    console.log(response);
+                    let responseElement = "";
+                    for (var a of response) {
+                        responseElement += `<div class="borrowing-column">
+                        <div class="remove-btn" onclick="openPopupRemove()"><img src="/image/remove-icon.jpg" alt="remove"
+                        class="remove-icon"></div>
+                        <div class="borrowing-equipment">${a.equipment.name}</div>
+                        <div class="borrowing-user">$${a.user.email.split("@@")[0]} {a.user.name} ${a.user.surname}</div>
+                        <div class="borrowing-start">${a.borrowing.startDate}</div>
+                        <div class="borrowing-end">${a.borrowing.endDate}</div>
+                        <div class="borrowing-status-dot" id="${a.borrowing.status}">${a.borrowing.status == "Ongoing" ? "⦿" : "⦿"}</div>
+                        <div class="borrowing-status" id="${a.borrowing.status} text">${a.borrowing.endDate < Date.now() ?
+                                                a.borrowing.status == "Late" : a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"}
+                                    </div >
+                        <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
+
+                        <div class="form-popup" id="returnEquipment">
+                        <form asp-route="set-finish" asp-route-id=${a.borrowing.id} class="popup-container" method="post">
+                        <h3>ยืนยันการคืนอุปกรณ์</h3>
+                        <div class="summary-borrowing">${a.equipment.name} ${a.user.name} ${a.user.surname}</div>
+                        <div class="popup-btn">
                         <button type="submit" class="btn confirm">
-                            <h3>ยืนยันการคืน</h3>
+                        <h3>ยืนยันการคืน</h3>
                         </button>
                         <button type="button" class="btn cancel" onclick="exitPopupReturn()">
-                            <h3>ออก</h3>
+                        <h3>ออก</h3>
                         </button>
-                    </div>
-                </form>
-            </div>
+                        </div>
+                        </form>
+                        </div>
 
-            <div class="form-popup" id="removeEquipment">
-                <form action="" class="popup-container">
-                    <h3>ยกเลิกการจอง</h3>
-                    <div class="summary-borrowing">@a.equipment.name @a.user.name @a.user.surname</div>
-                    <div class="popup-btn">
+                        <div class="form-popup" id="removeEquipment">
+                        <form action="" class="popup-container">
+                        <h3>ยกเลิกการจอง</h3>
+                        <div class="summary-borrowing">${a.equipment.name} ${a.user.name} ${a.user.surname}</div>
+                        <div class="popup-btn">
                         <button type="submit" class="btn remove">
-                            <h3>ยกเลิกจากจอง</h3>
+                        <h3>ยกเลิกการจอง</h3>
                         </button>
                         <button type="button" class="btn cancel" onclick="exitPopupRemove()">
-                            <h3>ออก</h3>
+                        <h3>ออก</h3>
                         </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    }
-
-    @* @await Component.InvokeAsync("EquipmentCard",new {role="User"}) *@
-    <script>
+                        </div>
+                        </form>
+                        </div>
+                        </div >`;
+                        console.log(responseElement);
+                    }
+                    output.innerHTML = responseElement;
+                }
+            }
+            xhttp.open("GET", "/api/get-borrowing-list?orderBy=" + orderBy, true);
+            xhttp.send();
+        }
         function triggerState(state) {
             if (state == 1) {
                 document.getElementById("trigger1").style.display = "flex";

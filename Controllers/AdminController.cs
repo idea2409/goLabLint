@@ -47,18 +47,18 @@ namespace golablint.Controllers {
         [HttpPost]
         [Route("~/admin/equipment/add", Name = "create-equipment")]
         public IActionResult Add(string name, string amount, List<IFormFile> files, string description) {
-            
+
             EquipmentController equipmentController = new EquipmentController(_db);
             int _amount;
             bool isError = false;
-            if(string.IsNullOrEmpty(description) || description=="none") {
+            if (string.IsNullOrEmpty(description) || description == "none") {
                 isError = true;
                 ModelState.AddModelError("description", "กรุณาระบุห้องปฏิบัตการ");
             }
             Console.WriteLine("amount");
             Console.WriteLine(amount);
-            if (Int32.TryParse(amount,out _amount) || string.IsNullOrEmpty(amount)) {
-            Console.WriteLine("error");
+            if (Int32.TryParse(amount, out _amount) || string.IsNullOrEmpty(amount)) {
+                Console.WriteLine("error");
                 Console.WriteLine(amount);
                 isError = true;
                 ModelState.AddModelError("amount", "กรุณาระบุจำนวนที่ถูกต้อง");
@@ -80,7 +80,7 @@ namespace golablint.Controllers {
             equipment.image = image;
             equipment.name = name;
             ViewBag.equipment = equipment;
-            if(isError) {
+            if (isError) {
                 Console.WriteLine("error");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
@@ -108,13 +108,11 @@ namespace golablint.Controllers {
 
         [Route("~/admin/borrowing-list")]
         public IActionResult BorrowingList() {
-            var data = JsonConvert.SerializeObject(getBorrowingList());
-            ViewBag.borrowingList = data.Count() == 0 ? JObject.Parse(JsonConvert.SerializeObject("{}")).GetValue("Value") : JObject.Parse(data).GetValue("Value");
             return View();
         }
 
         [Route("~/api/get-borrowing-list")]
-        public JsonResult getBorrowingList(string orderBy = "equipmentName") {
+        public JsonResult getBorrowingList(string orderBy) {
             var borrowingList = from borrowing in _db.Set<Borrowing>()
             join equipment in _db.Set<Equipment>()
             on borrowing.equipment.id equals equipment.id

@@ -5,18 +5,19 @@ using System.Text;
 using System.Threading.Tasks;
 using golablint.Data;
 using Microsoft.AspNetCore.Authentication.Certificate;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
 namespace golablint {
     public class Startup {
+        readonly string MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
         public Startup(IConfiguration configuration) {
             Configuration = configuration;
         }
@@ -25,6 +26,12 @@ namespace golablint {
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services) {
+            services.AddCors(options => {
+                options.AddPolicy(name: MyAllowSpecificOrigins,
+                    builder => {
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                    });
+            });
             services.AddAuthentication(
                     CertificateAuthenticationDefaults.AuthenticationScheme)
                 .AddCertificate();
@@ -35,8 +42,8 @@ namespace golablint {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(options => {
                 options.ExpireTimeSpan = TimeSpan.FromHours(2);
                 options.Cookie.HttpOnly = true;
-                options.Cookie.Name="LoginCookie";
-                options.AccessDeniedPath=new PathString("/access-denied");
+                options.Cookie.Name = "LoginCookie";
+                options.AccessDeniedPath = new PathString("/access-denied");
                 options.LoginPath = new PathString("/login");
             });
             services.AddControllersWithViews();
@@ -57,6 +64,7 @@ namespace golablint {
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseCors();
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();

@@ -12,7 +12,7 @@
         <div class="error">@(ViewBag.errors.image[0])</div>
     }
     <h1>เพิ่มอุปกรณ์ใหม่</h1><br>
-    <form method="post" asp-route="create-equipment">
+    <form method="post" asp-route="create-equipment" auto-complete="off">
         <section>
             <figure id="photo" class="@(ViewBag != null && ViewBag.errors != null && ViewBag.errors.image != null ? "error" : "")">
                 <input type="file" accept=".jpg, .jpeg, .png, .gif" name="files" id="upload_button"
@@ -31,7 +31,7 @@
                 <label for="name">ชื่ออุปกรณ์</label><br>
                 <input type="text" id="name" name="name"
                     class="@("inputbox" + (ViewBag != null && ViewBag.errors != null && ViewBag.errors.name != null ? " error" : ""))"
-                    placeholder="ระบุชื่ออุปกรณ์">
+                    placeholder="ระบุชื่ออุปกรณ์" value = "@(ViewBag != null && ViewBag.equipment != null && ViewBag.equipment.name != null ? ViewBag.equipment.name : "")">
                 @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.name != null)
                 {
                     <div class="error">@(ViewBag.errors.name[0])</div>
@@ -39,7 +39,7 @@
                 <br><br>
                 <div class="add-block">
                 <label for="quantity">จำนวน (ชิ้น)</label><br>
-                <input type="number" id="quantity" min="1" name="amount"
+                <input type="number" id="quantity" min="1" name="amount" value="@(ViewBag != null && ViewBag.equipment != null && ViewBag.equipment.amount != null ? ViewBag.equipment.amount : "")"
                     class="@("inputbox" + (ViewBag != null && ViewBag.errors != null && ViewBag.errors.amount != null ? " error" : ""))"
                     placeholder="ระบุจำนวนของอุปกรณ์นี้">
                 @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.amount != null)
@@ -50,8 +50,8 @@
                 <label for="lab">ห้องปฏิบัติการ</label><br>
 
                 <div id="select">
-                    <select name="description" id="lab"
-                        class="@("inputbox" + (ViewBag != null && ViewBag.errors != null && ViewBag.errors.description != null ? " error" : ""))"
+                    <select name="description" id="lab" 
+                        class="@("inputbox" + (ViewBag != null && ViewBag.errors != null && ViewBag.errors.description != null ? " error" : "") + (ViewBag != null && ViewBag.equipment != null ? " " + ViewBag.equipment.description : ""))"
                         required onmouseup="a()">
                         <option selected disabled hidden value="none">------โปรดระบุ------</option>
                         <option value="ห้องปฏิบัติการ 1">ห้องปฏิบัติการ 1</option>
@@ -81,6 +81,14 @@
     function a() {
         if (select.value == "none") select.style.color = "#C5C5C5";
         else select.style.color = "#444444";
+    }
+    window.onload = () => {
+        console.log(select);
+        console.log("ssasa")
+        string x = select.classList;
+        @* console.log(x); *@
+        @* if(x != "errors" && x!="" && x!="inputbox") *@
+        @* select.value=x;  *@
     }
     var loadFile = function (event) {
         var image = document.getElementById('output');

@@ -42,14 +42,12 @@ namespace golablint.Controllers {
             if (!Guid.TryParse(id, out _id)) {
                 ModelState.AddModelError("equipmentId", "หมายเลขอุปกรณ์ไม่ถูกต้อง");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
-                var errorJSON = JsonConvert.SerializeObject(errorList);
                 return Json(errorList);
             }
             var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1");
             if (equipment.Count() == 0) {
                 ModelState.AddModelError("equipmentId", "อุปกรณ์ดังกล่าวไม่มีข้อมูลอยู่ในระบบ");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
-                var errorJSON = JsonConvert.SerializeObject(errorList);
                 return Json(errorList);
             };
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
@@ -60,7 +58,6 @@ namespace golablint.Controllers {
                 if (!DateTime.TryParseExact(date, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out start)) {
                     ModelState.AddModelError("date", "วันที่ไม่ตรงตามรูปแบบ yyyy-MM-dd");
                     var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
-                    var errorJSON = JsonConvert.SerializeObject(errorList);
                     return Json(errorList);
                 }
             }

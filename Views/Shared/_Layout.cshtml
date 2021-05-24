@@ -65,9 +65,7 @@
                             <div id="myDropdown" class="user-dropcontent hide">
                                 @if (role != "Admin")
                                 {
-                                    <a asp-route="borrowing-list"
-                                    asp-route-id = "@(Context.User.Claims.Where(claim => claim.Type ==ClaimTypes.NameIdentifier).FirstOrDefault().Value)"
-                            class="history">ประวัติการจอง</a>
+                                    <a asp-route="borrowing-list" class="history">ประวัติการจอง</a>
                                     <hr>
                                 }
                                 <a asp-controller="login" asp-action="logout" class="logout">ออกจากระบบ</a>
