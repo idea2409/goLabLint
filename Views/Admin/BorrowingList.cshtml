@@ -64,7 +64,7 @@
         <div class="borrowing-start"><strong>วันเวลาเริ่มจอง</strong></div>
         <div class="borrowing-end"><strong>วันเวลาคืนอุปกรณ์</strong></div>
         <div class="borrowing-status"><strong>สถานะ</strong></div>
-        <div class="cancle-btn"></div>
+        <div class="return-btn"></div>
     </div>
     <output id="borrowing-list">
     </output>
@@ -73,13 +73,53 @@
         var output = document.getElementById("borrowing-list");
         var order = "equipmentName";
         var page = "All";
+
+        var onGoingList = [];
+        var completedList =[];
+        var onGoingListSortByEquipmentId = [];
+        var completedListSortByEquipmentId =[];
+        var onGoingListSortByBookingDate = [];
+        var completedListSortByBookingDate =[];
+        var onGoingListSortByEndDate = [];
+        var completedListSortByEndDate =[];
+        var onGoingListSortByUserName = [];
+        var completedListSortByUserName =[];
+
+        var onGoingElements="";
+        var completedElements="";
+
+        output.innerHTML="<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div>";
+
+        
         select.onchange = () => {
-            order = select.value == "เรียงตามชื่ออุปกรณ์" ? "equipmentId" : select.value == "เรียงตามวันเวลาเริ่มจอง" ? "startDate" : select.value == "เรียงตามวันเวลาคืนอุปกรณ์" ? "endDate" : "userName"
+            order = select.value == "เรียงตามชื่ออุปกรณ์" ? "equipmentId" : select.value == "เรียงตามวันเวลาเริ่มจอง" ? "startDate" : select.value == "เรียงตามวันเวลาคืนอุปกรณ์" ? "endDate" : "userName";
+            console.log(order);
+            if(order == "equipmentId"){
+                console.log("SDsdsadsadas")
+                console.log(onGoingListSortByEquipmentId);
+                if(page=="All")output.innerHTML = createElement(onGoingListSortByEquipmentId);
+                else output.innerHTML = createElement(completedListSortByEquipmentId);
+                console.log(output.innerHTML);
+            }
+            else if(order == "startDate"){
+                if(page=="All")output.innerHTML = createElement(onGoingListSortByBookingDate);
+                else output.innerHTML = createElement(completedListSortByBookingDate);
+            }
+            else if(order == "endDate"){
+                if(page=="All")output.innerHTML = createElement(onGoingListSortByEndDate);
+                else output.innerHTML = createElement(completedListSortByEndDate);
+            }
+            else if(order == "userName"){
+                if(page=="All")output.innerHTML = createElement(onGoingListSortByUserName);
+                else output.innerHTML = createElement(completedListSortByUserName);
+            }
         }
         window.onload = () => {
             getBorrowingList();
         }
+
         function getBorrowingList() {
+            output.innerHTML="<div class='borrowing-column'><div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div></div>";
             let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
@@ -88,62 +128,78 @@
                     if (this.responseText == null) {
                         responseElement += `
                         <div class="equip-not-found">
-                        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
+                        <img src="/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
                         <h1 class="title">อุปส์</h1>
                         <h4>ไม่มีการจองอุปกรณ์ขณะนี้...กดจองตอนนี้เลย!</h4>
                         </div>`;
+                        output.innerHTML=responseElement;
                     }
                     else {
                         for (var a of response) {
-                            responseElement += `<div class="borrowing-column">
-                        <div class="remove-btn" onclick="openPopupRemove()"><img src="/image/remove-icon.jpg" alt="remove"
-                        class="remove-icon"></div>
-                        <div class="borrowing-equipment">${a.equipment.name}</div>
-                        <div class="borrowing-user">${a.user.name} ${a.user.surname} ${a.user.email.split("@@")[0]}</div>
-                        <div class="borrowing-start">${a.borrowing.startDate.split("T")[0]} ${a.borrowing.startDate.split("T")[1]}</div>
-                        <div class="borrowing-end">${a.borrowing.endDate.split("T")[0]} ${a.borrowing.endDate.split("T")[1]}</div>
-                        <div class="borrowing-status-dot" id="${a.borrowing.status}">⦿</div>
-                        <div class="borrowing-status" id="${a.borrowing.status} text">${a.borrowing.status == "Late" ? "คืนช้า" : a.borrowing.status == "Completed" ? "สำเร็จ" : Date.parse(a.borrowing.endDate) < Date.now() && a.borrowing.status == "Ongoing" ? "ล่าช้า" : "ปกติ"}
-                                    </div >
-                        <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
-                <div class="form-popup" id="returnEquipment">
-                    <form  method = "POST"  action="/api/set-complete?id=${a.borrowing.id}&action=confirm"  class="popup-container">
-                        <h3>ยืนยันการคืนอุปกรณ์</h3>
-                        <div class="summary-borrowing">${a.equipment.name} ${a.user.name} ${a.user.surname}</div>
-                        <div class="popup-btn">
-                        <button type="submit" class="btn confirm">
-                        <h3>ยืนยันการคืน</h3>
-                        </button>
-                        <button type="button" class="btn cancel" onclick="exitPopupReturn()">
-                        <h3>ออก</h3>
-                        </button>
-                        </div>
-                        </form>
-                        </div>
-
-                        <div class="form-popup" id="removeEquipment">
-                        <form method = "POST" action="/api/delete-borrowing?id=${a.borrowing.id}&action=delete" class="popup-container">
-                        <h3>ยกเลิกการจอง</h3>
-                        <div class="summary-borrowing">${a.equipment.name} ${a.user.name} ${a.user.surname}</div>
-                        <div class="popup-btn">
-                        <button type="submit" class="btn remove">
-                        <h3>ยกเลิกการจอง</h3>
-                        </button>
-                        <button type="button" class="btn cancel" onclick="exitPopupRemove()">
-                        <h3>ออก</h3>
-                        </button>
-                        </div>
-                        </form>
-                        </div>
-                        </div >`;
+                            console.log(a,a.borrowing.status=="Ongoing");
+                            if(a.borrowing.status=="Ongoing")
+                                onGoingList.push(a);
+                            else
+                                completedList.push(a);
                         }
+                            
                     }
-                    output.innerHTML = responseElement;
+                    onGoingElements = createElement(onGoingList);
+                    completedElements = createElement(completedList);
+                    
+                    sort();
+                    
+                    if(page=="All") 
+                        output.innerHTML = onGoingElements;
+                    else                         
+                        output.innerHTML = completedElements;
                 }
             }
             xhttp.open("GET", "/api/get-borrowing-list", true);
             xhttp.send();
         }
+
+        function sort(){
+            var list1=[...onGoingList];
+            var list2=[...completedList];
+            onGoingListSortByEquipmentId = [...sortByEquipmentId(list1)];
+            completedListSortByEquipmentId =[...sortByEquipmentId(list2)];
+            onGoingListSortByBookingDate = [...sortByBookingDate(list1)];
+            completedListSortByBookingDate =[...sortByBookingDate(list2)];
+            onGoingListSortByEndDate = [...sortByEndDate(list1)];
+            completedListSortByEndDate =[...sortByEndDate(list2)];
+            onGoingListSortByUserName =[...sortByUserName(list1)];
+            completedListSortByUserName =[...sortByUserName(list2)];
+        }
+
+        function sortByEquipmentId(list){
+            return (list.sort((a, b) => a.equipment.name.localeCompare(b.equipment.name)));
+        }
+
+        function sortByBookingDate(list){
+            return list.sort(function(a,b){
+                var dateA=Date.parse(a.borrowing.startDate);
+                var dateB=Date.parse(b.borrowing.startDate);
+                if(dateB <  dateA) { return 1; }
+                if(dateB >  dateA) { return -1; }
+                return 0;
+                });
+        }
+
+        function sortByEndDate(list){
+            return list.sort(function(a,b){
+                var dateA=Date.parse(a.borrowing.endDate);
+                var dateB=Date.parse(b.borrowing.endDate);
+                if(dateB <  dateA) { return 1; }
+                if(dateB >  dateA) { return -1; }
+                return 0;
+                });
+        }
+
+        function sortByUserName(list){
+            return list.sort((a, b) => a.user.name.localeCompare(b.user.name));
+        }
+
         function triggerState(state) {
             if (state == 1) {
                 document.getElementById("trigger1").style.display = "flex";
@@ -151,6 +207,7 @@
                 document.getElementById("trigger3").style.display = "flex";
                 document.getElementById("trigger4").style.display = "none";
                 page ="All";
+                output.innerHTML = onGoingElements;
             }
             else {
                 document.getElementById("trigger1").style.display = "none";
@@ -158,22 +215,79 @@
                 document.getElementById("trigger4").style.display = "flex";
                 document.getElementById("trigger3").style.display = "none";
                 page ="Completed";
+                output.innerHTML = completedElements;
             }
         }
-        function openPopupReturn() {
-            document.getElementById("returnEquipment").style.display = "flex";
+        function openPopupReturn(id) {
+            console.log(id);
+            document.getElementById(`returnEquipment${id}`).style.display = "flex";
         }
 
-        function exitPopupReturn() {
-            document.getElementById("returnEquipment").style.display = "none";
+        function exitPopupReturn(id) {
+            console.log(id);
+            document.getElementById(`returnEquipment${id}`).style.display = "none";
         }
 
-        function openPopupRemove() {
-            document.getElementById("removeEquipment").style.display = "flex";
+        function openPopupRemove(id) {
+            console.log(id);
+            document.getElementById(`removeEquipment${id}`).style.display = "flex";
         }
 
-        function exitPopupRemove() {
-            document.getElementById("removeEquipment").style.display = "none";
+        function exitPopupRemove(id) {
+            console.log(id);
+            document.getElementById(`removeEquipment${id}`).style.display = "none";
         }
+
+        function createElement(list){
+            var element="";
+            for(var a of list){
+                var x = list.indexOf(a);
+                console.log(x,a);
+                element += `<div class="borrowing-column">
+                <div class="remove-btn" onclick="openPopupRemove(${x})"><img src="/image/remove-icon.jpg" alt="remove"
+                class="remove-icon"></div>
+                <div class="borrowing-equipment">${a.equipment.name}</div>
+                <div class="borrowing-user">${a.user.name} ${a.user.surname} ${a.user.email.split("@@")[0]}</div>
+                <div class="borrowing-start">${a.borrowing.startDate.split("T")[0]} ${a.borrowing.startDate.split("T")[1]}</div>
+                <div class="borrowing-end">${a.borrowing.endDate.split("T")[0]} ${a.borrowing.endDate.split("T")[1]}</div>
+                
+                <div class="borrowing-status" id="${a.borrowing.status} text">
+                            <div class="borrowing-status-dot" id="${a.borrowing.status}">⦿</div>
+                            ${a.borrowing.status == "Late" ? "คืนช้า" : a.borrowing.status == "Completed" ? "สำเร็จ" : Date.parse(a.borrowing.endDate) < Date.now() && a.borrowing.status == "Ongoing" ? "ล่าช้า" : "ปกติ"}
+                            </div >
+                <div class="return-btn"><button onclick="openPopupReturn(${x})">คืนอุปกรณ์</button></div>
+                <div class="form-popup" id="returnEquipment${x}">
+                <form  method = "POST"  action="/api/set-complete?id=${a.borrowing.id}&action=confirm"  class="popup-container">
+                <h3>ยืนยันการคืนอุปกรณ์</h3>
+                <div class="summary-borrowing">${a.equipment.name} ${a.user.name} ${a.user.surname}</div>
+                <div class="popup-btn">
+                <button type="submit" class="btn confirm">
+                <h3>ยืนยันการคืน</h3>
+                </button>
+                <button type="button" class="btn cancel" onclick="exitPopupReturn(${x})">
+                <h3>ออก</h3>
+                </button>
+                </div>
+                </form>
+                </div>
+
+                <div class="form-popup" id="removeEquipment${x}">
+                <form method = "POST" action="/api/delete-borrowing?id=${a.borrowing.id}&action=delete" class="popup-container">
+                <h3>ยกเลิกการจอง</h3>
+                <div class="summary-borrowing">${a.equipment.name} ${a.user.name} ${a.user.surname}</div>
+                <div class="popup-btn">
+                <button type="submit" class="btn remove">
+                <h3>ยกเลิกการจอง</h3>
+                </button>
+                <button type="button" class="btn cancel" onclick="exitPopupRemove(${x})">
+                <h3>ออก</h3>
+                </button>
+                </div>
+                </form>
+                </div>
+                </div >`;
+            }
+        return element;
+    }
     </script>
 </div>
