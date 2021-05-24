@@ -67,7 +67,7 @@
             <div class="borrowing-end-user">@item.borrowing.endDate</div>
             <div class="borrowing-status-dot" id="@item.borrowing.status">@(@item.borrowing.status == "Ongoing" ? "⦿" : "⦿")</div>
             <div class="borrowing-status-user" id="@item.borrowing.status text">@(@item.borrowing.endDate < DateTime.Now ? item.borrowing.status = "Late" : (item.borrowing.status == "Ongoing"  ? "ปกติ" : "คืนช้า"))</div>
-            <div class="cancel-btn"><button onclick="openPopupCancel()">คืนอุปกรณ์</button></div>
+            <div class="cancel-btn"><button onclick="openPopupCancel()">ยกเลิกการจอง</button></div>
         </div>
         <div class="form-popup" id="cancelEquipment">
                 <form action="" class="popup-container">
