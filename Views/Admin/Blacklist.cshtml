@@ -48,7 +48,6 @@
 
     </output>
 </div>
-@* javascript not final yet, for testing only *@
 <script>
     var output = document.getElementById("blacklist");
     var status = "Blacklist"
@@ -72,15 +71,29 @@
                         <h4>ไม่มีนักศึกษาใน Blacklist</h4>
                         </div>`;
                 }
-                else {
+                //blacklist
+                else if (status == "Blacklist") {
                     for (var a of response) {
                         responseElement += `
-
                         <table id="name-list">
                             <tr>
                                 <td id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></td>
                                 <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
-                                <td id="add-black"><div class="add-black-btn"><button onclick="">ขึ้นจากบัญชีดำ</button></div></td>
+                                <td id="remove-black"><div class="remove-black-btn"><button onclick="">นำออกจากบัญชีดำ</button></div></td>
+                            </tr>
+                        </table>
+    `;
+                    }
+                }
+                //normal
+                else {
+                    for (var a of response) {
+                        responseElement += `
+                        <table id="name-list">
+                            <tr>
+                                <td id="avatar-box"><i class="material-icons" id="avatar">account_circle</i></td>
+                                <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
+                                <td id="add-black"><div class="add-black-btn"><button onclick="">ขึ้นบัญชีดำ</button></div></td>
                             </tr>
                         </table>
     `;
