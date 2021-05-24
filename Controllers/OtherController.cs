@@ -16,9 +16,56 @@ using Newtonsoft.Json;
 namespace golablint.Controllers {
     public class OtherController : Controller {
         
-        public IActionResult Index()
+        // Uri baseAddress = new Uri("https://reallabbook.azurewebsites.net/api/ToolsAPI?limit=3");
+       
+        // HttpClient client;
+       
+        // public OtherController()
+        // {
+        //     client = new HttpClient();
+        //     client.BaseAddress = baseAddress;
+        // }
+        
+        public ActionResult Index()
         {
-            return View();
+        //     List<Other> modelList = new List<Other>();
+        //     HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/user").Result;
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         string data = response.Content.ReadAsStringAsync().Result;
+        //         modelList = JsonConvert.DeserializeObject<List<Other>>(data);
+        //     }
+        //     else //web api sent error response 
+        //     {
+        //         ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+        //     }
+            // return View();
+            IEnumerable<Other> other = null;
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://reallabbook.azurewebsites.net/api/");
+                //HTTP GET
+                var responseTask = client.GetAsync("ToolsAPI?limit=3");
+                responseTask.Wait();
+
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<IList<Other>>();
+                    readTask.Wait();
+
+                    other = readTask.Result;
+                }
+                else //web api sent error response 
+                {
+
+                    other = Enumerable.Empty<Other>();
+
+                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+                }
+            }
+            return View(other);
         }
 
     }

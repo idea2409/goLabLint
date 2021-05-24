@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using golablint.Controllers;
 using golablint.Data;
@@ -12,39 +13,76 @@ using Newtonsoft.Json.Linq;
 
 namespace goLabLint.wwwroot.ViewComponents {
     public class OtherCard : ViewComponent {
-        private readonly ApplicationDbContext _db;
+       public async Task<IViewComponentResult> InvokeAsync(int? limit, string role, string find = "") {
+        //     List<Other> modelList = new List<Other>();
+        //     HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/user").Result;
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         string data = response.Content.ReadAsStringAsync().Result;
+        //         modelList = JsonConvert.DeserializeObject<List<Other>>(data);
+        //     }
+        //     else //web api sent error response 
+        //     {
+        //         ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+        //     }
+            // return View();
+            IEnumerable<Other> other = null;
 
-        public OtherCard(ApplicationDbContext db) {
-            _db = db;
-        }
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri("https://reallabbook.azurewebsites.net/api/");
+                //HTTP GET
+                var responseTask = client.GetAsync("ToolsAPI?limit=3");
+                responseTask.Wait();
 
-        public async Task<IViewComponentResult> InvokeAsync(int? limit, string role, string find = "") {
-            BookingController bookingController = new BookingController(_db);
-            var now = DateTime.Today;
-            now = now.AddHours(DateTime.Now.Hour + 1);
-            if (limit.HasValue) {
-                var equipmentList = await _db.Equipment.OrderBy(e => e.id).Take(limit.Value).ToListAsync();
-                if (equipmentList.Count() == 0) {
-                    return null;
-                };
-                ViewBag.equipmentList = await bookingController.getAvailableWithDate(equipmentList, now);
+                var result = responseTask.Result;
+                if (result.IsSuccessStatusCode)
+                {
+                    var readTask = result.Content.ReadAsAsync<IList<Other>>();
+                    readTask.Wait();
 
-            } else if (find != "") {
-                var equipmentList = await (from e in _db.Equipment
-                                        where e.name == find
-                                        select e).ToListAsync();
-                ViewBag.equipmentList = await bookingController.getAvailableWithDate(equipmentList, now);
-                ViewBag.equipmentCount = equipmentList.Count();
-            } else {
-                var equipmentList = await _db.Equipment.ToListAsync();
-                if (equipmentList.Count() == 0) {
-                    return null;
-                };
-                ViewBag.equipmentList = await bookingController.getAvailableWithDate(equipmentList, now);
+                    other = readTask.Result;
+                    ViewBag.equipmentList = JObject.Parse(JsonConvert.SerializeObject(other)).GetValue("Value");
+                }
+                else //web api sent error response 
+                {
+                    //log response status here..
+
+                    other = Enumerable.Empty<Other>();
+
+                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+                }
             }
-            ViewBag.role = role;
             return await Task.FromResult((IViewComponentResult) View("OtherCard"));
         }
+
+        // Uri baseAddress = new Uri("https://reallabbook.azurewebsites.net/api/ToolsAPI?limit=3");
+       
+        // HttpClient client;
+       
+        // // // private readonly ApplicationDbContext _db;
+
+        // public OtherCard()
+        // {
+        //     client = new HttpClient();
+        //     client.BaseAddress = baseAddress;
+        // }
+        // public async Task<IViewComponentResult> InvokeAsync(int? limit, string role, string find = "") {
+        //     List<Other> modelList = new List<Other>();
+        //     HttpResponseMessage response = client.GetAsync(client.BaseAddress + "/user").Result;
+        //     if (response.IsSuccessStatusCode)
+        //     {
+        //         var data = response.Content.ReadAsStringAsync().Result;
+        //         // modelList = JsonConvert.DeserializeObject<List<Other>>(data);
+        //         ViewBag.equipmentList = JObject.Parse(JsonConvert.SerializeObject(data)).GetValue("Value");
+        //     }
+        //     else //web api sent error response 
+        //     {
+        //         ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+        //     }
+        //     ViewBag.role = role;
+        //     return await Task.FromResult((IViewComponentResult) View("OtherCard"));
+        // }
 
     }
 }

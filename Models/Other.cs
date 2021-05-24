@@ -4,6 +4,8 @@ namespace golablint.Models
 {
     public class Other
     {
-        public int id { set; get; }
+        public int toolID { get; set; }
+        public string toolname { get; set; }
+        public int quantity { get; set; }
     }
 }
