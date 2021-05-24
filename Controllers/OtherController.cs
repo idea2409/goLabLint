@@ -46,7 +46,7 @@ namespace golablint.Controllers {
             {
                 client.BaseAddress = new Uri("https://reallabbook.azurewebsites.net/api/");
                 //HTTP GET
-                var responseTask = client.GetAsync("ToolsAPI?limit=3");
+                var responseTask = client.GetAsync("ToolsAPI");
                 responseTask.Wait();
 
                 var result = responseTask.Result;
