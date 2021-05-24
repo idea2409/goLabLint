@@ -1,7 +1,12 @@
+@{
+    ViewData["Title"] = "BorrowingList";
+}
 @section styles {
 <link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
 <link rel="stylesheet" href="~/css/borrowingList.css" type="text/css" />
 }
+
+
 <div class="body">
     <div class="equipment-header">
         <div class="eqipment-title">
@@ -55,68 +60,97 @@
         <div class="borrowing-status-user"><strong>สถานะ</strong></div>
         <div class="cancle-btn"></div>
     </div>
+    <output id="borrowing-list">
 
-    @foreach (var item in ViewBag.borrowingList)
-    {
-        <div class="borrowing-column">
-            <div class="remove-btn" >
-                    @* <img src="~/image/remove-icon.jpg" alt="remove" class="remove-icon"> *@
-            </div>
-            <div class="borrowing-equipment-user">@item.equipment.name</div>
-            <div class="borrowing-start-user">@item.borrowing.startDate</div>
-            <div class="borrowing-end-user">@item.borrowing.endDate</div>
-            <div class="borrowing-status-dot" id="@item.borrowing.status">@(@item.borrowing.status == "Ongoing" ? "⦿" : "⦿")</div>
-            <div class="borrowing-status-user" id="@item.borrowing.status text">@(@item.borrowing.endDate < DateTime.Now ? item.borrowing.status = "Late" : (item.borrowing.status == "Ongoing"  ? "ปกติ" : "คืนช้า"))</div>
-            <div class="cancel-btn"><button onclick="openPopupCancel()">ยกเลิกการจอง</button></div>
-        </div>
-        <div class="form-popup" id="cancelEquipment">
-                <form action="" class="popup-container">
-                    <h3>ยกเลิกการจอง</h3>
-                    <div class="summary-borrowing">@item.equipment.name</div>
-                    <div class="popup-btn">
-                        <button type="submit" class="btn remove">
-                            <h3>ยกเลิกการจอง</h3>
-                        </button>
-                        <button type="button" class="btn cancel" onclick="exitPopupCancel()">
-                            <h3>ออก</h3>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        @* <div>
-            @item.borrowing.startDate</div>
-        <div>
-            @item.borrowing.endDate</div>
-        <div>
-            @item.borrowing.status</div>
-        <div>
-            @item.equipment.name</div>
-        <div>
-            @item.equipment.description</div> *@
-    }
+    </output>
     <script>
+        var select = document.getElementById("sort-by");
+        var output = document.getElementById("borrowing-list");
+        var order = "";
+        var page = "All";
+        select.onchange = () => {
+            order = select.value == "เรียงตามชื่ออุปกรณ์" ? "equipmentId" : select.value == "เรียงตามวันเวลาเริ่มจอง" ? "startDate" : select.value == "" ? "endDate" : "userName"
+            getBorrowingList(order, page);
+        }
+        window.onload = () => {
+            getBorrowingList("All");
+        }
+        function getBorrowingList(orderBy = "equipmentName", page = "All") {
+            console.log(orderBy,page);
+            var xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+                    let responseElement = "";
+                    if (this.responseText == null) {
+                        responseElement += `
+                        <div class="equip-not-found">
+                        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
+                        <h1 class="title">อุปส์</h1>
+                        <h4>ไม่มีการจองอุปกรณ์ขณะนี้...กดจองตอนนี้เลย!</h4>
+                        </div>`;
+                    }
+                    else {
+                        for (var a of response) {
+                            responseElement += `<div class="borrowing-column">
+                        <div class="remove-btn" onclick="openPopupRemove()"><img src="/image/remove-icon.jpg" alt="remove"
+                        class="remove-icon"></div>
+                        <div class="borrowing-equipment-user">${a.equipment.name}</div>
+                        <div class="borrowing-start-user">${a.borrowing.startDate}</div>
+                        <div class="borrowing-end-user">${a.borrowing.endDate}</div>
+                        <div class="borrowing-status-dot" id="${a.borrowing.status}">${a.borrowing.status == "Ongoing" ? "⦿" : "⦿"}</div>
+                        <div class="borrowing-status-user" id="${a.borrowing.status} text">${a.borrowing.endDate < Date.now() ?
+                                    a.borrowing.status == "Late" : a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"}
+                                    </div >
+                        <div class="cancel-btn"><button onclick="openPopupRemove()">ยกเลิกการจอง</button></div>
+
+                        <div class="form-popup" id="removeEquipment">
+                        <form action="" class="popup-container">
+                        <h3>ยกเลิกการจอง</h3>
+                        <div class="summary-borrowing">${a.equipment.name}</div>
+                        <div class="popup-btn">
+                        <button type="submit" class="btn remove">
+                        <h3>ยกเลิกการจอง</h3>
+                        </button>
+                        <button type="button" class="btn cancel" onclick="exitPopupRemove()">
+                        <h3>ออก</h3>
+                        </button>
+                        </div>
+                        </form>
+                        </div>
+                        </div >`;
+                        }
+                    }
+                    output.innerHTML = responseElement;
+                }
+            }
+            xhttp.open("GET", "/api/get-borrowing-list?orderBy=" + orderBy + "&page=" + page, true);
+            xhttp.send();
+        }
         function triggerState(state) {
             if (state == 1) {
                 document.getElementById("trigger1").style.display = "flex";
                 document.getElementById("trigger2").style.display = "none";
                 document.getElementById("trigger3").style.display = "flex";
                 document.getElementById("trigger4").style.display = "none";
+                page = "All";
             }
             else {
                 document.getElementById("trigger1").style.display = "none";
                 document.getElementById("trigger2").style.display = "flex";
                 document.getElementById("trigger4").style.display = "flex";
                 document.getElementById("trigger3").style.display = "none";
+                page = "Completed";
             }
         }
-        function openPopupCancel() {
-            document.getElementById("cancelEquipment").style.display = "flex";
+
+        function openPopupRemove() {
+            document.getElementById("removeEquipment").style.display = "flex";
         }
 
-        function exitPopupCancel() {
-            document.getElementById("cancelEquipment").style.display = "none";
+        function exitPopupRemove() {
+            document.getElementById("removeEquipment").style.display = "none";
         }
-
-        
+        getBorrowingList(order, page);
     </script>
 </div>
