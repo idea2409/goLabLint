@@ -113,9 +113,14 @@ namespace golablint.Controllers {
         }
 
         [Route("~/api/get-borrowing-list")]
-        public JsonResult getBorrowingList() {
-            var borrowingList = (from borrowing in _db.Set<Borrowing>() join equipment in _db.Set<Equipment>() on borrowing.equipment.id equals equipment.id join user in _db.Set<User>() on borrowing.user.id equals user.id select new { borrowing, equipment, user });
-            return Json(borrowingList);
+        public JsonResult getBorrowingList(string name = "") {
+            if (string.IsNullOrEmpty(name)) {
+                var borrowingList = (from borrowing in _db.Set<Borrowing>() join equipment in _db.Set<Equipment>() on borrowing.equipment.id equals equipment.id join user in _db.Set<User>() on borrowing.user.id equals user.id select new { borrowing, equipment, user });
+                return Json(borrowingList);
+            } else {
+                var borrowingList = (from borrowing in _db.Set<Borrowing>() join equipment in _db.Set<Equipment>() on borrowing.equipment.id equals equipment.id join user in _db.Set<User>() on borrowing.user.id equals user.id where user.name == name select new { borrowing, equipment, user });
+                return Json(borrowingList);
+            }
         }
     }
 
