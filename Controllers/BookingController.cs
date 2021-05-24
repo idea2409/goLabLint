@@ -13,6 +13,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.AspNetCore.Cors;
 
 namespace golablint.Controllers {
     public class BookingController : Controller {
@@ -36,6 +37,7 @@ namespace golablint.Controllers {
             return View();
         }
 
+        [EnableCors("AllowAny")]
         [Route("~/api/get-available")]
         public JsonResult getAvailable(string id, string date = "") {
             Guid _id;

@@ -94,6 +94,11 @@ div.watermark {
     margin: 0 auto;
 }
 
+h2.available-title {
+    margin: 5% 0 1% 5%;
+    color: #444444;    
+}
+
 h2.step-title {
     color: #444444;
     margin-bottom: 5%;
@@ -195,4 +200,29 @@ div.circle>div {
     left: 100%;
     top:100%;
     transform: translate(-100%,-100%);
+}
+
+div.more {
+    display: flex;
+    justify-content: space-between;
+}
+div.more a {
+    color: #8D8D8D;
+    background-color: white;
+    border: 2px solid var(--blue-color);
+    border-radius: 0.5rem;
+    font-weight: bold;
+    margin-right: 5%;
+    margin-bottom: 1%;
+    width: max-content;
+    height: max-content;
+    align-self: flex-end;
+    padding: 0.5% 1.5%;
+}
+
+div.more a:hover{
+    filter: brightness(90%);
+}
+div.second-more h2{
+    margin-top: 3%;
 }

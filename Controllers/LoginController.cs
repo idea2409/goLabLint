@@ -22,8 +22,8 @@ namespace golablint.Controllers {
         public IActionResult Index() {
             if (HttpContext.User.Identity.IsAuthenticated)
                 return RedirectToRoute(new {
-                    controller = "Home",
-                        action = "Index",
+                    controller = "home",
+                        action = "index",
                 });
             return View();
         }
@@ -51,8 +51,19 @@ namespace golablint.Controllers {
             var principal = new ClaimsPrincipal(identity);
             var login = HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, principal);
             return RedirectToRoute(new {
-                controller = "Home",
-                    action = "Index",
+                controller = "home",
+                    action = "index",
+            });
+        }
+
+        [Route("~/logout")]
+        public IActionResult Logout() {
+            Response.Cookies.Delete("LoginCookie",new Microsoft.AspNetCore.Http.CookieOptions() {
+                Secure = true,
+            });
+            return RedirectToRoute(new {
+                controller = "home",
+                    action = "index",
             });
         }
     }

@@ -11,18 +11,19 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Cors;
 
 namespace golablint.Controllers {
     public class EquipmentController : Controller {
-
         ApplicationDbContext _db;
         public EquipmentController(ApplicationDbContext db) {
             _db = db;
         }
-        public IActionResult Index() {
+        public IActionResult Index(string search ="") {
+            ViewBag.search = search;
             return View();
         }
-
+        [EnableCors("AllowAny")]
         [Route("~/api/equipment")]
         public JsonResult getEquipment(int? limit) {
 
@@ -34,6 +35,7 @@ namespace golablint.Controllers {
             }
         }
 
+        [EnableCors("AllowAny")]
         [Route("~/api/equipment/{id}")]
         public JsonResult getEquipment(string id) {
             Guid _id;
@@ -51,7 +53,6 @@ namespace golablint.Controllers {
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
             return Json(equipmentData);
         }
-
         [Route("~/api/image-to-string")]
         public string ConvertImageToString(List<IFormFile> files) {
             if (files.Count != 1) return "กรุณาส่งมาแค่ไฟล์เดียว";

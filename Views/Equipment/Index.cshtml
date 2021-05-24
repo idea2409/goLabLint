@@ -4,15 +4,18 @@
 @section styles {
 <link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
 }
-<div>
-    <div class="equipment-header">        
+<div class = "body">
+    @{
+        string name = ViewBag.search != null && !string.IsNullOrEmpty(ViewBag.search) ? ViewBag.search : "";
+    }
+    <div class="equipment-header">
         <div class="eqipment-title">
             <h1>อุปกรณ์ที่สามารถจองได้</h1>
         </div>
         <form class="equipment-search">
-            <input type="text" placeholder="ค้นหาอุปกรณ์" >
-            <button type="submit"></button>
+            <input type="text" placeholder="ค้นหาอุปกรณ์" name="search">
+            <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
         </form>
     </div>
-    @await Component.InvokeAsync("EquipmentCard",new {role="User"})    
+    @await Component.InvokeAsync("EquipmentCard",new {role="User",find=name})
 </div>

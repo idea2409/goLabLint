@@ -1,0 +1,48 @@
+@{
+    ViewData["Title"] = "Equipment";
+}
+@section styles {
+<link rel="stylesheet" href="~/css/add.css" type="text/css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+}
+<script>
+    var loadFile = function (event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>
+<div id="container" class ="body">
+    <h1>เพิ่มอุปกรณ์ใหม่</h1><br>
+    <form action="" method="post">
+        <section>
+            <figure id="photo">
+                <input type="file" accept=".jpg, .jpeg, .png, .gif" name="photo" id="upload_button"
+                    onchange="loadFile(event)" style="display: none;">
+                <label for="upload_button" style="cursor: pointer;">
+                    <i class="material-icons" id="photo_icon">add_photo_alternate</i>
+                </label>
+                <img id="output" width="500" />
+            </figure>
+            <aside>
+                <label for="name">ชื่ออุปกรณ์</label><br>
+                <input type="text" id="name" name ="name"class="inputbox"><br><br>
+                <label for="quantity">จำนวน (ชิ้น)</label><br>
+                <input type="number" id="quantity" min="1" name ="amount" class="inputbox"><br><br>
+                <label for="lab">ห้องปฏิบัติการ</label><br>
+
+                <div id="select"><select name="lab" id="lab" name ="description"class="inputbox" required>
+                        <option selected disabled hidden>------โปรดระบุ------</option>
+                            <option value="ห้องปฏิบัติการ 1">ห้องปฏิบัติการ 1</option>
+                            <option value="ห้องปฏิบัติการ 2">ห้องปฏิบัติการ 2</option>
+                            <option value="ห้องปฏิบัติการ 3">ห้องปฏิบัติการ 3</option>
+                            <option value="ห้องปฏิบัติการ 4">ห้องปฏิบัติการ 4</option>
+                            <option value="ห้องปฏิบัติการ 5">ห้องปฏิบัติการ 5</option>
+                    </select></div>
+                <div id="button_container">
+                    <button type="button" id="back-bt">ยกเลิก</button>
+                    <button type="submit" id="confirm-bt">ยืนยัน</button>
+                </div>
+            </aside>
+        </section>
+    </form>
+</div>
