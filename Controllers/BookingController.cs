@@ -76,7 +76,7 @@ namespace golablint.Controllers {
             List<int> available_amount = new List<int>();
             foreach (var _startDate in availableTime) {
                 var total = equipmentData.amount;
-                var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{_id}\' AND \"startDate\" = \'{_startDate.ToString("yyyy-MM-dd HH:mm:ss")}\'").Count();
+                var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{_id}\' AND \'{_startDate.ToString("yyyy-MM-dd HH:mm:ss")}\' BETWEEN \"startDate\" AND \"endDate\"::timestamp - interval '1 second'").Count();
                 available_amount.Add(total - totalBooking);
             }
             available.Add("time", available_amount);
@@ -86,6 +86,7 @@ namespace golablint.Controllers {
         [HttpPost]
         [Route("~/api/book")]
         public Object Book(string userId, string equipmentId, string startDate, string endDate, int amount = 1) {
+            Console.WriteLine("45555555");
             Guid _userId, _equipmentId;
             if (!Guid.TryParse(userId, out _userId)) {
                 ModelState.AddModelError("userId", "หมายเลขผู้ใช้งานไม่ถูกต้อง");
@@ -118,14 +119,20 @@ namespace golablint.Controllers {
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
+            if ( _endDate.Hour < 9 || _endDate.Hour>17) {
+                ModelState.AddModelError("endDate", "กรุณาระบุเวลาคืนภายในเวลาราชการ");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                return errorJSON;
+            }
             if (DateTime.Now > _startDate) {
                 ModelState.AddModelError("startDate", "กรุณาระบุวันยืมที่เหมาะสม");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
-            if ((_endDate - _startDate).TotalHours != 1) {
-                ModelState.AddModelError("endDate", "กรุณาระบุช่วงเวลายืมไม่เกิน 1 ชั่วโมง");
+            if (_startDate.Hour < 9 || _startDate.Hour>17) {
+                ModelState.AddModelError("startDate", "กรุณาระบุเวลายืมภายในเวลาราชการ");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
@@ -159,8 +166,21 @@ namespace golablint.Controllers {
             }
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
             var total = equipmentData.amount;
-            var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{_equipmentId}\' AND \"startDate\" = \'{_startDate.ToString("yyyy-MM-dd HH:mm:ss",CultureInfo.CreateSpecificCulture("en-US"))}\'").Count();
-            if (total - totalBooking - amount <= 0) {
+            var start = _startDate;
+            List<DateTime> availableTime = new List<DateTime>();
+            var clockQuery = from offset in Enumerable.Range(0, _endDate.Hour-_startDate.Hour)
+            select TimeSpan.FromHours(offset);
+            foreach (var time in clockQuery) {
+                Console.WriteLine("a");
+                Console.WriteLine(time);
+                availableTime.Add(start.Add(time));
+            }
+            List<int> available_amount = new List<int>();
+            foreach (var time in availableTime) {
+                var totalBooking = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\" WHERE equipmentId = \'{equipmentData.id}\' AND \'{time.ToString("yyyy-MM-dd HH:mm:ss",new System.Globalization.CultureInfo("en-US"))}\' BETWEEN \"startDate\" AND \"endDate\"::timestamp - interval '1 second'").Count();
+                available_amount.Add(total - totalBooking);
+            }
+            if (available_amount.Any(i => i<0)) {
                 ModelState.AddModelError("equipmentId", "ไม่สามารถทำการจองได้");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);

@@ -52,14 +52,12 @@ html {
 }
 
 body {
-  width: 100vw;
-  height: 100vh;
-  font-family: Sukhumvit, Arial, Helvetica, sans-serif;
-  top: 4vw;
-  overflow-y: overlay;
-}
-.body {
-  padding-top: 4vw;
+    width: 100vw;
+    height: 100vh;
+    font-family: Sukhumvit, Arial, Helvetica, sans-serif;
+    top: 4vw;
+    box-sizing: border-box;
+    overflow-y: overlay;
 }
 
 nav.navbar,
