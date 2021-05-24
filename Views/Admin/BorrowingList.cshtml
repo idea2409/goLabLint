@@ -165,22 +165,23 @@
                 document.getElementById("trigger3").style.display = "none";
                 page = "Completed";
             }
-            getBorrowingList(order, page);
-            function openPopupReturn() {
-                document.getElementById("returnEquipment").style.display = "flex";
-            }
-
-            function exitPopupReturn() {
-                document.getElementById("returnEquipment").style.display = "none";
-            }
-
-            function openPopupRemove() {
-                document.getElementById("removeEquipment").style.display = "flex";
-            }
-
-            function exitPopupRemove() {
-                document.getElementById("removeEquipment").style.display = "none";
-            }
+            
         }
+        function openPopupReturn() {
+            document.getElementById("returnEquipment").style.display = "flex";
+        }
+
+        function exitPopupReturn() {
+            document.getElementById("returnEquipment").style.display = "none";
+        }
+
+        function openPopupRemove() {
+            document.getElementById("removeEquipment").style.display = "flex";
+        }
+
+        function exitPopupRemove() {
+            document.getElementById("removeEquipment").style.display = "none";
+        }
+        getBorrowingList(order, page);
     </script>
 </div>
