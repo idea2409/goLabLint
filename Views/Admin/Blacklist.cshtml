@@ -44,25 +44,30 @@
             <h2>รายชื่อผู้จองทั้งหมด</h2>
         </div>
     </div>
-    <output id="borrowing-list">
+    <output id="blacklist">
 
     </output>
 </div>
 @* javascript not final yet, for testing only *@
 <script>
-    @* window.onload = () => {
-        getBlacklist();
+    var output = document.getElementById("blacklist");
+    var status = "Blacklist"
+    window.onload = () => {
+        getUser(status);
     }
-    function getBlacklist() {
+    function getUser(status) {
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
                 let response = JSON.parse(this.responseText);
+                console.log(this.responseText);
+                console.log(response);
                 let responseElement = "";
+
                 if (this.responseText == null) {
                     responseElement += `
                         <div class="equip-not-found">
-                        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
+                        <img src="/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
                         <h1 class="title">ยินดีด้วย</h1>
                         <h4>ไม่มีนักศึกษาใน Blacklist</h4>
                         </div>`;
@@ -74,41 +79,7 @@
                         <table id="name-list">
                             <tr>
                                 <td id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></td>
-                                <td>${a.user.email.split("@@")[0]} ${a.user.name} ${a.user.surname}</td>
-                                <td id="remove-black"><div class="remove-black-btn"><button onclick="">นำออกจากบัญชีดำ</button></div></td>
-                            </tr>
-                        </table>
-    `;
-                    }
-                }
-                output.innerHTML = responseElement;
-            }
-        }
-        xhttp.open("GET", "/api/get-user?status=Blacklist", true);
-        xhttp.send();
-    }
-    function getUser() {
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                let response = JSON.parse(this.responseText);
-                let responseElement = "";
-                if (this.responseText == null) {
-                    responseElement += `
-                        <div class="equip-not-found">
-                        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
-                        <h1 class="title">ยินดีด้วย</h1>
-                        <h4>ไม่มีนักศึกษาใน Blacklist</h4>
-                        </div>`;
-                }
-                else {
-                    for (var a of response) {
-                        responseElement += `
-
-                        <table id="name-list">
-                            <tr>
-                                <td id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></td>
-                                <td>${a.user.email.split("@@")[0]} ${a.user.name} ${a.user.surname}</td>
+                                <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
                                 <td id="add-black"><div class="add-black-btn"><button onclick="">ขึ้นจากบัญชีดำ</button></div></td>
                             </tr>
                         </table>
@@ -118,9 +89,9 @@
                 output.innerHTML = responseElement;
             }
         }
-        xhttp.open("GET", "/api/get-user", true);
+        xhttp.open("GET", `/api/get-user?status=${status}`, true);
         xhttp.send();
-    } *@
+    }
 
     function triggerState(state) {
         if (state == 1) {
@@ -128,61 +99,14 @@
             document.getElementById("trigger2").style.display = "none";
             document.getElementById("trigger3").style.display = "flex";
             document.getElementById("trigger4").style.display = "none";
-            page = "Blacklist";
+            status = "Blacklist";
         }
         else {
             document.getElementById("trigger1").style.display = "none";
             document.getElementById("trigger2").style.display = "flex";
             document.getElementById("trigger3").style.display = "none";
             document.getElementById("trigger4").style.display = "flex";
-            page = "All";
+            status = "Normal";
         }
-    }
-
-    var output = document.getElementById("borrowing-list");
-    window.onload = () => {
-        getBorrowingList();
-    }
-    function getBorrowingList() {
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function () {
-            if (this.readyState == 4 && this.status == 200) {
-                let response = JSON.parse(this.responseText);
-                let responseElement = "";
-                if (this.responseText == null) {
-                    responseElement += `
-                        <div class="equip-not-found">
-                        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
-                        <h1 class="title">ยินดีด้วย</h1>
-                        <h4>ไม่มีนักศึกษาใน Blacklist</h4>
-                        </div>`;
-                }
-                else {
-                    for (var a of response) {
-                        responseElement += `
-
-                        <table id="name-list">
-                            <tr>
-                                <td id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></td>
-                                <td>${a.user.email.split("@@")[0]} ${a.user.name} ${a.user.surname}</td>
-                                <td id="remove-black"><div class="remove-black-btn"><button onclick="">นำออกจากบัญชีดำ</button></div></td>
-                            </tr>
-                        </table>
-
-    @* <div class="borrowing-column">
-        <i class="material-icons" id="avatar">no_accounts</i>
-        <div class="borrowing-user">
-        ${a.user.email.split("@@")[0]} ${a.user.name} ${a.user.surname}
-        </div>
-        <div class="return-btn"><button onclick="">นำออกจากบัญชีดำ</button></div>
-        </div> *@
-    `;
-                    }
-                }
-                output.innerHTML = responseElement;
-            }
-        }
-        xhttp.open("GET", "/api/get-user", true);
-        xhttp.send();
     }
 </script>

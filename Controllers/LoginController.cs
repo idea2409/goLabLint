@@ -28,13 +28,6 @@ namespace golablint.Controllers {
             return View();
         }
 
-        [Route("~/api/get-user")]
-        public JsonResult getUser(string status = "") {
-            if (string.IsNullOrEmpty(status))
-                return Json(_db.User.FromSqlRaw("SELECT * FROM \"User\""));
-            else
-                return Json(_db.User.FromSqlRaw($"SELECT * FROM \"User\" WHERE status = \'{status}\'"));
-        }
 
         [HttpPost]
         // [ValidateAntiForgeryToken]
