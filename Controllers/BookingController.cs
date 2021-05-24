@@ -22,7 +22,7 @@ namespace golablint.Controllers {
             _db = db;
         }
 
-        [Route("~/booking/{id}")]
+        [Route("~/booking/{id}", Name = "user-booking")]
         public IActionResult Equipment(string id) {
             Guid _id;
             if (!Guid.TryParse(id, out _id)) {
@@ -76,6 +76,31 @@ namespace golablint.Controllers {
             }
             available.Add("time", available_amount);
             return Json(available);
+        }
+
+        public async Task<List<Equipment>> getAvailableWithDate(List<Equipment> equipmentList, DateTime now) {
+            foreach (var equipment in equipmentList) {
+                List<DateTime> availableTime = new List<DateTime>();
+                if (now.Hour >= 17) {
+                    now = now.AddHours(24 - now.Hour);
+                }
+                if (now.Hour < 9) {
+                    now = now.AddHours(9 - now.Hour);
+                }
+                var clockQuery = from offset in Enumerable.Range(0, 17 - now.Hour)
+                select TimeSpan.FromHours(offset);
+                foreach (var time in clockQuery) {
+                    availableTime.Add(now.Add(time));
+                }
+                List<int> available_amount = new List<int>();
+                foreach (var _startDate in availableTime) {
+                    var total = equipment.amount;
+                    var totalBooking = await (from b in _db.Borrowing where _startDate >= b.startDate && _startDate < b.endDate && b.equipment.id == equipment.id select b.startDate).CountAsync();
+                    available_amount.Add(total - totalBooking);
+                }
+                equipment.amount = available_amount.Max();
+            }
+            return equipmentList;
         }
 
         [HttpPost]

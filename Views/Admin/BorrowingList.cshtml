@@ -105,7 +105,7 @@
                         <div class="borrowing-equipment">${a.equipment.name}</div>
                         <div class="borrowing-user">${a.user.name} ${a.user.surname} ${a.user.email.split("@@")[0]}</div>
                         <div class="borrowing-start">${a.borrowing.startDate.split("T")[0]} ${a.borrowing.startDate.split("T")[1]}</div>
-                        <div class="borrowing-end">${a.borrowing.endDate.split("T")[0]} ${a.borrowing.endDate.split("T")[0]}</div>
+                        <div class="borrowing-end">${a.borrowing.endDate.split("T")[0]} ${a.borrowing.endDate.split("T")[1]}</div>
                         <div class="borrowing-status-dot" id="${a.borrowing.status}">${a.borrowing.status == "Ongoing" ? "⦿" : "⦿"}</div>
                         <div class="borrowing-status" id="${a.borrowing.status} text">${a.borrowing.endDate < Date.now() ?
                                     a.borrowing.status == "Late" : a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"}

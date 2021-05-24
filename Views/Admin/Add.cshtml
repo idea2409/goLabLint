@@ -72,7 +72,7 @@
                     }
                 </div>
                 <div id="button_container">
-                    <button type="button" id="back-bt">ยกเลิก</button>
+                    <button type="button" id="back-bt" onclick="back()">ยกเลิก</button>
                     <button type="submit" id="confirm-bt">ยืนยัน</button>
                 </div>
             </aside>
@@ -99,4 +99,7 @@
         var image = document.getElementById('output');
         image.src = URL.createObjectURL(event.target.files[0]);
     };
+    var back = function() {
+        window.location.replace('/admin/equipment');
+    }
 </script>

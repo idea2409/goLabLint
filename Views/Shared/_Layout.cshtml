@@ -37,7 +37,7 @@
                 }
                 <a class="@((controller == "Home" ?"current-page": "") + " navbar")" asp-controller="home"
                 asp-action="index" asp-area="">หน้าแรก</a>
-                <a class="@((controller == "Equipment" ?"current-page": "")+ " navbar")"
+                <a class="@(((role!="Admin" &&controller == "Equipment")||(role=="Admin" && controller=="Admin" && (action=="Equipment"||action=="Describe"||action=="Add")) ?"current-page": "")+ " navbar")"
                 asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")"
                 asp-area="">อุปกรณ์</a>
                 @if (role != "Admin")

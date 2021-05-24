@@ -7,13 +7,15 @@
     /* column-gap: 3.5%; */
     /* background-color: aqua; */
 }
-
+a.gen-card {
+    margin: 5% 7% 5% 7%;
+}
 div.card {
     position: relative;
     /* background-color: red; */
     /* width: 100%; */
     border-radius: 2%;
-    margin: 5% 7% 5% 7%;
+    /* margin: 5% 7% 5% 7%; */
     box-shadow: 1px 1px 5px -1px var(--dark-gray-color);
     transition: box-shadow 0.3s;
 }

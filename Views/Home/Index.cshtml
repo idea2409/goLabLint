@@ -25,7 +25,6 @@
             <h2 class="available-title">ห้องปฏิบัติการอื่นที่เปิดให้บริการ</h2>
             <a asp-controller="other" asp-action="index">ดูเพิ่มเติม...</a>
         </div>
-        @await Component.InvokeAsync("EquipmentCard",new {limit=4,role="User"})
     }
     else
     {

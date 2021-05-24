@@ -31,8 +31,12 @@ namespace golablint.Controllers {
             return View();
         }
 
-        [Route("~/admin/equipment/{id}")]
-        public IActionResult Describe(Guid id) {
+        [Route("~/admin/equipment/{id}",Name="admin-equipment")]
+        public IActionResult Describe(string id) {
+            Guid _id;
+            if(!Guid.TryParse(id,out _id)) {
+                return BadRequest();
+            }
             var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1").OrderBy(item => item.id).FirstOrDefault();
             if (equipment == null) return NotFound();
             ViewBag.equipment = equipment;
@@ -57,7 +61,7 @@ namespace golablint.Controllers {
             }
             Console.WriteLine("amount");
             Console.WriteLine(amount);
-            if (Int32.TryParse(amount, out _amount) || string.IsNullOrEmpty(amount)) {
+            if (!Int32.TryParse(amount, out _amount) || string.IsNullOrEmpty(amount)) {
                 Console.WriteLine("error");
                 Console.WriteLine(amount);
                 isError = true;
@@ -127,7 +131,6 @@ namespace golablint.Controllers {
                     select new { borrowing, equipment, user };
                     return Json(borrowingList);
                 } else {
-
                     var borrowingList = from borrowing in _db.Set<Borrowing>()
                     join equipment in _db.Set<Equipment>()
                     on borrowing.equipment.id equals equipment.id
