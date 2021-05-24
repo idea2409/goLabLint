@@ -113,25 +113,53 @@ namespace golablint.Controllers {
 
         [Route("~/api/get-borrowing-list")]
         public JsonResult getBorrowingList(string orderBy, string page) {
+            Console.WriteLine(orderBy);
+            Console.WriteLine(page);
             if (page == "All") {
-                var borrowingList = from borrowing in _db.Set<Borrowing>()
-                join equipment in _db.Set<Equipment>()
-                on borrowing.equipment.id equals equipment.id
-                join user in _db.Set<User>()
-                on borrowing.user.id equals user.id
-                orderby(orderBy == "equipmentName" ? "equipment.name" : orderBy == "userName" ? "user.name" : orderBy)
-                select new { borrowing, equipment, user };
-                return Json(borrowingList);
+                if (orderBy == "startDate" || orderBy == "endDate") {
+                    var borrowingList = from borrowing in _db.Set<Borrowing>()
+                    join equipment in _db.Set<Equipment>()
+                    on borrowing.equipment.id equals equipment.id
+                    join user in _db.Set<User>()                             
+                    on borrowing.user.id equals user.id           
+                    where borrowing.status != "Completed"
+                    orderby(orderBy == "startDate" ? borrowing.startDate : borrowing.endDate)
+                    select new { borrowing, equipment, user };
+                    return Json(borrowingList);
+                } else {
+
+                    var borrowingList = from borrowing in _db.Set<Borrowing>()
+                    join equipment in _db.Set<Equipment>()
+                    on borrowing.equipment.id equals equipment.id
+                    join user in _db.Set<User>()          
+                    on borrowing.user.id equals user.id          
+                    where borrowing.status != "Completed"
+                    orderby(orderBy == "equipmentName" ? equipment.name : user.name)
+                    select new { borrowing, equipment, user };
+                    return Json(borrowingList);
+                }
             } else {
-                var borrowingList = from borrowing in _db.Set<Borrowing>()
-                join equipment in _db.Set<Equipment>()
-                on borrowing.equipment.id equals equipment.id
-                join user in _db.Set<User>()
-                on borrowing.user.id equals user.id
-                where borrowing.status == "Completed"
-                orderby(orderBy == "equipmentName" ? "equipment.name" : orderBy == "userName" ? "user.name" : orderBy)
-                select new { borrowing, equipment, user };
-                return Json(borrowingList);
+                if (orderBy == "startDate" || orderBy == "endDate") {
+                    var borrowingList = from borrowing in _db.Set<Borrowing>()
+                    join equipment in _db.Set<Equipment>()
+                    on borrowing.equipment.id equals equipment.id
+                    join user in _db.Set<User>()
+                    on borrowing.user.id equals user.id
+                    where borrowing.status == "Completed"
+                    orderby(orderBy == "startDate" ? borrowing.startDate : borrowing.endDate)
+                    select new { borrowing, equipment, user };
+                    return Json(borrowingList);
+                } else {
+                    var borrowingList = from borrowing in _db.Set<Borrowing>()
+                    join equipment in _db.Set<Equipment>()
+                    on borrowing.equipment.id equals equipment.id
+                    join user in _db.Set<User>()
+                    on borrowing.user.id equals user.id
+                    where borrowing.status == "Completed"
+                    orderby(orderBy == "equipmentName" ? equipment.name : user.name)
+                    select new { borrowing, equipment, user };
+                    return Json(borrowingList);
+                }
             }
         }
     }

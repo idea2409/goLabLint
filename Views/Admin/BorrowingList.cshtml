@@ -13,7 +13,7 @@
             <h1>รายการจอง</h1>
         </div>
         <form class="equipment-search">
-            <input type="text" placeholder="ค้นหาอุปกรณ์">
+            <input type="text" placeholder="ค้นหา" name = "name">
             <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
         </form>
     </div>
@@ -73,18 +73,18 @@
     <script>
         var select = document.getElementById("sort-by");
         var output = document.getElementById("borrowing-list");
-        var order = "";
+        var order = "equipmentName";
         var page = "All";
         select.onchange = () => {
             order = select.value == "เรียงตามชื่ออุปกรณ์" ? "equipmentId" : select.value == "เรียงตามวันเวลาเริ่มจอง" ? "startDate" : select.value == "" ? "endDate" : "userName"
             getBorrowingList(order, page);
         }
         window.onload = () => {
-            getBorrowingList("All");
+            getBorrowingList(order, page);
         }
         function getBorrowingList(orderBy = "equipmentName", page = "All") {
             console.log(orderBy,page);
-            var xhttp = new XMLHttpRequest();
+            let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
                     let response = JSON.parse(this.responseText);
@@ -103,9 +103,9 @@
                         <div class="remove-btn" onclick="openPopupRemove()"><img src="/image/remove-icon.jpg" alt="remove"
                         class="remove-icon"></div>
                         <div class="borrowing-equipment">${a.equipment.name}</div>
-                        <div class="borrowing-user">${a.user.email.split("@@")[0]} ${a.user.name} ${a.user.surname}</div>
-                        <div class="borrowing-start">${a.borrowing.startDate}</div>
-                        <div class="borrowing-end">${a.borrowing.endDate}</div>
+                        <div class="borrowing-user">${a.user.name} ${a.user.surname} ${a.user.email.split("@@")[0]}</div>
+                        <div class="borrowing-start">${a.borrowing.startDate.split("T")[0]} ${a.borrowing.startDate.split("T")[1]}</div>
+                        <div class="borrowing-end">${a.borrowing.endDate.split("T")[0]} ${a.borrowing.endDate.split("T")[0]}</div>
                         <div class="borrowing-status-dot" id="${a.borrowing.status}">${a.borrowing.status == "Ongoing" ? "⦿" : "⦿"}</div>
                         <div class="borrowing-status" id="${a.borrowing.status} text">${a.borrowing.endDate < Date.now() ?
                                     a.borrowing.status == "Late" : a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"}
