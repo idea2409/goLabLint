@@ -56,14 +56,17 @@ html {
 
 body {
     width: 100vw;
-    height: 100vh;
+    height: calc(100vh - 4vw);
     font-family: Sukhumvit, Arial, Helvetica, sans-serif;
-    top: 4vw;
+    margin-top: 4vw;
     overflow-y: overlay;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .body {
-    padding-top: 4vw;
+    padding: 20px 0;
 }
 
 nav.navbar,

@@ -111,21 +111,6 @@
                                     a.borrowing.status == "Late" : a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"}
                                     </div >
                         <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
-
-        @foreach (var a in @ViewBag.borrowingList)
-        {
-            <div class="borrowing-column">
-                <div class="remove-btn" onclick="openPopupRemove()"><img src="~/image/remove-icon.jpg" alt="remove"
-                class="remove-icon"></div>
-                <div class="borrowing-equipment" id="@(@a.borrowing.status == "Ongoing" ? "" : "Late")" >@a.equipment.name</div>
-                <div class="borrowing-user" id="@(@a.borrowing.status == "Ongoing" ? "" : "Late")">@a.user.name @a.user.surname @a.user.email</div>
-                <div class="borrowing-start" id="@(@a.borrowing.status == "Ongoing" ? "" : "Late")">@a.borrowing.startDate</div>
-                <div class="borrowing-end" id="@(@a.borrowing.status == "Ongoing" ? "" : "Late")">@a.borrowing.endDate</div>
-                <div class="borrowing-status-dot" id="@a.borrowing.status">⦿</div>
-                <div class="borrowing-status" >@(@a.borrowing.endDate < DateTime.Now ?
-            @a.borrowing.status = "Late" : (@a.borrowing.status == "Ongoing" ? "ปกติ" : "คืนช้า"))</div>
-                <div class="return-btn"><button onclick="openPopupReturn()">คืนอุปกรณ์</button></div>
-
                 <div class="form-popup" id="returnEquipment">
                     <form action="" class="popup-container">
                         <h3>ยืนยันการคืนอุปกรณ์</h3>
