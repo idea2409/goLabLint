@@ -50,7 +50,7 @@ namespace golablint.Controllers {
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 return Json(errorList);
             };
-            var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
+            var equipmentData = equipment.OrderBy(item => item.description).FirstOrDefault();
             return Json(equipmentData);
         }
         [Route("~/api/image-to-string")]
