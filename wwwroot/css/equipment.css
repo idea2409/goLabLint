@@ -7,6 +7,7 @@
 .equipment-header {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
 }
 
 .eqipment-title {
@@ -63,10 +64,18 @@ form.equipment-search button:hover {
     cursor: pointer;
 }
 
+.add-bt h3{
+    margin: 10px 0;
+}
+
 .topic {
-    margin-left: 4.5%;
+    margin: 25px 0 0 4.5%;
 }
 
 div.add-bt a:visited{
     color: white;
+}
+
+.eqipments{
+    margin-bottom: 20px;
 }
