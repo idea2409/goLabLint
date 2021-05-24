@@ -31,10 +31,10 @@ namespace golablint.Controllers {
             return View();
         }
 
-        [Route("~/admin/equipment/{id}",Name="admin-equipment")]
+        [Route("~/admin/equipment/{id}", Name = "admin-equipment")]
         public IActionResult Describe(string id) {
             Guid _id;
-            if(!Guid.TryParse(id,out _id)) {
+            if (!Guid.TryParse(id, out _id)) {
                 return BadRequest();
             }
             var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1").OrderBy(item => item.id).FirstOrDefault();
@@ -59,15 +59,12 @@ namespace golablint.Controllers {
                 isError = true;
                 ModelState.AddModelError("description", "กรุณาระบุห้องปฏิบัตการ");
             }
-            Console.WriteLine("amount");
-            Console.WriteLine(amount);
             if (!Int32.TryParse(amount, out _amount) || string.IsNullOrEmpty(amount)) {
                 Console.WriteLine("error");
                 Console.WriteLine(amount);
                 isError = true;
                 ModelState.AddModelError("amount", "กรุณาระบุจำนวนที่ถูกต้อง");
             }
-            Console.WriteLine(_amount);
             if (string.IsNullOrEmpty(name)) {
                 isError = true;
                 ModelState.AddModelError("name", "กรุณาระบุชื่ออุปกรณ์");
@@ -110,60 +107,16 @@ namespace golablint.Controllers {
             });
         }
 
-        [Route("~/admin/borrowing-list")]
+        [Route("~/admin/borrowing-list", Name = "admin-borrowing")]
         public IActionResult BorrowingList() {
             return View();
         }
 
         [Route("~/api/get-borrowing-list")]
-        public JsonResult getBorrowingList(string orderBy, string page) {
-            Console.WriteLine(orderBy);
-            Console.WriteLine(page);
-            if (page == "All") {
-                if (orderBy == "startDate" || orderBy == "endDate") {
-                    var borrowingList = from borrowing in _db.Set<Borrowing>()
-                    join equipment in _db.Set<Equipment>()
-                    on borrowing.equipment.id equals equipment.id
-                    join user in _db.Set<User>()                             
-                    on borrowing.user.id equals user.id           
-                    where borrowing.status != "Completed"
-                    orderby(orderBy == "startDate" ? borrowing.startDate : borrowing.endDate)
-                    select new { borrowing, equipment, user };
-                    return Json(borrowingList);
-                } else {
-                    var borrowingList = from borrowing in _db.Set<Borrowing>()
-                    join equipment in _db.Set<Equipment>()
-                    on borrowing.equipment.id equals equipment.id
-                    join user in _db.Set<User>()          
-                    on borrowing.user.id equals user.id          
-                    where borrowing.status != "Completed"
-                    orderby(orderBy == "equipmentName" ? equipment.name : user.name)
-                    select new { borrowing, equipment, user };
-                    return Json(borrowingList);
-                }
-            } else {
-                if (orderBy == "startDate" || orderBy == "endDate") {
-                    var borrowingList = from borrowing in _db.Set<Borrowing>()
-                    join equipment in _db.Set<Equipment>()
-                    on borrowing.equipment.id equals equipment.id
-                    join user in _db.Set<User>()
-                    on borrowing.user.id equals user.id
-                    where borrowing.status == "Completed"
-                    orderby(orderBy == "startDate" ? borrowing.startDate : borrowing.endDate)
-                    select new { borrowing, equipment, user };
-                    return Json(borrowingList);
-                } else {
-                    var borrowingList = from borrowing in _db.Set<Borrowing>()
-                    join equipment in _db.Set<Equipment>()
-                    on borrowing.equipment.id equals equipment.id
-                    join user in _db.Set<User>()
-                    on borrowing.user.id equals user.id
-                    where borrowing.status == "Completed"
-                    orderby(orderBy == "equipmentName" ? equipment.name : user.name)
-                    select new { borrowing, equipment, user };
-                    return Json(borrowingList);
-                }
-            }
+        public JsonResult getBorrowingList() {
+            var borrowingList = (from borrowing in _db.Set<Borrowing>() join equipment in _db.Set<Equipment>() on borrowing.equipment.id equals equipment.id join user in _db.Set<User>() on borrowing.user.id equals user.id select new { borrowing, equipment, user });
+            return Json(borrowingList);
         }
     }
+
 }

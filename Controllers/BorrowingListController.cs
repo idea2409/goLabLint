@@ -39,8 +39,9 @@ namespace golablint.Controllers {
         }
 
         [HttpPost]
-        [Route("~/api/set-complete",Name="set-complete")]
-        public JsonResult setCompleted(string id) {
+        [Route("~/api/set-complete", Name = "set-complete")]
+        [Route("~/api/delete-borrowing", Name = "delete-borrowing")]
+        public IActionResult delete([FromQuery] string id, [FromQuery] string action) {
             Guid _id;
             if (!Guid.TryParse(id, out _id)) {
                 ModelState.AddModelError("borrowingId", "หมายเลขการจองไม่ถูกต้อง");
@@ -48,16 +49,20 @@ namespace golablint.Controllers {
                 return Json(errorList);
             }
             var borrowingList = _db.Borrowing.FromSqlRaw($"SELECT * FROM \"Borrowing\"WHERE id = \'{_id}\' LIMIT 1");
-            if(borrowingList.Count() == 0) {
+            if (borrowingList.Count() == 0) {
                 ModelState.AddModelError("borrowingId", "ไม่พบการจองดังกล่าวในระบบ");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 return Json(errorList);
             }
             var borrowingListData = borrowingList.OrderBy(item => item.id).FirstOrDefault();
-            borrowingListData.status= "Completed";
-            _db.Update(borrowingListData);
+            if (action == "confirm") {
+                borrowingListData.status = DateTime.Now > borrowingListData.endDate ? "Late" : "Completed";
+                _db.Borrowing.Update(borrowingListData);
+            } else {
+                _db.Borrowing.Remove(borrowingListData);
+            }
             _db.SaveChanges();
-            return Json(borrowingList);
+            return RedirectToRoute("admin-borrowing");
         }
     }
 }
