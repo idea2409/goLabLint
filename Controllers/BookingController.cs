@@ -84,6 +84,7 @@ namespace golablint.Controllers {
         [HttpPost]
         [Route("~/api/book")]
         public Object Book(string userId, string equipmentId, string startDate, string endDate, int amount = 1) {
+            Console.WriteLine("45555555");
             Guid _userId, _equipmentId;
             if (!Guid.TryParse(userId, out _userId)) {
                 ModelState.AddModelError("userId", "หมายเลขผู้ใช้งานไม่ถูกต้อง");

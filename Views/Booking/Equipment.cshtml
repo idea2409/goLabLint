@@ -1,12 +1,19 @@
 @{
     @using System;
+    @using System.Security.Claims;
     ViewData["Title"] = "BookingPage";
-    var d = DateTime.Now;
-    var firstDayOfMonth = new DateTime(d.Year, d.Month, 1);
-    Console.WriteLine((int)firstDayOfMonth.DayOfWeek);
-    Console.WriteLine(DateTime.DaysInMonth(d.Year, d.Month + 1));
-    Console.WriteLine(d.ToString("MMM"));
+
+    bool[] array = { false, false, false, false, false, false, false, false };
+    string checkIcon = "/image/checkIcon-white.png";
+    string corner = "/image/corner.png";
+    string clockRed = "/image/clock-red.png";
+    string clockSkyblue = "/image/clock-skyblue.png";
+    string clockGreen = "/image/clock-green.png";
+    string cross = "/image/cross.png";
+    bool isAuthenticated= Context.User.Identity.IsAuthenticated;
+    string userId = isAuthenticated ? Context.User.Claims.Where(claim => claim.Type==ClaimTypes.NameIdentifier).FirstOrDefault().Value :"";
 }
+
 @section styles{
 <link rel="stylesheet" href="~/css/booking.css" type="text/css" />
 }
@@ -16,21 +23,24 @@
 @* <h1>@ViewData["Title"]</h1> *@
 <div class="booking">
     <div class="booking-left">
+
         @* <div style="color:white">
-        @ViewBag.equipment.name
-        @ViewBag.equipment.description
-        @ViewBag.equipment.amount
-        <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
-        @ViewBag.availableTime.time
-        @foreach (var item in ViewBag.availableTime.time)
-        {
+            @ViewBag.equipment.name
+            @ViewBag.equipment.description
+            @ViewBag.equipment.amount
+            <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
+            @ViewBag.availableTime.time
+            @foreach (var item in ViewBag.availableTime.time)
+            {
             <div>@item</div>
-        }
-        </div> *@
+            }
+            </div> *@
+        <div id="equipmentPic">
+            <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name) />
+        </div>
         <div id="equipmentName">
             <p>@ViewBag.equipment.name</p>
         </div>
-
         <div id="calendar">
             <div id="month-year">
 
@@ -41,42 +51,82 @@
 
                 <div id="monthButton">
                     <button onclick="prevMonth()"><</button>
-                    <button onclick="nextMonth()">></button>
+                            <button onclick="nextMonth()">></button>
                 </div>
 
             </div>
             <div id="calendar-days"></div>
         </div>
-    </div>
+        
+        
 
+        <div class="bookingRange">
+            @* <div>
+                <p>ยืมวันที่ : </p>
+                <p id="getDate"></p>
+                </div>
+                <div>
+                <p>ช่วงเวลาที่ยืม :</p>
+                </div> *@
+            <h4 id="guideText">เลือกช่วงเวลาที่ต้องการยืมด้านขวา</h4>
+            <button id="bookButton" onclick="book('@isAuthenticated', '@userId')">จอง</button>
+        </div>
+    </div>
     <div class="booking-right">
-        @for(int i=0;i<8;i++)
-        {
-            <div class="checkTime">eiei</div>
-        }
-        <button onclick="loadDoc()">ButtonJa</button>
+        <div id="bookingCards" class="booking-right-bottom"></div>
     </div>
 </div>
 
 <script>
-    function loadDoc() {
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange=function(){
-            if(this.readyState == 4 && this.status == 200) {
-                console.log(JSON.parse(this.responseText))
-                console.log(JSON.parse(this.responseText).id);
-            }
-        }
-        xhttp.open("GET","/api/equipment", true);
-        xhttp.send();
-    }
 
 
+    var equipmentId = window.location.href.split("/")[window.location.href.split("/").length - 1];
     var today = new Date();
     var time = today.getTime();
-    var date = new Date(time); 
+    var date = new Date(time);
+
+    var availableNumber = [];
+    var bookingArr = [];
+
+    function canBook() {
+        for (var i = 0; i < availableNumber.length; i++) {
+            if (bookingArr[i]) return "book";
+        }
+        return "cantBook";
+    }
+
+    document.getElementById("bookButton").className = canBook();
+    document.getElementById("guideText").className = canBook();
+
+    function resetArr() {
+        bookingArr = [];
+        for (var i = 0; i < 8; i++) {
+            bookingArr.push(false);
+        }
+    }
+
+    function formatDate(date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
+    }
+
+    var loading = true;
+    loadBooking(formatDate(date));
+
+    resetArr();
 
     setCalendar(date);
+    setSelectedCards(date);
+    getDate();
 
     function setCalendar(d) {
         var day = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -98,21 +148,21 @@
         for (i = 0; i < 7; i++) {
             days = days + "<div class='days'>" + day[i] + "</div>";
         }
-        for (i = 0; i < firstDayOfMonth; i++) {            
+        for (i = 0; i < firstDayOfMonth; i++) {
             var x = lastDayOfPrevMonth - (firstDayOfMonth - i) + 1;
             var theDay = new Date(d.getTime());
-            theDay.setMonth(m-1);
-            theDay.setDate(x-1);
+            theDay.setMonth(m - 1);
+            theDay.setDate(x - 1);
             var dd = x;
-            var mm = m-1;            
+            var mm = m - 1;
             var yy = y;
             if (dd < 10) dd = "0" + dd;
-            if (mm<0) {
-                mm=11;
-                yy-=1;
+            if (mm < 0) {
+                mm = 11;
+                yy -= 1;
             }
             if (mm < 10) mm = "0" + mm;
-            if( theDay < today){
+            if (theDay < today) {
                 days = days + "<div class='notAvailableDay'>" + x + "</div>";
             }
             else
@@ -127,12 +177,12 @@
             if (dd < 10) dd = "0" + dd;
             var mm = m;
             if (mm < 10) mm = "0" + mm;
-            if( m==d.getMonth()&&
-                i==d.getDate()&&
-                y==d.getFullYear())
+            if (m == d.getMonth() &&
+                i == d.getDate() &&
+                y == d.getFullYear())
                 days = days + "<div class='myselectedday' onclick=selectBookingDate('" + dd + mm + y + "')>" + i + "</div>";
-            else{
-                if( theDay < today){
+            else {
+                if (theDay < today) {
                     days = days + "<div class='mydays'>" + i + "</div>";
                 }
                 else
@@ -144,11 +194,11 @@
             var x = i - counter;
             var dd = x;
             if (dd < 10) dd = "0" + dd;
-            var mm = m+1;            
+            var mm = m + 1;
             var yy = y;
-            if (mm>11) {
-                mm=0;
-                yy+=1;
+            if (mm > 11) {
+                mm = 0;
+                yy += 1;
             }
             if (mm < 10) mm = "0" + mm;
             days = days + "<div class='notAvailableDay hover' onclick=selectBookingDate('" + dd + mm + yy + "')>" + x + "</div>";
@@ -159,39 +209,156 @@
 
 
     function nextMonth() {
-        @* var daysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate(); *@
         date.setDate(1);
         date.setMonth(date.getMonth() + 1);
         setDate(date);
     }
 
     function prevMonth() {
-        if (date.getMonth()==today.getMonth() && date.getFullYear()==today.getFullYear()) return;
-        @* var daysInMonth = new Date(date.getFullYear(), date.getMonth(), 0).getDate(); *@
+        if (date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear()) return;
         date.setDate(1);
         date.setMonth(date.getMonth() - 1);
-        if(date>=today)
+        if (date >= today)
             setDate(date);
-        else 
+        else
             setDate(today);
     }
 
+    function loadBooking(str) {
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log(JSON.parse(this.responseText), str);
+                availableNumber = JSON.parse(this.responseText).time;
+                loading = false;
+                setSelectedCards(date);
+            }
+        }
+        xhttp.open("GET", "/api/get-available?id=" + equipmentId + "&date=" + str, true);
+        xhttp.send();
+    }
+
     function setDate(date) {
-        var d=date.getDate();
-        var m=date.getMonth();
-        var y=date.getFullYear();
-        if(d<10)d="0"+d;
-        if(m<10)m="0"+m;
-        selectBookingDate(d+m+y+"");
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+        if (d < 10) d = "0" + d;
+        if (m < 10) m = "0" + m;
+        selectBookingDate(d + m + y + "");
     }
 
     function selectBookingDate(str) {
-        date.setDate(parseInt(str.substring(0,2)));
-        date.setMonth(parseInt(str.substring(2,4)));
-        date.setFullYear(parseInt(str.substring(4,8)));
+        document.getElementById("bookingCards").innerHTML = "<h2>โปรดรอสักครู่...</h2>";
+        var m = parseInt(str.substring(2, 4));
+        m += 1;
+        if (m < 10) m = "0" + m;
+        loadBooking(str.substring(4, 8) + "-" + m + "-" + str.substring(0, 2));
+        date.setDate(parseInt(str.substring(0, 2)));
+        date.setMonth(parseInt(str.substring(2, 4)));
+        date.setFullYear(parseInt(str.substring(4, 8)));
         setCalendar(date);
-        bookingDate = str;
-        console.log(date);
-        document.getElementById("bookingDate").innerHTML = bookingDate;
+        getDate();
+        resetArr();
+    }
+
+    function setSelectedCards(dd) {
+        if (loading) {
+            document.getElementById("bookingCards").innerHTML = "<h2>โปรดรอสักครู่...</h2>"
+            return ;
+        }
+        var i, selectedTime = "";
+        selectedTime = "";
+        for (i = 0; i < 8; i++) {
+            var start = i + 9;
+            if (start == 9) start = "09";
+            var end = i + 10;
+            if (dd.getDate() == today.getDate() &&
+                dd.getMonth() == today.getMonth() &&
+                dd.getFullYear() == today.getFullYear() &&
+                i + 10 <= today.getHours()) selectedTime = selectedTime +
+                    `<div class="checkTime notAvailable">
+                <div class="availableNumber">
+                    <img src="@cross"/>
+                </div>
+                <img class="clock" src="@clockRed"/>
+                <p>`+ start + `:00 - ` + end + `:00</p>
+            </div>`;
+            else if (availableNumber[i] == 0) selectedTime = selectedTime +
+                `<div class="checkTime notAvailable">
+                <div class="availableNumber">`+ availableNumber[i] + `</div>
+                <img class="clock" src="@clockRed"/>
+                <p>`+ start + `:00 - ` + end + `:00</p>
+            </div>`;
+            else if (bookingArr[i]) selectedTime = selectedTime +
+                `<div class="checkTime selected" onclick="cardSelect(` + i + `)">
+                <img class="corner" src="@corner"/>
+                <div class="checkIconContainer">
+                    <img class="checkIcon" src="@checkIcon"/>
+                </div>
+                <img class="clock" src="@clockSkyblue"/>
+                <p>`+ start + `:00 - ` + end + `:00</p>
+            </div>`;
+            else selectedTime = selectedTime +
+                `<div class="checkTime notSelected" onclick="cardSelect(` + i + `)">
+                <div class="availableNumber">`+ availableNumber[i] + `</div>
+                <img class="clock" src="@clockSkyblue"/>
+                <p>`+ start + `:00 - ` + end + `:00</p>
+            </div>`;
+        }
+        document.getElementById("bookingCards").innerHTML = selectedTime;
+    }
+
+    function cardSelect(n) {
+        bookingArr[n] = !bookingArr[n];
+        setSelectedCards(date);
+        document.getElementById("bookButton").className = canBook();
+    }
+
+    function getDate() {
+        document.getElementById("getDate").innerHTML = date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear();
+    }
+
+    function book(login, userId) {
+        var start, end, b = false;
+        for (var i = 0; i < 8; i++) {
+            if (bookingArr[i] && !b) {
+                start = i + 9;
+                b = true;
+            }
+            else if (b && !bookingArr[i]) {
+                end = i + 9;
+                b = false;
+                post(start, end);
+            }
+        }
+        if (b) {
+            end = 17;
+            post(start, end);
+        }
+        function post(s, e) {
+            if(login=="False"){
+                window.location.replace("/login");
+                return;
+            }
+            else{
+                console.log("จองแล้ว",s,e);
+                if(s==9)s="09";
+                var formData = new FormData();
+                formData.append("equipmentId", equipmentId);
+                formData.append("startDate", formatDate(date)+":"+s);
+                formData.append("endDate", formatDate(date)+":"+e);
+                formData.append("userId", userId);
+                var request = new XMLHttpRequest();
+                request.onreadystatechange = function () {
+                    if(this.readyState == 4 && this.status == 200){
+                        console.log(this.responseText);
+                    }
+                }
+                request.open("POST", "/api/book",true);
+                request.send(formData);
+            }
+            
+        }
+
     }
 </script>

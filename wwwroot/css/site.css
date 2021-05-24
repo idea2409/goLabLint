@@ -54,6 +54,7 @@ body {
     height: 100vh;
     font-family: Sukhumvit, Arial, Helvetica, sans-serif;
     padding-top: 4vw;
+    box-sizing: border-box;
     overflow-y: overlay;
 }
 
