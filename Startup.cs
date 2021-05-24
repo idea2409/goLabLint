@@ -29,7 +29,7 @@ namespace golablint {
             services.AddCors(options => {
                 options.AddPolicy(name: MyAllowSpecificOrigins,
                     builder => {
-                        builder.WithOrigins("https://reallabbook.azurewebsites.net");
+                        builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
                     });
             });
             services.AddAuthentication(
@@ -64,7 +64,7 @@ namespace golablint {
             app.UseStaticFiles();
 
             app.UseRouting();
-            app.UseCors(MyAllowSpecificOrigins);
+            app.UseCors();
             app.UseCookiePolicy();
             app.UseAuthentication();
             app.UseAuthorization();
