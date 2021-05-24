@@ -196,8 +196,8 @@ namespace golablint.Controllers {
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 return errorJSON;
             }
-            // _db.Borrowing.Add(borrowing);
-            // _db.SaveChanges();
+            _db.Borrowing.Add(borrowing);
+            _db.SaveChanges();
             return borrowing;
         }
 
