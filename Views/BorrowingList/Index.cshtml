@@ -1,8 +1,89 @@
+@section styles {
+<link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
+<link rel="stylesheet" href="~/css/borrowingList.css" type="text/css" />
+}
 <div class="body">
-    <h1>sfsfsf</h1>
+    <div class="equipment-header">
+        <div class="eqipment-title">
+            <h1>รายการจอง</h1>
+        </div>
+        <form class="equipment-search">
+            <input type="text" placeholder="ค้นหาอุปกรณ์">
+            <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
+        </form>
+    </div>
+    <div class="borrowing-header" id="trigger1">
+        <div class="state-borrowing-container">
+            <button class="borrowing-state" onclick="triggerState(1)">
+                <h3>ระหว่างการจอง</h3>
+            </button>
+            <button class="completed-state" onclick="triggerState(2)">
+                <h3>สำเร็จแล้ว</h3>
+            </button>
+        </div>
+    </div>
+    <div class="completed-header" id="trigger2">
+        <div class="state-borrowing-container">
+            <button class="completed-state" onclick="triggerState(1)">
+                <h3>ระหว่างการจอง</h3>
+            </button>
+            <button class="borrowing-state" onclick="triggerState(2)">
+                <h3>สำเร็จแล้ว</h3>
+            </button>
+        </div>
+    </div>
+
+    <div class="borrowing-title">
+        <div class="state-borrowing-title" id="trigger3">
+            <h2>ระหว่างการจอง</h2>
+        </div>
+        <div class="state-completed-title" id="trigger4">
+            <h2>สำเร็จแล้ว</h2>
+        </div>
+        <select id="sort-by">
+            <option value="เรียงตามชื่ออุปกรณ์">เรียงตามชื่ออุปกรณ์</option>
+            <option value="เรียงตามวันเวลาเริ่มจอง">เรียงตามวันเวลาเริ่มจอง</option>
+            <option value="เรียงตามวันเวลาคืนอุปกรณ์">เรียงตามวันเวลาคืนอุปกรณ์</option>
+            <option value="เรียงตามนักศึกษาที่จอง">เรียงตามนักศึกษาที่จอง</option>
+        </select>
+    </div>
+    <div class="borrowing-column">
+        <div class="remove-btn"></div>
+        <div class="borrowing-equipment-user"><strong>อุปกรณ์</strong></div>
+        <div class="borrowing-start-user"><strong>วันเวลาเริ่มจอง</strong></div>
+        <div class="borrowing-end-user"><strong>วันเวลาคืนอุปกรณ์</strong></div>
+        <div class="borrowing-status-user"><strong>สถานะ</strong></div>
+        <div class="cancle-btn"></div>
+    </div>
+
     @foreach (var item in ViewBag.borrowingList)
     {
-        <div>
+        <div class="borrowing-column">
+            <div class="remove-btn" >
+                    @* <img src="~/image/remove-icon.jpg" alt="remove" class="remove-icon"> *@
+            </div>
+            <div class="borrowing-equipment-user">@item.equipment.name</div>
+            <div class="borrowing-start-user">@item.borrowing.startDate</div>
+            <div class="borrowing-end-user">@item.borrowing.endDate</div>
+            <div class="borrowing-status-dot" id="@item.borrowing.status">@(@item.borrowing.status == "Ongoing" ? "⦿" : "⦿")</div>
+            <div class="borrowing-status-user" id="@item.borrowing.status text">@(@item.borrowing.endDate < DateTime.Now ? item.borrowing.status = "Late" : (item.borrowing.status == "Ongoing"  ? "ปกติ" : "คืนช้า"))</div>
+            <div class="cancel-btn"><button onclick="openPopupCancel()">คืนอุปกรณ์</button></div>
+        </div>
+        <div class="form-popup" id="cancelEquipment">
+                <form action="" class="popup-container">
+                    <h3>ยกเลิกการจอง</h3>
+                    <div class="summary-borrowing">@item.equipment.name</div>
+                    <div class="popup-btn">
+                        <button type="submit" class="btn confirm">
+                            <h3>ยกเลิกการจอง</h3>
+                        </button>
+                        <button type="button" class="btn cancel" onclick="exitPopupCancel()">
+                            <h3>ออก</h3>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        @* <div>
             @item.borrowing.startDate</div>
         <div>
             @item.borrowing.endDate</div>
@@ -11,6 +92,31 @@
         <div>
             @item.equipment.name</div>
         <div>
-            @item.equipment.description</div>
+            @item.equipment.description</div> *@
     }
+    <script>
+        function triggerState(state) {
+            if (state == 1) {
+                document.getElementById("trigger1").style.display = "flex";
+                document.getElementById("trigger2").style.display = "none";
+                document.getElementById("trigger3").style.display = "flex";
+                document.getElementById("trigger4").style.display = "none";
+            }
+            else {
+                document.getElementById("trigger1").style.display = "none";
+                document.getElementById("trigger2").style.display = "flex";
+                document.getElementById("trigger4").style.display = "flex";
+                document.getElementById("trigger3").style.display = "none";
+            }
+        }
+        function openPopupCancel() {
+            document.getElementById("cancelEquipment").style.display = "flex";
+        }
+
+        function exitPopupCancel() {
+            document.getElementById("cancelEquipment").style.display = "none";
+        }
+
+        
+    </script>
 </div>
