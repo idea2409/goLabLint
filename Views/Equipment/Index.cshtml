@@ -17,5 +17,7 @@
             <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
         </form>
     </div>
-    @await Component.InvokeAsync("EquipmentCard",new {role="User",find=name})
+    <div class="equipments">
+        @await Component.InvokeAsync("EquipmentCard",new {role="User",find=name})
+    </div>
 </div>

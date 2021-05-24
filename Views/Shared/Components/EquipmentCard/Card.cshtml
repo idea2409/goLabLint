@@ -19,6 +19,7 @@ else
 
         @foreach (var item in ViewBag.equipmentList)
         {
+            
             <a asp-route = "@(role == "Admin" ? "admin-equipment" : "user-booking")" asp-route-id="@item.id" class="gen-card">
                 <div class="@((ViewBag.role == "User" ? "" : "admin-") + "card")">
                     <div class="@((ViewBag.role == "User" ? "" : "admin-") +"card-img-top")">

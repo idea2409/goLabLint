@@ -8,7 +8,7 @@
     /* background-color: aqua; */
 }
 a.gen-card {
-    margin: 5% 7% 5% 7%;
+    /* margin: 5% 7% 5% 7%; */
 }
 div.card {
     position: relative;
@@ -113,15 +113,19 @@ div.card-avialable-num {
     background-color: #3DB1E7;
     border-radius: 100%;
     /* display: block; */
-    padding: 4.5% 5% 3% 5%;
+    width: 4.5em;
+    height: 4.5em;
     text-align: center;
     line-height: 1;
     color: white;
     box-shadow: -1px 1px 10px -1px var(--dark-gray-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 div.card-avialable-num h1 {
-    font-size: 2.2em;
+    font-size: 2em;
 }
 
 div.card-avialable-num p {
