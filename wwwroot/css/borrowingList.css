@@ -178,7 +178,7 @@ input[type="checkbox"] {
 }
 
 .borrowing-equipment {
-    width: 10%;
+    width: 15%;
     box-sizing: border-box;
     overflow: hidden;
     /* text-align: left; */
@@ -186,7 +186,7 @@ input[type="checkbox"] {
 
 
 .borrowing-user {
-    width: 15%;
+    width: 20%;
     align-content: initial;
 }
 
