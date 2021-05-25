@@ -26,7 +26,6 @@ namespace goLabLint.wwwroot.ViewComponents {
                         var readTask = result.Content.ReadAsAsync<JArray>();
                         readTask.Wait();
 
-                        Console.WriteLine(readTask.Result);
                         ViewBag.equipmentList = readTask.Result;
                     } else {
 
@@ -42,7 +41,6 @@ namespace goLabLint.wwwroot.ViewComponents {
                         var readTask = result.Content.ReadAsAsync<JArray>();
                         readTask.Wait();
 
-                        Console.WriteLine(readTask.Result);
                         ViewBag.equipmentList = readTask.Result;
                     } else {
 
