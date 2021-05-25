@@ -9,8 +9,9 @@
     string clockWhite = "/image/clock-white.png";
     string clockSkyblue = "/image/clock-skyblue.png";
     string cross = "/image/cross.png";
-    bool isAuthenticated= Context.User.Identity.IsAuthenticated;
-    string userId = isAuthenticated ? Context.User.Claims.Where(claim => claim.Type==ClaimTypes.NameIdentifier).FirstOrDefault().Value :"";
+    bool isAuthenticated = Context.User.Identity.IsAuthenticated;
+    string userId = isAuthenticated ? Context.User.Claims.Where(claim =>
+    claim.Type == ClaimTypes.NameIdentifier).FirstOrDefault().Value : "";
 }
 
 @section styles{
@@ -42,22 +43,23 @@
         </div>
         <div id="calendar">
             <div id="month-year">
-                
+
                 <div>
                     <p id="month"></p>
                     <p id="year"></p>
                 </div>
 
                 <div id="monthButton">
-                    <button onclick="prevMonth()"><</button>
-                    <button onclick="nextMonth()">></button>
+                    <button onclick="prevMonth()">
+                        <</button>
+                            <button onclick="nextMonth()">></button>
                 </div>
 
             </div>
             <div id="calendar-days"></div>
         </div>
-        
-        
+
+
 
         <div class="bookingRange">
             @* <div>
@@ -81,7 +83,7 @@
         <p>ถูกต้องหรือไม่ ?</p>
         <button id="confirmButton" onclick="book('@isAuthenticated', '@userId')">ยืนยันการจอง</button>
         <button id="cancelButton" onclick="cancelBooking()">ยกเลิก</button>
-    </div> 
+    </div>
     <div id="confirmPopup-background"></div>
 </div>
 
@@ -94,7 +96,7 @@
     var today = new Date();
     var time = today.getTime();
     var date = new Date(time);
-    if(today.getHours()>=16)date.setDate(today.getDate()+1);
+    if (today.getHours() >= 16) date.setDate(today.getDate() + 1);
 
     var availableNumber = [];
     var bookingArr = [];
@@ -173,7 +175,7 @@
                 yy -= 1;
             }
             if (mm < 10) mm = "0" + mm;
-            if (theDay < today || (theDay <= today && today.getHours()>=16)) {
+            if (theDay < today || (theDay <= today && today.getHours() >= 16)) {
                 days = days + "<div class='notAvailableDay'>" + x + "</div>";
             }
             else
@@ -193,7 +195,7 @@
                 y == d.getFullYear())
                 days = days + "<div class='myselectedday' onclick=selectBookingDate('" + dd + mm + y + "')>" + i + "</div>";
             else {
-                if (theDay < today || (theDay <= today && today.getHours()>=16)) {
+                if (theDay < today || (theDay <= today && today.getHours() >= 16)) {
                     days = days + "<div class='mydays'>" + i + "</div>";
                 }
                 else
@@ -231,13 +233,13 @@
         if (date.getMonth() == today.getMonth() && date.getFullYear() == today.getFullYear()) return;
         date.setDate(1);
         date.setMonth(date.getMonth() - 1);
-        
+
         if (date > today)
             setDate(date);
-        else if(today.getHours()>=16){
-            date.setDate(today.getDate()+1);
+        else if (today.getHours() >= 16) {
+            date.setDate(today.getDate() + 1);
             setDate(date);
-            console.log(date,today);
+            console.log(date, today);
         }
         else
             setDate(today);
@@ -288,7 +290,7 @@
     function setSelectedCards(dd) {
         if (loading) {
             document.getElementById("bookingCards").innerHTML = "<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div>"
-            return ;
+            return;
         }
         var i, selectedTime = "";
         selectedTime = "";
@@ -301,14 +303,14 @@
                 dd.getFullYear() == today.getFullYear() &&
                 i + 9 <= today.getHours() ||
                 availableNumber[i] == 0
-                ) selectedTime = selectedTime +
-                    `<div class="checkTime notAvailable">
+            ) selectedTime = selectedTime +
+                `<div class="checkTime notAvailable">
                 <img class="clock" src="@clockRed"/>
                 <p>`+ start + `:00 - ` + end + `:00</p>
             </div>`;
             else if (bookingArr[i]) selectedTime = selectedTime +
                 `<div class="checkTime selected" onclick="cardSelect(` + i + `)">
-                
+
                 <div class="checkIconContainer">
                     <img class="checkIcon" src="@checkIcon"/>
                 </div>
@@ -354,58 +356,70 @@
             post(start, end);
         }
         function post(s, e) {
-            if(login=="False"){
+            if (login == "False") {
                 window.location.replace("/login");
                 return;
             }
-            else{
-                console.log("จองแล้ว",s,e);
-                if(s==9)s="09";
+            else {
+                console.log("จองแล้ว", s, e);
+                if (s == 9) s = "09";
                 var formData = new FormData();
                 formData.append("equipmentId", equipmentId);
-                formData.append("startDate", formatDate(date)+":"+s);
-                formData.append("endDate", formatDate(date)+":"+e);
+                formData.append("startDate", formatDate(date) + ":" + s);
+                formData.append("endDate", formatDate(date) + ":" + e);
                 formData.append("userId", userId);
                 var request = new XMLHttpRequest();
                 request.onreadystatechange = function () {
-                    if(this.readyState == 4 && this.status == 200){
-                        console.log(this.responseText);
-                    }
                     document.getElementById("confirmPopup").innerHTML = "<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div><div class='wait'>กรุณารอสักครู่ ระบบกำลังทำการจอง</div>";
-                    window.location.reload();
+                    if (this.readyState == 4 && this.status == 200) {
+                        var error = JSON.parse(this.responseText);
+                        console.log(this.responseText.userId);
+                        console.log(this.responseText);
+                        document.getElementById("confirmPopup").innerHTML = "<div>การจองสำเร็จ</div>";
+                        if (error.userId) {
+                            document.getElementById("confirmPopup").innerHTML = "<div>ขออภัยคุณไม่สามารถทำการจองได้</div>";
+                            document.getElementById("confirmPopup-background").onclick=reloadPage;
+                    }
+                    }
                 }
-                request.open("POST", "/api/book",true);
+                request.open("POST", "/api/book", true);
                 request.send(formData);
-                
+
             }
-            
+
         }
 
     }
 
-    function toConfirm(){
-        var list="",b=false;
+    function reloadPage() {
+        document.getElementById("confirmPopup").className = "hidden";
+        document.getElementById("confirmPopup-background").className = "hidden";
+        window.location.reload();        
+    }
+
+    function toConfirm() {
+        var list = "", b = false;
         for (var i = 0; i < 8; i++) {
-            var time=i+9;
-            if(time==9)time="09";
+            var time = i + 9;
+            if (time == 9) time = "09";
             if (bookingArr[i] && !b) {
-                list=list+"<p>"+time+":00 น. - ";
+                list = list + "<p>" + time + ":00 น. - ";
                 b = true;
             }
             else if (b && !bookingArr[i]) {
-                list=list+time+":00 น.</p>";
+                list = list + time + ":00 น.</p>";
                 b = false;
             }
         }
         if (b) {
-            list=list+17+":00 น.</p>";
+            list = list + 17 + ":00 น.</p>";
         }
         document.getElementById("bookingList").innerHTML = list;
         document.getElementById("confirmPopup").className = "show";
         document.getElementById("confirmPopup-background").className = "show";
     }
 
-    function cancelBooking(){
+    function cancelBooking() {
         document.getElementById("confirmPopup").className = "hidden";
         document.getElementById("confirmPopup-background").className = "hidden";
     }
