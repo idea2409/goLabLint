@@ -15,12 +15,10 @@
 else
 {
 
-    <div class="@(ViewBag.role == "User"? "grid-container" : "block-container")">
+    <div class="grid-container">
 
-        @foreach (var item in ViewBag.equipmentList)
-        {
-            
-            <a asp-route = "@(role == "Admin" ? "admin-equipment" : "user-booking")" asp-route-id="@item.id" class="gen-card">
+        @foreach (var item in ViewBag.equipmentList){            
+            <a href="https://reallabbook.azurewebsites.net/" class="gen-card" style="margin-bottom:8%; box-sizing:border-box;width:max-content">
                 <div class="labcard">
                     @if (@item.toolname =="Voltmeter"){
                         <img class="item-img" src="~/image/voltmeter.jpg" alt="@item.toolname"/>
@@ -36,16 +34,14 @@ else
                     }
                     else{
                         <img class="item-img" src="~/image/pliers.jpg" alt="@item.toolname"/>
-                    }
-                
+                    }                
                 <div class="detail">
                     <h3 class="title">@item.toolname</h3>
                     <label class="equity">@item.quantity pcs</label>
-                    <p class="body-card">ห้องปฏิบัติการ @item.toolID</p>
+                    <p class="body-card">ห้องปฏิบัติการ @(item.toolID+5)</p>
                     <button class="btn-book">BOOK</button>
                 </div>
             </div>
-            }
             <div>
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
             </div>

@@ -40,32 +40,32 @@ namespace golablint.Controllers {
         //         ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
         //     }
             // return View();
-            IEnumerable<Other> other = null;
+            // IEnumerable<Other> other = null;
 
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri("https://reallabbook.azurewebsites.net/api/");
-                //HTTP GET
-                var responseTask = client.GetAsync("ToolsAPI");
-                responseTask.Wait();
+            // using (var client = new HttpClient())
+            // {
+            //     client.BaseAddress = new Uri("https://reallabbook.azurewebsites.net/api/");
+            //     //HTTP GET
+            //     var responseTask = client.GetAsync("ToolsAPI");
+            //     responseTask.Wait();
 
-                var result = responseTask.Result;
-                if (result.IsSuccessStatusCode)
-                {
-                    var readTask = result.Content.ReadAsAsync<IList<Other>>();
-                    readTask.Wait();
+            //     var result = responseTask.Result;
+            //     if (result.IsSuccessStatusCode)
+            //     {
+            //         var readTask = result.Content.ReadAsAsync<IList<Other>>();
+            //         readTask.Wait();
 
-                    other = readTask.Result;
-                }
-                else //web api sent error response 
-                {
+            //         other = readTask.Result;
+            //     }
+            //     else //web api sent error response 
+            //     {
 
-                    other = Enumerable.Empty<Other>();
+            //         other = Enumerable.Empty<Other>();
 
-                    ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
-                }
-            }
-            return View(other);
+            //         ModelState.AddModelError(string.Empty, "Server error. Please contact administrator.");
+            //     }
+            // }
+            return View();
         }
 
     }

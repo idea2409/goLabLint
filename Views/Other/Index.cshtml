@@ -1,4 +1,3 @@
-@model IEnumerable<golablint.Models.Other>
 @{
     ViewData["Title"] = "Other";
 }
@@ -13,40 +12,13 @@
         <div class="other-title">
             <h1>อุปกรณ์ที่สามารถจองได้ในห้องปฏิบัติการอื่น</h1>
         </div>
-    </div>
-
-    
-    <div class="grid-container">
-        @foreach (var item in Model) {
-            <div class="labcard">
-                @if (@item.toolname =="Voltmeter"){
-                    <img class="item-img" src="~/image/voltmeter.jpg" alt="@item.toolname"/>
-                }
-                else if(@item.toolname =="Arduino"){
-                    <img class="item-img" src="~/image/arduino.jpg" alt="@item.toolname"/>
-                }
-                else if(@item.toolname =="Oscilloscope"){
-                    <img class="item-img" src="~/image/Oscilloscope.jpeg" alt="@item.toolname"/>
-                }
-                else if(@item.toolname =="Soldering Iron"){
-                    <img class="item-img" src="~/image/Soldering Iron.jpg" alt="@item.toolname"/>
-                }
-                else{
-                    <img class="item-img" src="~/image/pliers.jpg" alt="@item.toolname"/>
-                }
-            
-            <div class="detail">
-                <h3 class="title">@item.toolname</h3>
-                <label class="equity">@item.quantity pcs</label>
-                <p class="body-card">ห้องปฏิบัติการ @item.toolID</p>
-                <button class="btn-book">BOOK</button>
-            </div>
-        </div>
-        }
+    </div>    
+    @await Component.InvokeAsync("OtherCard")
+    @* <div class="grid-container">
         <div>
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         </div>
-    </div>    
+    </div>     *@
     @* @await Component.InvokeAsync("OtherCard",new {role="User", find = name}) *@
 </div>
 

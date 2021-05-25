@@ -124,7 +124,7 @@
                     output.innerHTML = responseElement;
                 }
             }
-            xhttp.open("GET", "/api/get-borrowing-list?orderBy=" + orderBy + "&page=" + page, true);
+            xhttp.open("GET", "/api/get-borrowing-list", true);
             xhttp.send();
         }
         function triggerState(state) {

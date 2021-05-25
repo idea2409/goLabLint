@@ -6,16 +6,10 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 }
 <div id="main" class="body">
-    @* <h1>ทำตรงนี้</h1>
-        <p>@ViewBag.equipment.name</p>
-        <p>@ViewBag.equipment.description</p>
-        <p>@ViewBag.equipment.amount</p>
-        <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name)/>
-        <br/>
-        eieizza55plus *@
     <div class="head">
         <h1>@ViewBag.equipment.name</h1>
-        <button type="button" id="delete-button">ลบอุปกรณ์นี้</button>
+        <form id="delete-form" asp-action="delete" asp-controller="admin" asp-route-id="@(ViewBag.equipment.id)"></form>
+        <input type="submit" id="delete-button"value="ลบอุปกรณ์นี้" form="delete-form" style="cursor:pointer"></input>
     </div>
     <div id="detail">
         <img src=@(ViewBag.equipment.image) alt=@(ViewBag.equipment.name) id="image" />
@@ -25,71 +19,94 @@
                 <td>จำนวนทั้งหมด</td>
                 <td>@ViewBag.equipment.amount</td>
             </tr>
-            <tr>
+            @* <tr>
                 <td>สามารถจองได้</td>
                 <td>99</td>
-            </tr>
-            <tr>
+                </tr>
+                <tr>
                 <td>อยู่ในระหว่างการจอง</td>
                 <td>5</td>
-            </tr>
+                </tr> *@
         </table>
     </div>
-    <div id="edit">
+    <div id="edit" style="margin-top:5%">
         <h1>แก้ไขจำนวนอุปกรณ์</h1>
         <div id="input-zone">
             <div id="add">
                 <i class="material-icons" id="add-bt">add_circle</i>
                 <p>เพิ่มอุปกรณ์</p>
-                <div id="add-input">
+                <form id="add-input" method="POST" asp-route="adjust-equipment" asp-route-ac="add"
+                    asp-route-id="@(ViewBag.equipment.id)" style="width: 30%;">
                     <label for="add">จำนวน</label>
-                    <input type="number" name="add" onclick="disableButton('submit-remove')">
-                </div>
-                <button type="button" id="submit-add" >ยืนยัน</button>
+                    <input type="number" name="amount" min="1" style="width:60%"
+                        onclick="disableButton('submit-remove')">
+                </form>
+                <input type="submit" id="submit-add" value="ยืนยัน" style="cursor: pointer;" form="add-input">
             </div>
             <div id="remove">
                 <i class="material-icons" id="remove-bt">remove_circle</i>
                 <p>นำอุปกรณ์ออก</p>
-                <div id="remove-input">
+                <form id="remove-input" method="POST" asp-route="adjust-equipment" asp-route-ac="delete"
+                    asp-route-id="@(ViewBag.equipment.id)" style="width: 30%;">
                     <label for="remove">จำนวน</label>
-                    <input type="number" name="remove" onclick="disableButton('submit-add')">
-                </div>
-                <button type="button" id="submit-remove" >ยืนยัน</button>
+                    <input type="number" name="amount" min="1" style="width:60%" max="@(ViewBag.equipment.amount)"
+                        onclick="disableButton('submit-add')">
+                </form>
+                <input type="submit" id="submit-remove" value="ยืนยัน" form="remove-input">
             </div>
         </div>
     </div>
     <div id="transaction">
-        <h1>ประวัติการแก้ไข</h1>
+        <h1 style="margin-bottom: 10px;">ประวัติการแก้ไข</h1>
         <table id="transaction-table">
             <thead>
                 <th>รายการ</th>
                 <th>วันเวลา</th>
                 <th>จำนวน</th>
             </thead>
-            <tbody>
-                <tr>
-                    <td>นำออก</td>
-                    <td>31/02/2021 17:30</td>
-                    <td>69</td>
-                </tr>
-                <tr>
-                    <td>เพิ่ม</td>
-                    <td>31/02/2021 15:30</td>
-                    <td>420</td>
-                </tr>
+            <tbody id="history">
             </tbody>
         </table>
     </div>
     <script>
-        function disableButton(btn){
-                if(btn == 'submit-add'){
-                    document.getElementById(btn).disabled = true;
-                    document.getElementById('submit-remove').disabled = false;
+        var output = document.getElementById("history");
+        window.onload = () => {
+            getHistory();
+        }
+        var equipmentId = window.location.href.split("/")[window.location.href.split("/").length - 1];
+        function disableButton(btn) {
+            if (btn == 'submit-add') {
+                document.getElementById(btn).disabled = true;
+                document.getElementById('submit-remove').disabled = false;
+                document.getElementById('submit-add').style.cursor = "pointer";
+            }
+            else {
+                document.getElementById(btn).disabled = true;
+                document.getElementById('submit-add').disabled = false;
+                document.getElementById('submit-remove').style.cursor = "pointer";
+            }
+        }
+
+        function getHistory() {
+            let xhttp = new XMLHttpRequest();
+            console.log("sdads");
+            xhttp.onreadystatechange = function () {
+                if (this.readyState == 4 && this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+                    console.log(response);
+                    let responseElement = "";
+                    for (var a of response) {
+                        responseElement += `<tr>
+                        <td>${a.status == "Create" ? "สร้าง" : a.status == "Add" ? "เพิ่ม" : "นำออก"}</td>
+                        <td>${a.issueDate.split("T")[0]} ${a.issueDate.split("T")[1].split(".")[0]}</td>
+                        <td>${a.amount}</td>
+                        </tr>`;
+                    }
+                    output.innerHTML = responseElement;
                 }
-                else {
-                    document.getElementById(btn).disabled = true;
-                    document.getElementById('submit-add').disabled = false;
-                }
-			}
+            }
+            xhttp.open("GET", `/api/get-history/${equipmentId}`, true);
+            xhttp.send();
+        }
     </script>
 </div>
