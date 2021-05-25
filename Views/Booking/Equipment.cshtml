@@ -378,8 +378,9 @@
                         document.getElementById("confirmPopup").innerHTML = "<div>การจองสำเร็จ</div>";
                         if (error.userId) {
                             document.getElementById("confirmPopup").innerHTML = "<div>ขออภัยคุณไม่สามารถทำการจองได้</div>";
-                            document.getElementById("confirmPopup-background").onclick=reloadPage;
-                    }
+                            
+                        }
+                        document.getElementById("confirmPopup-background").onclick=reloadPage;
                     }
                 }
                 request.open("POST", "/api/book", true);
