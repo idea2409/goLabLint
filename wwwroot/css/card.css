@@ -2,14 +2,18 @@
     position: relative;
     display: grid;
     grid-template-columns: 25% 25% 25% 25%;
-    padding: 0 3% 0 3%;
+    margin: 0 3% 0 3%;
     /* row-gap: 3.5%; */
     /* column-gap: 3.5%; */
     /* background-color: aqua; */
 }
+
 a.gen-card {
     margin: 5% 7% 5% 7%;
+    cursor: default;
+    /* background-color: #355A8A; */
 }
+
 div.card {
     position: relative;
     /* background-color: red; */
@@ -48,8 +52,7 @@ div.equip-not-found {
     left: 35%;
     padding-bottom: 3rem;
     text-align: center;
-    color: #7b7b7b  ;
-
+    color: #7b7b7b;
 }
 
 img.oops {
