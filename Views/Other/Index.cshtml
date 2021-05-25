@@ -1,0 +1,24 @@
+@{
+    ViewData["Title"] = "Other";
+}
+@section styles {
+<link rel="stylesheet" href="~/css/other.css" type="text/css" />
+}
+<div class = "body">
+    @{
+        string name = ViewBag.search != null && !string.IsNullOrEmpty(ViewBag.search) ? ViewBag.search : "";
+    }
+   <div class="other-header">
+        <div class="other-title">
+            <h1>อุปกรณ์ที่สามารถจองได้ในห้องปฏิบัติการอื่น</h1>
+        </div>
+    </div>    
+    @await Component.InvokeAsync("OtherCard")
+    @* <div class="grid-container">
+        <div>
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        </div>
+    </div>     *@
+    @* @await Component.InvokeAsync("OtherCard",new {role="User", find = name}) *@
+</div>
+

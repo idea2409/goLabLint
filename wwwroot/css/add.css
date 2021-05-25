@@ -39,9 +39,10 @@ section {
 #photo_icon {
     font-size: 200px;
     color: lightgray;
-    position: relative;
-    top: 25%;
-    width: 100%;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 50%;
     text-align: center;
 }
 

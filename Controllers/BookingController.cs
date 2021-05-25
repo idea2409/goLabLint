@@ -78,29 +78,24 @@ namespace golablint.Controllers {
             return Json(available);
         }
 
-        public async Task<List<Equipment>> getAvailableWithDate(List<Equipment> equipmentList, DateTime now) {
-            foreach (var equipment in equipmentList) {
-                List<DateTime> availableTime = new List<DateTime>();
-                if (now.Hour >= 17) {
-                    now = now.AddHours(24 - now.Hour);
-                }
-                if (now.Hour < 9) {
-                    now = now.AddHours(9 - now.Hour);
-                }
-                var clockQuery = from offset in Enumerable.Range(0, 17 - now.Hour)
-                select TimeSpan.FromHours(offset);
-                foreach (var time in clockQuery) {
-                    availableTime.Add(now.Add(time));
-                }
-                List<int> available_amount = new List<int>();
-                foreach (var _startDate in availableTime) {
-                    var total = equipment.amount;
-                    var totalBooking = await (from b in _db.Borrowing where _startDate >= b.startDate && _startDate < b.endDate && b.equipment.id == equipment.id select b.startDate).CountAsync();
-                    available_amount.Add(total - totalBooking);
-                }
-                equipment.amount = available_amount.Max();
+        public async Task<JsonResult> getAvailableWithDate(List<Equipment> equipmentList, DateTime now) {
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            if (now.Hour >= 17) {
+                now = now.AddHours(24 - now.Hour);
             }
-            return equipmentList;
+            if (now.Hour < 9) {
+                now = now.AddHours(9 - now.Hour);
+            }
+            foreach (var equipment in equipmentList) {
+
+                var totalBooking = await (from b in _db.Borrowing where now >= b.startDate && now < b.endDate && b.equipment.id == equipment.id select b.startDate).CountAsync();
+                Dictionary<string, object> a = new Dictionary<string, object>();
+                a.Add("equipment", equipment);
+                a.Add("amount", equipment.amount - totalBooking);
+                result.Add(a);
+            }
+            Console.WriteLine();
+            return Json(result);
         }
 
         [HttpPost]

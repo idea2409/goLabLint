@@ -50,8 +50,7 @@ namespace golablint.Controllers {
 
         [HttpPost]
         [Route("~/admin/equipment/add", Name = "create-equipment")]
-        public IActionResult Add(string name, string amount, List<IFormFile> files, string description) {
-
+        public async Task<IActionResult> Add([FromForm] IFormFile file, string name, string amount, string description) {
             EquipmentController equipmentController = new EquipmentController(_db);
             int _amount;
             bool isError = false;
@@ -60,8 +59,6 @@ namespace golablint.Controllers {
                 ModelState.AddModelError("description", "กรุณาระบุห้องปฏิบัตการ");
             }
             if (!Int32.TryParse(amount, out _amount) || string.IsNullOrEmpty(amount)) {
-                Console.WriteLine("error");
-                Console.WriteLine(amount);
                 isError = true;
                 ModelState.AddModelError("amount", "กรุณาระบุจำนวนที่ถูกต้อง");
             }
@@ -69,24 +66,22 @@ namespace golablint.Controllers {
                 isError = true;
                 ModelState.AddModelError("name", "กรุณาระบุชื่ออุปกรณ์");
             }
-            string image = equipmentController.ConvertImageToString(files);
-            if (!image.StartsWith("data:image/jpeg")) {
+            string base64 = equipmentController.ConvertImageToString(file);
+            if (!base64.StartsWith("data:image/jpeg")) {
                 isError = true;
-                ModelState.AddModelError("image", image);
+                ModelState.AddModelError("image", base64);
             }
             Equipment equipment = new Equipment();
             equipment.id = Guid.NewGuid();
             equipment.amount = _amount;
             equipment.description = description;
-            equipment.image = image;
+            equipment.image = base64;
             equipment.name = name;
             ViewBag.equipment = equipment;
             if (isError) {
-                Console.WriteLine("error");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
-                Console.WriteLine(errorJSON);
                 return View();
             }
             History history = new History();
@@ -95,16 +90,72 @@ namespace golablint.Controllers {
             history.status = "Create";
             history.amount = _amount;
             history.equipmentid = equipment.id;
+            history.equipment = equipment;
             if (!TryValidateModel(history, nameof(history))) {
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 var errorJSON = JsonConvert.SerializeObject(errorList);
                 ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
                 return View();
             }
+            _db.Equipment.Add(equipment);
+            _db.History.Add(history);
+            await _db.SaveChangesAsync();
             return RedirectToRoute(new {
                 controller = "admin",
                     action = "equipment",
             });
+        }
+
+        [HttpPost]
+        [Route("~/api/adjust-equipment", Name = "adjust-equipment")]
+        public async Task<IActionResult> adjustEquipment(string id, string ac, [FromForm] string amount) {
+            Guid _id;
+            int _amount;
+            bool isError = false;
+            if (!Guid.TryParse(id, out _id)) {
+                isError = true;
+                ModelState.AddModelError("equipmentId", "หมายเลขอุปกรณ์ไม่ถูกต้อง");
+            }
+            if (!Int32.TryParse(amount, out _amount) || string.IsNullOrEmpty(amount)) {
+                isError = true;
+                ModelState.AddModelError("amount", "จำนวนไม่ถูกต้อง");
+            }
+            if (isError) {
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
+                return RedirectToAction("Describe", new { id = _id });
+            }
+            var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1").OrderBy(item => item.id).FirstOrDefault();
+            if (equipment == null) {
+                ModelState.AddModelError("equipmentId", "ไม่พบอุปกรณ์ดังกล่าวในระบบ");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
+                return RedirectToAction("Describe", new { id = _id });
+            };
+            if (ac == "delete") {
+                equipment.amount = (equipment.amount - _amount < 0) ? 0 : (equipment.amount - _amount);
+            } else if (ac == "add") {
+                equipment.amount += _amount;
+            }
+            History history = new History();
+            history.id = new Guid();
+            history.issueDate = DateTime.Now;
+            history.amount = _amount;
+            history.equipment = equipment;
+            history.equipmentid = _id;
+            history.status = ac == "add" ? "Add" : "Subtract";
+            if (!TryValidateModel(history, nameof(history))) {
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
+                return RedirectToAction("Describe", new { id = _id });
+            }
+            _db.Equipment.Update(equipment);
+            _db.History.Add(history);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Describe", new { id = _id });
         }
 
         [Route("~/admin/borrowing-list", Name = "admin-borrowing")]
@@ -121,6 +172,25 @@ namespace golablint.Controllers {
                 var borrowingList = (from borrowing in _db.Set<Borrowing>() join equipment in _db.Set<Equipment>() on borrowing.equipment.id equals equipment.id join user in _db.Set<User>() on borrowing.user.id equals user.id where user.name == name select new { borrowing, equipment, user });
                 return Json(borrowingList);
             }
+        }
+        [HttpPost]
+        [Route("~/api/delete-equipment")]
+        public async Task<IActionResult> delete(string id) {
+            Guid _id;
+            if (!Guid.TryParse(id, out _id)) {
+                ModelState.AddModelError("equipmentId", "หมายเลขอุปกรณ์ไม่ถูกต้อง");
+            }
+            var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1").OrderBy(item => item.id).FirstOrDefault();
+            if (equipment == null) {
+                ModelState.AddModelError("equipmentId", "ไม่พบอุปกรณ์ดังกล่าวในระบบ");
+                var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
+                var errorJSON = JsonConvert.SerializeObject(errorList);
+                ViewBag.errors = JsonConvert.DeserializeObject(errorJSON);
+                return RedirectToAction("equipment");
+            };
+            _db.Equipment.Remove(equipment);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("equipment");
         }
     }
 
