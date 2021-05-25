@@ -248,16 +248,16 @@
                 <div class="borrowing-end">${a.borrowing.endDate.split("T")[0]} ${a.borrowing.endDate.split("T")[1]}</div>
                 
                 <div class="borrowing-status" id="${a.borrowing.status} text">
-                            <div class="borrowing-status-dot" id="${a.borrowing.status}">⦿</div>
+                            <div class="borrowing-status-dot" id="${Date.parse(a.borrowing.endDate) < Date.now() && a.borrowing.status == "Ongoing" ? "beLate" : a.borrowing.status}">⦿</div>
                             ${a.borrowing.status == "Late" ? "คืนช้า" : a.borrowing.status == "Completed" ? "สำเร็จ" : Date.parse(a.borrowing.endDate) < Date.now() && a.borrowing.status == "Ongoing" ? "ล่าช้า" : "ปกติ"}
                             </div >
-                <div class="return-btn"><button onclick="openPopupReturn(${x})">คืนอุปกรณ์</button></div>
+                <div class="return-btn"><button onclick="openPopupReturn(${x})" id="hidden${a.borrowing.status}">คืนอุปกรณ์</button></div>
                 <div class="form-popup" id="returnEquipment${x}">
                 <form  method = "POST"  action="/api/set-complete?id=${a.borrowing.id}&action=confirm"  class="popup-container">
                 <h3>ยืนยันการคืนอุปกรณ์</h3>
                 <div class="summary-borrowing">${a.equipment.name} ${a.user.name} ${a.user.surname}</div>
                 <div class="popup-btn">
-                <button type="submit" class="btn confirm">
+                <button type="submit" class="btn confirm" >
                 <h3>ยืนยันการคืน</h3>
                 </button>
                 <button type="button" class="btn cancel" onclick="exitPopupReturn(${x})">

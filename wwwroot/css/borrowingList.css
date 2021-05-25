@@ -52,6 +52,16 @@
 
 #Completed {
     color: var(--blue-color);
+    /* display: none; */
+}
+
+#beLate {
+    color: red;
+}
+
+#hiddenCompleted,
+#hiddenLate {
+    display: none;
 }
 
 .blacklist-btn {
