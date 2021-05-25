@@ -42,7 +42,7 @@
         </div>
         <div id="calendar">
             <div id="month-year">
-
+                
                 <div>
                     <p id="month"></p>
                     <p id="year"></p>
@@ -50,7 +50,7 @@
 
                 <div id="monthButton">
                     <button onclick="prevMonth()"><</button>
-                            <button onclick="nextMonth()">></button>
+                    <button onclick="nextMonth()">></button>
                 </div>
 
             </div>
@@ -299,18 +299,10 @@
             if (dd.getDate() == today.getDate() &&
                 dd.getMonth() == today.getMonth() &&
                 dd.getFullYear() == today.getFullYear() &&
-                i + 9 <= today.getHours()
+                i + 9 <= today.getHours() ||
+                availableNumber[i] == 0
                 ) selectedTime = selectedTime +
                     `<div class="checkTime notAvailable">
-                <div class="availableNumber">
-                    <img src="@cross"/>
-                </div>
-                <img class="clock" src="@clockRed"/>
-                <p>`+ start + `:00 - ` + end + `:00</p>
-            </div>`;
-            else if (availableNumber[i] == 0) selectedTime = selectedTime +
-                `<div class="checkTime notAvailable">
-                <div class="availableNumber">`+ availableNumber[i] + `</div>
                 <img class="clock" src="@clockRed"/>
                 <p>`+ start + `:00 - ` + end + `:00</p>
             </div>`;

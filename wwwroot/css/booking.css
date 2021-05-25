@@ -16,7 +16,7 @@
     border: 1px solid #3DB1E7;
     margin: 0 -20px;
     box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-    
+    border-radius: 0 15px 15px 0;
     /* text-align: center; */
 }
 
@@ -30,6 +30,7 @@
     width: 290px;
     margin-left: 20px;
     height: calc(100vh - 4vw); 
+    min-height: 536px;
     display: flex;
     flex-direction: column;
     justify-content: space-around;   
@@ -47,7 +48,6 @@
     background: #F8FAFC;
     border: 1px solid #F1F5F9;
     box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
-    
 }
 
 #month-year {
@@ -63,22 +63,24 @@
 #month-year > div {
     display: flex;
     flex-direction: row;
-    margin: 0 10x;
+    /* margin: 0 10px; */
     /* background: chartreuse; */
 }
 
 #month {
     color: black;
-    font-size:170%;
+    font-size:190%;
     margin-right: 5px;
     font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 
 #year {
     color: red;
-    font-size:170%;
+    font-size:190%;
     font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 
@@ -126,12 +128,14 @@
     width: 100%;
     height: 100%;
     font-weight: bold;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .myselectedday {    
     color: white;
     font-weight: bold;
     background-color: #3DB1E7;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .hover:hover{
@@ -179,7 +183,7 @@
     align-content: center;
     justify-items: center;
     cursor: pointer;
-    
+    border-radius: 4px;
 }
 
 .booking-right-bottom .notAvailable {
@@ -187,18 +191,28 @@
     /* box-shadow: 0 0 0px 3px red inset; */
     /* opacity: 0.15; */
     color: red;
-    background: #F8FAFC;
-    border: 1px solid #F1F5F9;    
+    text-decoration: line-through;
+    /* background: #F8FAFC; */
+    /* border: 1px solid #F1F5F9;     */
     box-sizing: border-box;
-    box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.1);
+    cursor: default;
+    /* box-shadow: 0px 4px 6px -2px rgba(0, 0, 0, 0.05), 0px 10px 15px -3px rgba(0, 0, 0, 0.1); */
     
 }
 
 .booking-right-bottom .notAvailable > div, 
 .booking-right-bottom .notAvailable img:not(:only-child) , 
 .booking-right-bottom .notAvailable p{
-opacity: 0.5;
+opacity: 0.4;
 
+}
+
+#bookingList {
+    width: 100%;
+    justify-content: center;
+    padding-top: 10px;
+    margin-bottom: 10px;
+    background-color: #EEEEEE;
 }
 
 .booking-right-bottom .notSelected {
@@ -412,8 +426,9 @@ opacity: 0.5;
 
 #confirmPopup{
     position: absolute;
-    width: 400px;
-    height: 300px;
+    width: 420px;
+    max-height: 350px;
+    height: fit-content;
     background-color: white;
     top: 0;
     left: 0;
@@ -428,7 +443,7 @@ opacity: 0.5;
     justify-content: center;
     align-items: center;
     align-content: center;
-    padding: 20px;
+    padding: 30px;
     box-sizing: border-box;
     border: solid white calc();
     z-index: 99;
