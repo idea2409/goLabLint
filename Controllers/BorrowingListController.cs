@@ -49,7 +49,7 @@ namespace golablint.Controllers {
         [HttpPost]
         [Route("~/api/set-complete", Name = "set-complete")]
         [Route("~/api/delete-borrowing", Name = "delete-borrowing")]
-        public IActionResult delete([FromQuery] string id, [FromQuery] string action) {
+        public IActionResult delete([FromQuery] string id, [FromQuery] string action,[FromQuery] string r="") {
             Guid _id;
             if (!Guid.TryParse(id, out _id)) {
                 ModelState.AddModelError("borrowingId", "หมายเลขการจองไม่ถูกต้อง");
@@ -70,6 +70,12 @@ namespace golablint.Controllers {
                 _db.Borrowing.Remove(borrowingListData);
             }
             _db.SaveChanges();
+            Guid userId;
+            if(!string.IsNullOrEmpty(r))
+            {
+                if(!Guid.TryParse(r,out userId)) return BadRequest();
+                return RedirectToRoute("borrowing-list",new {id = userId});
+            }
             return RedirectToRoute("admin-borrowing");
         }
     }

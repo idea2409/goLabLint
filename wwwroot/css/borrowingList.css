@@ -113,7 +113,7 @@
 }
 
 .remove-btn {
-    width: 5%;
+    width: 1em;
     display: flex;
     justify-content: center;
     cursor: pointer;
@@ -125,7 +125,14 @@
 }
 
 .remove-icon {
-    width: 40%;
+    width: 1em;
+    height: 1em;
+    transform: scale(0.3);
+    border-radius: 50%;
+    box-shadow: 0 0 0 6px var(--dark-gray-color);
+    opacity: 0.5;
+
+    /* background-color: var(--dark-gray-color); */
 }
 
 input[type="checkbox"] {
@@ -137,7 +144,6 @@ input[type="checkbox"] {
     width: 15%;
     box-sizing: border-box;
     overflow: hidden;
-    text-align: center;
 }
 
 .borrowing-user {

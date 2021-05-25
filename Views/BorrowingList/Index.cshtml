@@ -57,7 +57,7 @@
             <option value="เรียงตามวันเวลาคืนอุปกรณ์">เรียงตามวันเวลาคืนอุปกรณ์</option>
         </select>
     </div>
-    <div class="borrowing-column">
+    <div class="borrowing-column" id="column-header">
         <div class="remove-btn"></div>
         <div class="borrowing-equipment-user"><strong>อุปกรณ์</strong></div>
         <div class="borrowing-start-user"><strong>วันเวลาเริ่มจอง</strong></div>
@@ -220,27 +220,47 @@
             var element="";
             for (var a of list) {
                 var x = list.indexOf(a);
+                console.log(a.borrowing);
                 element += `<div class="borrowing-column">
-                        <div class="remove-btn" onclick="openPopupRemove(${x})"><img src="/image/remove-icon.jpg" alt="remove"
-                        class="remove-icon"></div>
+                        <div class="remove-btn" onclick="openPopupRemove(${x})">
+                            <div class="remove-icon"></div>
+                        </div>
                         <div class="borrowing-equipment">${a.equipment.name}</div>
                         <div class="borrowing-start-user">${a.borrowing.startDate.split("T")[0]} ${a.borrowing.startDate.split("T")[1]}</div>
                         <div class="borrowing-end-user">${a.borrowing.endDate.split("T")[0]} ${a.borrowing.endDate.split("T")[1]}</div>
                         <div class="borrowing-status" id="${a.borrowing.status} text">
                             <div class="borrowing-status-dot" id="${a.borrowing.status}">⦿</div>
                             ${a.borrowing.status == "Late" ? "คืนช้า" : a.borrowing.status == "Completed" ? "สำเร็จ" : Date.parse(a.borrowing.endDate) < Date.now() && a.borrowing.status == "Ongoing" ? "ล่าช้า" : "ปกติ"}
-                            </div >
-                        <div class="cancel-btn"><button onclick="openPopupRemove(${x})">ยกเลิกการจอง</button></div>
+                            </div >`;
 
-                        <div class="form-popup" id="removeEquipment${x}">
-                        <form method = "POST" action="/api/delete-borrowing?id=${a.borrowing.id}&action=delete" class="popup-container">
+                if(page=="All"){
+                    element+=`
+                        <div class="cancel-btn"><button onclick="openPopupRemove(${x})">ยกเลิกการจอง</button></div>`;
+                    document.getElementById("column-header").innerHTML=`
+                        <div class="remove-btn" onclick="openPopupRemove(${x})"></div>
+                        <div class="borrowing-equipment-user"><strong>อุปกรณ์</strong></div>
+                        <div class="borrowing-start-user"><strong>วันเวลาเริ่มจอง</strong></div>
+                        <div class="borrowing-end-user"><strong>วันเวลาคืนอุปกรณ์</strong></div>
+                        <div class="borrowing-status-user"><strong>สถานะ</strong></div>
+                        <div class="cancel-btn"></div>`;
+                }
+                else
+                    document.getElementById("column-header").innerHTML=`
+                        <div class="remove-btn" onclick="openPopupRemove(${x})"></div>
+                        <div class="borrowing-equipment-user"><strong>อุปกรณ์</strong></div>
+                        <div class="borrowing-start-user"><strong>วันเวลาเริ่มจอง</strong></div>
+                        <div class="borrowing-end-user"><strong>วันเวลาคืนอุปกรณ์</strong></div>
+                        <div class="borrowing-status-user"><strong>สถานะ</strong></div>`;
+                
+                element+=
+                        `<div class="form-popup" id="removeEquipment${x}">
+                        <form method = "POST" action="/api/delete-borrowing?id=${a.borrowing.id}&action=delete&r=${userId}" class="popup-container">
                         <h3>ยกเลิกการจอง</h3>
                         <div class="summary-borrowing">${a.equipment.name}</div>
                         <div class="popup-btn">
                         <button type="submit" class="btn remove">
                         <h3>ยกเลิกการจอง</h3>
-                        </button>
-                        <button type="button" class="btn cancel" onclick="exitPopupRemove(${x})">
+                        </button><button type="button" class="btn cancel" onclick="exitPopupRemove(${x})">
                         <h3>ออก</h3>
                         </button>
                         </div>
