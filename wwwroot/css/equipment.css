@@ -22,7 +22,7 @@ form.equipment-search {
     display: flex;
     justify-content: flex-end;
     /* visibility: hidden; */
-    /* padding-right: 4.5%; */
+    padding-right: 4.5%;
     /* background-color: royalblue; */
 }
 

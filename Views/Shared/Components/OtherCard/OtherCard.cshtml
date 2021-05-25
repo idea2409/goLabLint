@@ -18,7 +18,7 @@ else
     <div class="grid-container">
 
         @foreach (var item in ViewBag.equipmentList){            
-            <a href="https://reallabbook.azurewebsites.net/" class="gen-card" style="margin-bottom:8%; box-sizing:border-box;width:max-content">
+            <a href="https://reallabbook.azurewebsites.net/" target="_blank" class="gen-card" style="margin-bottom:8%; box-sizing:border-box;width:max-content">
                 <div class="labcard">
                     @if (@item.toolname =="Voltmeter"){
                         <img class="item-img" src="~/image/voltmeter.jpg" alt="@item.toolname"/>
