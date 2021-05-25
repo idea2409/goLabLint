@@ -1,5 +1,5 @@
 # goLabLint
-A website for lending and managing laboratory equipment built with ASP.NET Core MVC.
+A website for managing and borrowing laboratory equipment built with ASP.NET Core MVC.
 
 Our team members:
 - [Idea2409](https://github.com/idea2409): Frontend Developer
