@@ -168,18 +168,20 @@ input[type="checkbox"] {
 }
 
 
-.remove-black-btn button {
+.remove-black-btn input {
     color: white;
     background-color: var(--blue-color);
     padding: 2px 25px 2px 25px;
     border-radius: 0.4rem;
+    cursor: pointer;
 }
 
-.add-black-btn button {
+.add-black-btn input {
     color: white;
     background-color: rgb(255, 71, 71);
     padding: 2px 25px 2px 25px;
     border-radius: 0.4rem;
+    cursor: pointer;
 }
 
 #remove-black{

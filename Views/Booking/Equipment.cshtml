@@ -5,11 +5,9 @@
 
     bool[] array = { false, false, false, false, false, false, false, false };
     string checkIcon = "/image/checkIcon-white.png";
-    string corner = "/image/corner.png";
     string clockRed = "/image/clock-red.png";
     string clockWhite = "/image/clock-white.png";
     string clockSkyblue = "/image/clock-skyblue.png";
-    string clockGreen = "/image/clock-green.png";
     string cross = "/image/cross.png";
     bool isAuthenticated= Context.User.Identity.IsAuthenticated;
     string userId = isAuthenticated ? Context.User.Claims.Where(claim => claim.Type==ClaimTypes.NameIdentifier).FirstOrDefault().Value :"";

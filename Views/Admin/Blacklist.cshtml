@@ -44,6 +44,7 @@
             <h2>รายชื่อผู้จองทั้งหมด</h2>
         </div>
     </div>
+    @* <form id="to-blacklist1" method="POST" asp-controller="admin" asp-action="setBlacklist" asp-route-id = 'fbee07bb-6de2-4fdb-91de-e7b6d28144cf' asp-route-ac = "to"></form><input form ="to-blacklist1" type="submit" method="POST" value ="ขึ้นบัญชีดำ"></input> *@
     <output id="blacklist">
 
     </output>
@@ -74,12 +75,13 @@
                 //blacklist
                 else if (status == "Blacklist") {
                     for (var a of response) {
+                        var x = response.indexOf(a);
                         responseElement += `
                         <table id="name-list">
                             <tr>
                                 <td id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></td>
                                 <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
-                                <td id="remove-black"><div class="remove-black-btn"><button onclick="">นำออกจากบัญชีดำ</button></div></td>
+                                <td id="remove-black"><div class="remove-black-btn"><form id="remove-blacklist${x}"method="POST" action="/api/blacklist?id=${a.id}&ac=out"></form><input form ="remove-blacklist${x}" type="submit" method="POST" value ="นำออกจากบัญชีดำ"></input></div></td>
                             </tr>
                         </table>
     `;
@@ -88,12 +90,13 @@
                 //normal
                 else {
                     for (var a of response) {
+                        var x = response.indexOf(a);
                         responseElement += `
                         <table id="name-list">
                             <tr>
                                 <td id="avatar-box"><i class="material-icons" id="avatar">account_circle</i></td>
                                 <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
-                                <td id="add-black"><div class="add-black-btn"><button onclick="">ขึ้นบัญชีดำ</button></div></td>
+                                <td id="add-black"><div class="add-black-btn"><form id="to-blacklist${x}" method="POST" action="/api/blacklist?id=${a.id}&ac=to"></form><input form ="to-blacklist${x}" type="submit" method="POST" value ="ขึ้นบัญชีดำ"></input></div></td>
                             </tr>
                         </table>
     `;

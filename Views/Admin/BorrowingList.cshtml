@@ -20,14 +20,14 @@
             <button class="borrowing-state" onclick="triggerState(1)"><h3>ระหว่างการจอง</h3></button>
             <button class="completed-state" onclick="triggerState(2)"><h3>สำเร็จแล้ว</h3></button>
         </div>
-        <a href="https://localhost:5001/admin/borrowing-list" class="blacklist-btn"><h4>รายชื่อบัญชีดำ</h4></a>
+        <a asp-controller="admin" asp-action="blacklist" class="blacklist-btn"><h4>รายชื่อบัญชีดำ</h4></a>
     </div>
     <div class="completed-header" id="trigger2">
         <div class="state-borrowing-container">
             <button class="completed-state" onclick="triggerState(1)"><h3>ระหว่างการจอง</h3></button>
             <button class="borrowing-state" onclick="triggerState(2)"><h3>สำเร็จแล้ว</h3></button>
         </div>
-        <a href="https://localhost:5001/admin/borrowing-list" class="blacklist-btn"><h4>รายชื่อบัญชีดำ</h4></a>
+        <a asp-controller="admin" asp-action="blacklist" class="blacklist-btn"><h4>รายชื่อบัญชีดำ</h4></a>
     </div>
 
     <div class="borrowing-title">
