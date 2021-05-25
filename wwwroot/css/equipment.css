@@ -56,7 +56,7 @@ form.equipment-search button:hover {
 
 .add-bt {
     width: 30%;
-    padding: 1.5%;
+    padding: 0.1% 1.5% 0.1% 1.5%;
     /* margin-left: 4.5%; */
     text-align: center;
     background: var(--orange-color);
