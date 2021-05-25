@@ -7,7 +7,9 @@
     /* column-gap: 3.5%; */
     /* background-color: aqua; */
 }
-
+a.gen-card {
+    margin: 5% 7% 5% 7%;
+}
 div.card {
     position: relative;
     /* background-color: red; */
@@ -40,10 +42,9 @@ div.card:hover .card-img-hover {
     padding-top: 30%;
 }
 
-div.equip-notfound {
+div.equip-not-found {
     display: block;
-    position: absolute;
-    top: 50%;
+    margin-top: 10%;
     left: 35%;
     padding-bottom: 3rem;
     text-align: center;
@@ -112,15 +113,19 @@ div.card-avialable-num {
     background-color: #3DB1E7;
     border-radius: 100%;
     /* display: block; */
-    padding: 4.5% 5% 3% 5%;
+    width: 4.5em;
+    height: 4.5em;
     text-align: center;
     line-height: 1;
     color: white;
     box-shadow: -1px 1px 10px -1px var(--dark-gray-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 div.card-avialable-num h1 {
-    font-size: 2.2em;
+    font-size: 2em;
 }
 
 div.card-avialable-num p {

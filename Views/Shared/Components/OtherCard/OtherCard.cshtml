@@ -1,0 +1,51 @@
+@{
+    @using System.Security.Claims;
+    string role = "";
+    if (Context.User.Identity.IsAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
+    ClaimTypes.Role).FirstOrDefault().Value;
+}
+@if (ViewBag.equipmentCount != null && ViewBag.equipmentCount == 0)
+{
+    <div class="equip-not-found">
+        <img src="~/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
+        <h1 class="title">เราไม่พบผลลัพธ์ใดๆ</h1>
+        <h4>โปรดตรวจสอบให้แน่ใจว่าสะกดถูกต้องทั้งหมดหรือลองคีย์เวิร์ดอื่น</h4>
+    </div>
+}
+else
+{
+
+    <div class="grid-container">
+
+        @foreach (var item in ViewBag.equipmentList){            
+            <a href="https://reallabbook.azurewebsites.net/" target="_blank" class="gen-card" style="margin-bottom:8%; box-sizing:border-box;width:max-content">
+                <div class="labcard">
+                    @if (@item.toolname =="Voltmeter"){
+                        <img class="item-img" src="~/image/voltmeter.jpg" alt="@item.toolname"/>
+                    }
+                    else if(@item.toolname =="Arduino"){
+                        <img class="item-img" src="~/image/arduino.jpg" alt="@item.toolname"/>
+                    }
+                    else if(@item.toolname =="Oscilloscope"){
+                        <img class="item-img" src="~/image/Oscilloscope.jpeg" alt="@item.toolname"/>
+                    }
+                    else if(@item.toolname =="Soldering Iron"){
+                        <img class="item-img" src="~/image/Soldering Iron.jpg" alt="@item.toolname"/>
+                    }
+                    else{
+                        <img class="item-img" src="~/image/pliers.jpg" alt="@item.toolname"/>
+                    }                
+                <div class="detail">
+                    <h3 class="title">@item.toolname</h3>
+                    <label class="equity">@item.quantity pcs</label>
+                    <p class="body-card">ห้องปฏิบัติการ @(item.toolID+5)</p>
+                    <button class="btn-book">BOOK</button>
+                </div>
+            </div>
+            <div>
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            </div>
+            </a>
+        }
+    </div>
+}

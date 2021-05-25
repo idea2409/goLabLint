@@ -23,27 +23,27 @@
             string role = "";
             if (isAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
             ClaimTypes.Role).FirstOrDefault().Value;
-            <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
-                @if (isAuthenticated)
+            <nav class="@(controller=="Home" &&action=="Index" &&!isAuthenticated ? "navbar-anonymous" : "navbar")">
+                @if (controller == "Home" && action == "Index" && !isAuthenticated)
                 {
-                    <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
+                    <form class="home-search" asp-controller="equipment" asp-action="index">
+                        <input type="text" placeholder="ค้นหาอุปกรณ์" name="search">
+                        <img src="~/image/search-icon.png" alt="ค้นหา" class="home-search-icon" />
+                    </form>
                 }
                 else
                 {
-                    @* <form class="home-search">
-                        <input type="text" placeholder="ค้นหาอุปกรณ์">
-                        <button type="submit"></button>
-                        </form> *@
+                    <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
                 }
-                <a class="@((controller == "Home" ?"current-page": "")+ (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
-                <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                <a class="@((controller == "Home" ?"current-page": "") + " navbar")" asp-controller="home"
+                asp-action="index" asp-area="">หน้าแรก</a>
+                <a class="@(((role!="Admin" &&controller == "Equipment")||(role=="Admin" && controller=="Admin" && (action=="Equipment"||action=="Describe"||action=="Add")) ?"current-page": "")+ " navbar")"
                 asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")"
                 asp-area="">อุปกรณ์</a>
                 @if (role != "Admin")
                 {
-                    <a class="@((controller == "Other" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
-                asp-controller="other" asp-action="index" asp-area="">ห้องปฏิบัติการอื่น</a>
+                    <a class="@((controller == "Other" ?"current-page": "")+ " navbar")" asp-controller="other"
+                asp-action="index" asp-area="">ห้องปฏิบัติการอื่น</a>
                 }
                 else
                 {
@@ -65,15 +65,18 @@
                             <div id="myDropdown" class="user-dropcontent hide">
                                 @if (role != "Admin")
                                 {
-                                    <a asp-controller="history" asp-action="index"
-                            asp-asp-route-id="@(Context.User.Claims.Where(claim => claim.Type ==ClaimTypes.NameIdentifier).FirstOrDefault().Value)"
-                            class="history">ประวัติการจอง</a>
+                                    <a asp-route="borrowing-list" asp-route-id="@(Context.User.Claims.Where(claim => claim.Type ==
+                        ClaimTypes.NameIdentifier).FirstOrDefault().Value)" class="history">ประวัติการจอง</a>
                                     <hr>
                                 }
                                 <a asp-controller="login" asp-action="logout" class="logout">ออกจากระบบ</a>
                             </div>
                         </div>
                     </div>
+                }
+                else
+                {
+                    <a asp-controller="login" asp-action="index" class="for-login-and-register">เข้าสู่ระบบ / สมัครสมาชิก</a>
                 }
             </nav>}
     </header>

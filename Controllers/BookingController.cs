@@ -23,14 +23,14 @@ namespace golablint.Controllers {
             _db = db;
         }
 
-        [Route("~/booking/{id}")]
+        [Route("~/booking/{id}", Name = "user-booking")]
         public IActionResult Equipment(string id) {
             Guid _id;
             if (!Guid.TryParse(id, out _id)) {
                 return BadRequest();
             }
             var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1");
-            if (equipment.Count() == 0) return BadRequest();
+            if (equipment.Count() == 0) return NoContent();
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
             ViewBag.availableTime = JObject.Parse(JsonConvert.SerializeObject(getAvailable(id))).GetValue("Value");
             ViewBag.equipment = equipmentData;
@@ -44,14 +44,12 @@ namespace golablint.Controllers {
             if (!Guid.TryParse(id, out _id)) {
                 ModelState.AddModelError("equipmentId", "หมายเลขอุปกรณ์ไม่ถูกต้อง");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
-                var errorJSON = JsonConvert.SerializeObject(errorList);
                 return Json(errorList);
             }
             var equipment = _db.Equipment.FromSqlRaw($"SELECT * FROM \"Equipment\" WHERE id = \'{id}\' LIMIT 1");
             if (equipment.Count() == 0) {
                 ModelState.AddModelError("equipmentId", "อุปกรณ์ดังกล่าวไม่มีข้อมูลอยู่ในระบบ");
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
-                var errorJSON = JsonConvert.SerializeObject(errorList);
                 return Json(errorList);
             };
             var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
@@ -62,7 +60,6 @@ namespace golablint.Controllers {
                 if (!DateTime.TryParseExact(date, "yyyy-MM-dd", null, System.Globalization.DateTimeStyles.None, out start)) {
                     ModelState.AddModelError("date", "วันที่ไม่ตรงตามรูปแบบ yyyy-MM-dd");
                     var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
-                    var errorJSON = JsonConvert.SerializeObject(errorList);
                     return Json(errorList);
                 }
             }
@@ -81,6 +78,26 @@ namespace golablint.Controllers {
             }
             available.Add("time", available_amount);
             return Json(available);
+        }
+
+        public async Task<JsonResult> getAvailableWithDate(List<Equipment> equipmentList, DateTime now) {
+            List<Dictionary<string, object>> result = new List<Dictionary<string, object>>();
+            if (now.Hour >= 17) {
+                now = now.AddHours(24 - now.Hour);
+            }
+            if (now.Hour < 9) {
+                now = now.AddHours(9 - now.Hour);
+            }
+            foreach (var equipment in equipmentList) {
+
+                var totalBooking = await (from b in _db.Borrowing where now >= b.startDate && now < b.endDate && b.equipment.id == equipment.id select b.startDate).CountAsync();
+                Dictionary<string, object> a = new Dictionary<string, object>();
+                a.Add("equipment", equipment);
+                a.Add("amount", equipment.amount - totalBooking);
+                result.Add(a);
+            }
+            Console.WriteLine();
+            return Json(result);
         }
 
         [HttpPost]

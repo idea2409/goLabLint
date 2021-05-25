@@ -7,20 +7,21 @@
 .equipment-header {
     display: flex;
     justify-content: space-between;
-    margin: 3.5% 0 1% 0;
+    margin: 2% 0 1% 0;
+    /* margin-top: 20px; */
 }
 
 .eqipment-title {
     width: 50%;
     padding-left: 4.5%;
     color: black;
-    /* background-color: rosybrown; */
 }
 
 form.equipment-search {
     width: 50%;
     display: flex;
     justify-content: flex-end;
+    /* visibility: hidden; */
     padding-right: 4.5%;
     /* background-color: royalblue; */
 }
@@ -65,6 +66,18 @@ form.equipment-search button:hover {
     cursor: pointer;
 }
 
+.add-bt h3 {
+    margin: 10px 0;
+}
+
 .topic {
-    margin-left: 4.5%;
+    margin: 25px 0 0 4.5%;
+}
+
+div.add-bt a:visited {
+    color: white;
+}
+
+.eqipments {
+    margin-bottom: 20px;
 }
