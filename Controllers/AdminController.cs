@@ -163,8 +163,8 @@ namespace golablint.Controllers {
             return View();
         }
         [Route("~/api/get-user")]
-        public JsonResult getUser(string status = "Normal") {
-            return Json((from user in _db.User where user.status == status && user.role == "นักศึกษา" select user).ToList());
+        public JsonResult getUser() {
+            return Json((from user in _db.User where user.role == "นักศึกษา" select user).ToList());
         }
         
         [Route("~/admin/blacklist")]

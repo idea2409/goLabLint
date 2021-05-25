@@ -50,12 +50,18 @@
     </output>
 </div>
 <script>
+    var normalList = [];
+    var blackList = [];
+    var normalListElements="";
+    var blackListElements="";
+
     var output = document.getElementById("blacklist");
-    var status = "Blacklist"
+    var status = "Blacklist";
     window.onload = () => {
         getUser(status);
     }
     function getUser(status) {
+        output.innerHTML="<div class='myloading'><div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div></div>";
         let xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200) {
@@ -63,7 +69,54 @@
                 console.log(this.responseText);
                 console.log(response);
                 let responseElement = "";
+                for (var a of response) {
+                    if(a.status=="Blacklist")blackList.push(a);
+                    else normalList.push(a);
+                }
 
+                //blacklist
+                for (var a of blackList){
+                    var x = blackList.indexOf(a);
+                    blackListElements += `
+                    <table id="name-list">
+                            <div id='eiei'>
+                                <div class="mycontainer">
+                                <div id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></div>
+                            
+                                <div>${a.email.split("@@")[0]} ${a.name} ${a.surname}</div>
+                                </div
+
+                            <div id="remove-black"><div class="remove-black-btn">
+                                <form id="remove-blacklist${x}"method="POST" action="/api/blacklist?id=${a.id}&ac=out"></form>
+                                <input form ="remove-blacklist${x}" type="submit" method="POST" value ="นำออกจากบัญชีดำ"></input>
+                            </div>
+                            </div>
+                            </div>
+                    </table>`;
+                }
+                //normal
+                for (var a of normalList) {
+                    var x = normalList.indexOf(a);
+                    normalListElements += `
+                    <table id="name-list">
+                            <div id='eiei'>
+                                <div class="mycontainer">
+                                <div id="avatar-box">
+                                    <i class="material-icons" id="avatar">account_circle</i>
+                                </div>
+                                <div>${a.email.split("@@")[0]} ${a.name} ${a.surname}</div>
+                                </div>
+
+                            <div id="add-black">
+                                <div class="add-black-btn">
+                                    <form id="to-blacklist${x}" method="POST" action="/api/blacklist?id=${a.id}&ac=to"></form>
+                                    <input form ="to-blacklist${x}" type="submit" method="POST" value ="ขึ้นบัญชีดำ"></input>
+                                </div>
+                            </div>
+                            </div>
+                    </table>`;
+                }
+                
                 if (this.responseText == null) {
                     responseElement += `
                         <div class="equip-not-found">
@@ -71,42 +124,22 @@
                         <h1 class="title">ยินดีด้วย</h1>
                         <h4>ไม่มีนักศึกษาใน Blacklist</h4>
                         </div>`;
-                }
-                //blacklist
-                else if (status == "Blacklist") {
-                    for (var a of response) {
-                        var x = response.indexOf(a);
-                        responseElement += `
-                        <table id="name-list">
-                            <tr>
-                                <td id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></td>
-                                <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
-                                <td id="remove-black"><div class="remove-black-btn"><form id="remove-blacklist${x}"method="POST" action="/api/blacklist?id=${a.id}&ac=out"></form><input form ="remove-blacklist${x}" type="submit" method="POST" value ="นำออกจากบัญชีดำ"></input></div></td>
-                            </tr>
-                        </table>
-    `;
-                    }
-                }
-                //normal
-                else {
-                    for (var a of response) {
-                        var x = response.indexOf(a);
-                        responseElement += `
-                        <table id="name-list">
-                            <tr>
-                                <td id="avatar-box"><i class="material-icons" id="avatar">account_circle</i></td>
-                                <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
-                                <td id="add-black"><div class="add-black-btn"><form id="to-blacklist${x}" method="POST" action="/api/blacklist?id=${a.id}&ac=to"></form><input form ="to-blacklist${x}" type="submit" method="POST" value ="ขึ้นบัญชีดำ"></input></div></td>
-                            </tr>
-                        </table>
-    `;
-                    }
-                }
-                output.innerHTML = responseElement;
+                    output.innerHTML = responseElement;
+                }               
+
+                else if (status == "Blacklist") output.innerHTML = blackListElements;
+                
+                else output.innerHTML = normalListElements;
             }
         }
-        xhttp.open("GET", `/api/get-user?status=${status}`, true);
+        xhttp.open("GET", `/api/get-user`, true);
         xhttp.send();
+    }
+
+    function setOutput(){
+        if(status == "Blacklist")output.innerHTML = blackListElements;
+        else output.innerHTML = normalListElements;
+        console.log(status ,normalListElements);
     }
 
     function triggerState(state) {
@@ -116,6 +149,7 @@
             document.getElementById("trigger3").style.display = "flex";
             document.getElementById("trigger4").style.display = "none";
             status = "Blacklist";
+            setOutput();
         }
         else {
             document.getElementById("trigger1").style.display = "none";
@@ -123,6 +157,7 @@
             document.getElementById("trigger3").style.display = "none";
             document.getElementById("trigger4").style.display = "flex";
             status = "Normal";
+            setOutput();
         }
     }
 </script>
