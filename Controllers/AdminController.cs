@@ -162,6 +162,34 @@ namespace golablint.Controllers {
         public IActionResult BorrowingList() {
             return View();
         }
+        [Route("~/api/get-user")]
+        public JsonResult getUser(string status = "Normal") {
+            return Json((from user in _db.User where user.status == status && user.role == "นักศึกษา" select user).ToList());
+        }
+        
+        [Route("~/admin/blacklist")]
+        public IActionResult Blacklist() {
+            return View(); 
+        }
+        [HttpPost]
+        [Route("~/api/blacklist")]
+        public async Task<IActionResult> setBlacklist([FromQuery]string id,[FromQuery]string ac) {
+            Console.WriteLine(id);
+            Console.WriteLine(ac);
+            Guid _id;
+            if(!Guid.TryParse(id, out _id)) {
+                return BadRequest();
+            }
+            var user = (from u in _db.User where u.id == _id select u).OrderBy(a => a.id).Take(1).FirstOrDefault();
+            if(user == null) {
+                return NotFound();
+            }
+            user.status = ac == "to" ? "Blacklist" : "Normal";
+            Console.WriteLine(Json(user));
+            _db.User.Update(user);
+            await _db.SaveChangesAsync();
+            return RedirectToAction("Blacklist");
+        }
 
         [Route("~/api/get-borrowing-list")]
         public JsonResult getBorrowingList(string name = "") {

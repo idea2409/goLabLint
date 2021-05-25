@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
+using Microsoft.AspNetCore.Cors;
 
 namespace golablint.Controllers {
     public class EquipmentController : Controller {
@@ -22,7 +23,7 @@ namespace golablint.Controllers {
             ViewBag.search = search;
             return View();
         }
-
+        [EnableCors("AllowAny")]
         [Route("~/api/equipment")]
         public JsonResult getEquipment(int? limit) {
 
@@ -50,6 +51,7 @@ namespace golablint.Controllers {
             return Json(history);
         }
 
+        [EnableCors("AllowAny")]
         [Route("~/api/equipment/{id}")]
         public JsonResult getEquipment(string id) {
             Guid _id;
@@ -64,7 +66,7 @@ namespace golablint.Controllers {
                 var errorList = ModelState.Where(elem => elem.Value.Errors.Any()).ToDictionary(kvp => kvp.Key.Remove(0, kvp.Key.IndexOf('.') + 1), kvp => kvp.Value.Errors.Select(e => string.IsNullOrEmpty(e.ErrorMessage) ? e.Exception.Message : e.ErrorMessage).ToArray());
                 return Json(errorList);
             };
-            var equipmentData = equipment.OrderBy(item => item.id).FirstOrDefault();
+            var equipmentData = equipment.OrderBy(item => item.description).FirstOrDefault();
             return Json(equipmentData);
         }
 

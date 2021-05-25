@@ -28,6 +28,7 @@ namespace golablint.Controllers {
             return View();
         }
 
+
         [HttpPost]
         // [ValidateAntiForgeryToken]
         public IActionResult Index(string email, string password) {
@@ -58,7 +59,7 @@ namespace golablint.Controllers {
 
         [Route("~/logout")]
         public IActionResult Logout() {
-            Response.Cookies.Delete("LoginCookie",new Microsoft.AspNetCore.Http.CookieOptions() {
+            Response.Cookies.Delete("LoginCookie", new Microsoft.AspNetCore.Http.CookieOptions() {
                 Secure = true,
             });
             return RedirectToRoute(new {
