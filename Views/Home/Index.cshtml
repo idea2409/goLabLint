@@ -1,8 +1,67 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
-
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+@section styles {
+<link rel="stylesheet" href="~/css/home.css" type="text/css" />
+<link rel="stylesheet" href="~/css/card.css" type="text/css" />
+}
+<div class="body">
+    @if (Context.User.Identity.IsAuthenticated)
+    {
+        <div class="authen-background-container">
+            <img src="~/image/single card.png" alt="card" class="authen-background" />
+            <h1 class="home-title">จองง่าย...ได้เร็ว<br />ยืมอุปกรณ์ที่ต้องการอย่างสะดวก</h1>
+            <p class="home-subtitle">นักศึกษาสามารถยืมอุปกรณ์ที่ต้องการได้<br />จากในทุกห้องปฏิบัติการ ผ่านการจองออนไลน์
+                ด้วย GoLabLint</p>
+            <div class="circle">
+                <div></div>
+            </div>
+        </div>
+        <div class="more">
+            <h2 class="available-title">อุปกรณ์ที่สามารถจองได้</h2>
+            <a asp-controller="equipment" asp-action="index">ดูเพิ่มเติม...</a>
+        </div>
+        @await Component.InvokeAsync("EquipmentCard",new {limit=4,role="User"})
+        <div class="more second-more">
+            <h2 class="available-title">ห้องปฏิบัติการอื่นที่เปิดให้บริการ</h2>
+            <a asp-controller="other" asp-action="index">ดูเพิ่มเติม...</a>
+        </div>
+        @await Component.InvokeAsync("EquipmentCard",new {limit=4,role="User"})
+    }
+    else
+    {
+        <div class="background-container">
+            <div>
+                <img src="~/image/home background leftside.png" alt="background" class="left-background" />
+                <img src="~/image/home background rightside.png" alt="background" class="right-background" />
+            </div>
+            <div class="title-container">
+                <img src="~/image/icon.png" alt="logo" class="home-logo" />
+                <h1 class="home-title">จองง่าย...ได้เร็ว<br />ยืมอุปกรณ์ที่ต้องการอย่างสะดวก</h1>
+                <p class="home-subtitle">นักศึกษาสามารถยืมอุปกรณ์ที่ต้องการได้<br />จากในทุกห้องปฏิบัติการ ผ่านการจองออนไลน์
+                    ด้วย GoLabLint</p>
+                <a class="home-button" asp-controller="login" asp-action="index">จองเลย!</a>
+            </div>
+        </div>
+        <div class="howto">
+            <div class="watermark">GET START</div>
+            <h2 class="step-title">ขั้นตอนการจองอุปกรณ์</h2>
+            <div class="steps">
+                <img src="~/image/goLabLint.png" alt="logo" class="step-img" />
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    เข้าสู่ระบบ / ลงทะเบียน
+                </div>
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    เลือกอุปกรณ์ และวันเวลา<br />ที่ต้องการจอง
+                </div>
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    ยืนยันการจอง
+                </div>
+            </div>
+        </div>
+        @await Component.InvokeAsync("EquipmentCard",new {limit=4,role="User"})
+    }
 </div>

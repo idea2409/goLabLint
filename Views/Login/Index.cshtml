@@ -1,0 +1,32 @@
+@{
+    @using Newtonsoft.Json.Linq;
+    ViewData["Title"] = "เข้าสู่ระบบ";
+}
+<div class="register-container body">
+    <h1 class="authen-title">เข้าสู่ระบบ</h1>
+    <form method="POST" asp-controller="login" asp-action="index" autocomplete="off">
+        <div class="input-block">
+            <label class="input-label" for="email">อีเมล</label>
+            <input
+                class="@(ViewBag!=null &&ViewBag.errors != null &&ViewBag.errors.email !=null ? "input-box error" : "input-box")"
+                id="email" name="email" type="email" placeholder="abc@gmail.com"></input>
+            @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.email != null)
+            {
+                <div class="error">@(ViewBag.errors.email[0])</div>
+            }
+        </div>
+        <div class="input-block">
+            <label class="input-label" for="password">รหัสผ่าน</label>
+            <input
+                class="@(ViewBag!=null &&ViewBag.errors != null &&ViewBag.errors.password !=null ? "input-box error" : "input-box")"
+                id="password" name="password" type="password" placeholder="••••••••"></input>
+            @if (ViewBag != null && ViewBag.errors != null && ViewBag.errors.password != null)
+            {
+                <div class="error">@(ViewBag.errors.password[0])</div>
+            }
+        </div>
+        <input class="register" type="submit" value="เข้าสู่ระบบ"></input>
+        <a class="register" asp-controller="register" asp-action="index">ลงทะเบียนบัญชีผู้ใช้ใหม่</a>
+    </form>
+    <img src="~/image/icon.png" alt="logo" class="register-logo" />
+</div>

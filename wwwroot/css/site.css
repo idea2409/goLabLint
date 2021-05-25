@@ -1,71 +1,327 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿:root {
+    --orange-color: #F37634;
+    --light-gray-color: #EEEEEE;
+    --dark-gray-color: #757575;
+    --blue-color: #3DB1E7;
+    --blue-sky-color: #F1FAFF;
+}
+footer {
+  margin-top: 3%;
+}
+@font-face {
+    font-family: Sukhumvit;
+    src: url("/font/SukhumvitSet-Medium.ttf");
 }
 
-/* Provide sufficient contrast against white background */
+@font-face {
+    font-family: Sukhumvit;
+    src: url("/font/SukhumvitSet-Bold.ttf");
+    font-weight: bold;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+}
+
+a,
+button {
+    cursor: pointer;
+}
+
+button,
+input {
+    font-family: Sukhumvit;
+    border: none;
+}
+
 a {
-  color: #0366d6;
+    text-decoration: none;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
 html {
-  font-size: 14px;
+    font-size: 14px;
 }
+
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
+    html {
+        font-size: 16px;
+    }
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    width: 100vw;
+    height: 100vh;
+    font-family: Sukhumvit, Arial, Helvetica, sans-serif;
+    top: 4vw;
+    box-sizing: border-box;
+    overflow-y: overlay;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+nav.navbar,
+nav.navbar-anonymous {
+    width: 100%;
+    height: 4vw;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    z-index: 100;
+}
+
+nav.navbar-anonymous {
+    background-color: var(--orange-color);
+}
+
+nav.navbar {
+    background-color: var(--light-gray-color);
+}
+
+img.logo {
+    padding: 0 0 0 3%;
+    width: 15%;
+}
+
+a.navbar,
+a.navbar-anonymous {
+    margin: 0 0 0 7%;
+    font-weight: bold;
+    height: 100%;
+    padding: 0 2.5%;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+    border: 0.25rem solid transparent;
+}
+
+a.navbar {
+    color: var(--dark-gray-color);
+}
+
+a.navbar:visited {
+  color: var(--dark-gray-color);
+}
+
+nav.navbar-anonymous a {
+    color: #FFDAC7;
+}
+
+a.navbar:hover,
+a.current-page {
+    color: black;
+}
+
+a.current-page {
+    border-bottom: 0.25rem solid var(--orange-color);
+}
+
+nav.navbar-anonymous a:hover,
+nav.navbar-anonymous a.current-page {
+    color: white;
+}
+
+nav.navbar-anonymous a.current-page {
+    border-bottom: 0.25rem solid white;
+}
+
+div.user-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-end;
+    font-size: 0.8rem;
+}
+
+div.user {
+    display: flex;
+    flex: 1;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 3%;
+}
+
+hr {
+    color: #7B7B7B;
+}
+
+div.user-dropdown {
+    position: relative;
+    margin-left: 5%;
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+div.user-dropcontent a:hover {
+    background-color: #ddd;
+}
+
+div.user-dropcontent a.logout:hover {
+    border-radius: 0 0 0.5rem 0.5rem;
+}
+
+div.user-dropcontent a.history:hover {
+    border-radius: 0.5rem 0.5rem 0 0;
+}
+
+img.user-profile {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    object-fit: cover;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+
+img.user-profile:hover,
+img.user-profile:focus {
+    border-style: solid;
+    border-width: thin;
+    border-color: #b1b1b1;
+}
+
+div.user-dropcontent {
+    position: absolute;
+    background-color: #f1f1f1;
+    width: 12rem;
+    /* padding: 1rem 3rem; */
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    border-radius: 0.5rem;
+    left: 100%;
+    transform: translateX(-100%);
+    top: 145%;
+    text-align: center;
+}
+
+div.hide {
+    display: none;
+}
+
+div.show {
+    display: block;
+}
+
+div.user-dropcontent a {
+    color: #646464;
+    text-decoration: none;
+    display: block;
+    padding: 1rem 2rem;
+    text-align: center;
+}
+
+div.user-dropcontent a.logout {
+    color: #F03738;
+}
+
+p.user-name {
+    color: #646464;
+    font-weight: bold;
+}
+
+p.user-id {
+    color: #7B7B7B;
+}
+
+div.panel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    height: 100vh;
+}
+
+div.left-panel {
+    padding: 5% 10%;
+    padding-bottom: 0;
+}
+
+div.right-panel {
+    background-color: var(--orange-color);
+    position: fixed;
+    left: 50%;
+    width: 50%;
+    height: 100vh;
+    box-sizing: border-box;
+    padding: 3% 5% 2% 5%;
+}
+
+img.authen-logo {
+    width: 40%;
+    transform: translateX(-7%);
+}
+
+img.right-image {
+    width: 65%;
+    align-self: center;
+}
+
+div.right-container {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    height: 100%;
+    justify-content: space-evenly;
+}
+
+p.right-subtitle {
+    color: #FFDAC7;
+    margin-bottom: 3%;
+}
+
+h2.right-title {
+    color: white;
+    font-weight: bold;
+}
+
+div.right-title {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-top: 5%;
+    flex-grow: 1;
+}
+
+img.right-deco {
+    width: 20%;
+}
+
+div.right-circle {
+    border: 0.125rem solid white;
+    width: 2.5vw;
+    height: 2.5vw;
+    border-radius: 50%;
+    align-self: flex-end;
+}
+
+div.footer {
+    position: relative;
+    background-color: #C6EDFF;
+    color: #355A8A;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 1% 5%;
+}
+
+div.footer img {
+    width: 15%;
+}
+
+div.footer img.footer-img {
+    width: 15%;
+}
+
+div.footer div {
+    display: flex;
+    justify-content: space-evenly;
+    margin-right: 50%;
+}
+
+p.copyright {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }

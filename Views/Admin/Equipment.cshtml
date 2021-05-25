@@ -1,0 +1,21 @@
+@{
+    ViewData["Title"] = "Equipment";
+}
+@section styles {
+<link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
+}
+<div class="body">
+    <div class="equipment-header">
+        <div class="eqipment-title">
+            <div class="add-bt">
+                <h3>+ เพิ่มอุปกรณ์ใหม่</h3>
+            </div>
+        </div>
+        <form class="equipment-search">
+            <input type="text" placeholder="ค้นหาอุปกรณ์" >
+            <button type="submit"></button>
+        </form>
+    </div>
+    <h1 class="topic">อุปกรณ์</h1>
+    @await Component.InvokeAsync("EquipmentCard",new {role = "Admin"})    
+</div>

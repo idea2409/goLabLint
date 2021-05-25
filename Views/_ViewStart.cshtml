@@ -1,3 +1,5 @@
 @{
-    Layout = "_Layout";
+    string controller = (string)ViewContext.RouteData.Values["controller"];
+    Layout =
+            controller=="Login" || controller=="Register" ?  "_AuthenticationLayout":"_Layout";
 }

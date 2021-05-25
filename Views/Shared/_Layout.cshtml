@@ -1,48 +1,103 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - golablint</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/css/cardAdmin.css" type="text/css" />
+    <link rel="stylesheet" href="~/css/card.css" type="text/css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&display=swap" rel="stylesheet">
+    @RenderSection("styles",false)
 </head>
+
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">golablint</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+        @using System.Security.Claims;
+        @{
+            string controller = (string)ViewContext.RouteData.Values["controller"];
+            string action = (string)ViewContext.RouteData.Values["action"];
+            bool isAuthenticated = Context.User.Identity.IsAuthenticated;
+            string role = "";
+            if (isAuthenticated) role = Context.User.Claims.Where(claim => claim.Type ==
+            ClaimTypes.Role).FirstOrDefault().Value;
+            <nav class="@(isAuthenticated ? "navbar" : "navbar-anonymous")">
+                @if (isAuthenticated)
+                {
+                    <img class="logo" src="~/image/goLabLint.png" alt="goLabLint logo" />
+                }
+                else
+                {
+                    @* <form class="home-search">
+                        <input type="text" placeholder="ค้นหาอุปกรณ์">
+                        <button type="submit"></button>
+                        </form> *@
+                }
+                <a class="@((controller == "Home" ?"current-page": "")+ (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="home" asp-action="index" asp-area="">หน้าแรก</a>
+                <a class="@((controller == "Equipment" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="@(role!="Admin"?"equipment":"admin")" asp-action="@(role!="Admin"?"index":"equipment")"
+                asp-area="">อุปกรณ์</a>
+                @if (role != "Admin")
+                {
+                    <a class="@((controller == "Other" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="other" asp-action="index" asp-area="">ห้องปฏิบัติการอื่น</a>
+                }
+                else
+                {
+                    <a class="@((controller == "Admin"  && action == "BorrowingList" ?"current-page": "") + (!isAuthenticated ? "-anonymous navbar-anonymous": " navbar"))"
+                asp-controller="admin" asp-action="borrowing-list" asp-area="">การจอง</a>
+                }
+                @if (isAuthenticated)
+                {
+                    <div class="user">
+                        <div class="user-description">
+                            <p class="user-name">@(Context.User.Claims.Where(claim => claim.Type ==
+                        ClaimTypes.Name).FirstOrDefault().Value + " " + Context.User.Claims.Where(claim => claim.Type ==
+                        ClaimTypes.Surname).FirstOrDefault().Value)</p>
+                            <p class="user-id">@(role == "Admin" ? "อาจารย์" : "นักศึกษา")</p>
+                        </div>
+                        <div class="user-dropdown">
+                            <img class="user-profile" onclick="myFunction()" src="~/image/default profile.jpg"
+                        alt="user profile" />
+                            <div id="myDropdown" class="user-dropcontent hide">
+                                @if (role != "Admin")
+                                {
+                                    <a asp-controller="history" asp-action="index"
+                            asp-asp-route-id="@(Context.User.Claims.Where(claim => claim.Type ==ClaimTypes.NameIdentifier).FirstOrDefault().Value)"
+                            class="history">ประวัติการจอง</a>
+                                    <hr>
+                                }
+                                <a asp-controller="login" asp-action="logout" class="logout">ออกจากระบบ</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </nav>}
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div>
+        <main role="main">@RenderBody()</main>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - golablint - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    @if (controller != "Booking")
+    {
+        <footer>
+            <div class="footer">
+                <p>Contact Us</p>
+                <div>
+                    <img src="~/image/twitter.png" alt="twitter icon" />
+                    <img src="~/image/instagram.png" alt="instagram icon" />
+                    <img src="~/image/facebook.png" alt="facebook icon" />
+                </div>
+                <p class="copyright">@@Copyright-GoLabLint-2021</p>
+                <img src="~/image/goLabLint.png" alt="logo" class="footer-img" />
+            </div>
+        </footer>
+    }
+    <script src="~/js/site.js" asp-append-version="true">
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>
