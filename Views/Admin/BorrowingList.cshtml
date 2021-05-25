@@ -239,7 +239,7 @@
             var element="";
             for(var a of list){
                 var x = list.indexOf(a);
-                element += `<div class="borrowing-column">
+                element += `<div class="borrowing-column"><div class='blabla'>
                 <div class="remove-btn" onclick="openPopupRemove(${x})"><img src="/image/remove-icon.jpg" alt="remove"
                 class="bin-icon"></div>
                 <div class="borrowing-equipment">${a.equipment.name}</div>
@@ -281,7 +281,8 @@
                 </div>
                 </form>
                 </div>
-                </div >`;
+                </div >
+                </div>`;
             }
         return element;
     }
