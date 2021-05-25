@@ -13,7 +13,7 @@
             <h1>รายการจอง</h1>
         </div>
         <form class="equipment-search">
-            <input type="text" placeholder="ค้นหา" name="name">
+            <input type="text" placeholder="ค้นหา" name="name" >
             <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
         </form>
     </div>
@@ -88,7 +88,7 @@
         var onGoingElements="";
         var completedElements="";
 
-        output.innerHTML="<div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div>";
+        output.innerHTML="<div class='borrowing-column'><div class='lds-ellipsis'><div></div><div></div><div></div><div></div></div></div>";
 
         
         select.onchange = () => {
@@ -123,20 +123,17 @@
             let xhttp = new XMLHttpRequest();
             xhttp.onreadystatechange = function () {
                 if (this.readyState == 4 && this.status == 200) {
-                    let response = JSON.parse(this.responseText);
-                    let responseElement = "";
+                    var response = JSON.parse(this.responseText);
                     if (this.responseText == null) {
-                        responseElement += `
+                        output.innerHTML= `
                         <div class="equip-not-found">
                         <img src="/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
                         <h1 class="title">อุปส์</h1>
                         <h4>ไม่มีการจองอุปกรณ์ขณะนี้...กดจองตอนนี้เลย!</h4>
                         </div>`;
-                        output.innerHTML=responseElement;
                     }
                     else {
                         for (var a of response) {
-                            console.log(a,a.borrowing.status=="Ongoing");
                             if(a.borrowing.status=="Ongoing")
                                 onGoingList.push(a);
                             else
@@ -144,10 +141,10 @@
                         }
                             
                     }
-                    onGoingElements = createElement(onGoingList);
-                    completedElements = createElement(completedList);
-                    
                     sort();
+                    onGoingElements = createElement(onGoingListSortByEquipmentId);
+                    completedElements = createElement(completedListSortByEquipmentId);
+                    
                     
                     if(page=="All") 
                         output.innerHTML = onGoingElements;
@@ -242,7 +239,6 @@
             var element="";
             for(var a of list){
                 var x = list.indexOf(a);
-                console.log(x,a);
                 element += `<div class="borrowing-column">
                 <div class="remove-btn" onclick="openPopupRemove(${x})"><img src="/image/remove-icon.jpg" alt="remove"
                 class="remove-icon"></div>

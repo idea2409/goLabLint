@@ -18,13 +18,18 @@ namespace golablint.Controllers {
             _db = db;
         }
 
-        [Route("~/borrowing-list", Name = "borrowing-list")]
-        public IActionResult Index() {
+        [Route("~/borrowing-list/{id}", Name = "borrowing-list")]
+        public IActionResult Index(string id) {
+            Guid _id;
+            if (!Guid.TryParse(id, out _id)) {
+                return BadRequest();
+            }
             return View();
         }
 
         [Route("~/api/get-borrowing-list/{id}")]
         public JsonResult getBorrowingList(string id) {
+            Console.WriteLine(id);
             Guid _id;
             if (!Guid.TryParse(id, out _id)) {
                 ModelState.AddModelError("userId", "หมายเลขผู้ใช้งานไม่ถูกต้อง");
@@ -34,6 +39,9 @@ namespace golablint.Controllers {
             var borrowingList = from borrowing in _db.Set<Borrowing>()
             join equipment in _db.Set<Equipment>()
             on borrowing.equipment.id equals equipment.id
+            join user in _db.Set<User>()
+            on borrowing.user.id equals user.id
+            where user.id == _id
             select new { borrowing, equipment };
             return Json(borrowingList);
         }

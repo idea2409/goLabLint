@@ -20,7 +20,8 @@ form.equipment-search {
     width: 50%;
     display: flex;
     justify-content: flex-end;
-    padding-right: 4.5%;
+    /* visibility: hidden; */
+    /* padding-right: 4.5%; */
     /* background-color: royalblue; */
 }
 

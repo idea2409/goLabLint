@@ -8,7 +8,7 @@
 }
 
 footer {
-    margin-top: 3%;
+    margin-top: 40px;
 }
 
 @font-face {
@@ -56,7 +56,7 @@ html {
 
 body {
     width: 100vw;
-    height: calc(100vh - 4vw);
+    /* min-height: calc(100vh - 8vw - 60px); */
     font-family: Sukhumvit, Arial, Helvetica, sans-serif;
     margin-top: 4vw;
     overflow-y: overlay;
@@ -67,6 +67,7 @@ body {
 
 .body {
     /* padding: 20px 0; */
+    min-height: calc(100vh - 8vw - 60px);
 }
 
 nav.navbar,
@@ -314,6 +315,7 @@ div.footer {
     justify-content: space-between;
     box-sizing: border-box;
     padding: 1% 5%;
+    height: 4vw;
 }
 
 div.footer img {
