@@ -59,10 +59,10 @@
     </div>
     <div class="borrowing-column" id="column-header">
         <div class="remove-btn"></div>
-        <div class="borrowing-equipment-user"><strong>อุปกรณ์</strong></div>
-        <div class="borrowing-start-user"><strong>วันเวลาเริ่มจอง</strong></div>
-        <div class="borrowing-end-user"><strong>วันเวลาคืนอุปกรณ์</strong></div>
-        <div class="borrowing-status-user"><strong>สถานะ</strong></div>
+        <div class="borrowing-equipment-user"><div class='mystrong'>อุปกรณ์</div></div>
+        <div class="borrowing-start-user"><div class='mystrong'>วันเวลาเริ่มจอง</div></div>
+        <div class="borrowing-end-user"><div class='mystrong'>วันเวลาคืนอุปกรณ์</div></div>
+        <div class="borrowing-status-user"><div class='mystrong'>สถานะ</div></div>
         <div class="cancel-btn"></div>
     </div>
     <output id="borrowing-list">
@@ -238,19 +238,19 @@
                         <div class="cancel-btn"><button onclick="openPopupRemove(${x})">ยกเลิกการจอง</button></div>`;
                     document.getElementById("column-header").innerHTML=`
                         <div class="remove-btn" onclick="openPopupRemove(${x})"></div>
-                        <div class="borrowing-equipment-user"><strong>อุปกรณ์</strong></div>
-                        <div class="borrowing-start-user"><strong>วันเวลาเริ่มจอง</strong></div>
-                        <div class="borrowing-end-user"><strong>วันเวลาคืนอุปกรณ์</strong></div>
-                        <div class="borrowing-status-user"><strong>สถานะ</strong></div>
+                        <div class="borrowing-equipment-user"><div class='mystrong'>อุปกรณ์</div></div>
+                        <div class="borrowing-start-user"><div class='mystrong'>วันเวลาเริ่มจอง</div></div>
+                        <div class="borrowing-end-user"><div class='mystrong'>วันเวลาคืนอุปกรณ์</div></div>
+                        <div class="borrowing-status-user"><div class='mystrong'>สถานะ</div></div>
                         <div class="cancel-btn"></div>`;
                 }
                 else
                     document.getElementById("column-header").innerHTML=`
                         <div class="remove-btn" onclick="openPopupRemove(${x})"></div>
-                        <div class="borrowing-equipment-user"><strong>อุปกรณ์</strong></div>
-                        <div class="borrowing-start-user"><strong>วันเวลาเริ่มจอง</strong></div>
-                        <div class="borrowing-end-user"><strong>วันเวลาคืนอุปกรณ์</strong></div>
-                        <div class="borrowing-status-user"><strong>สถานะ</strong></div>`;
+                        <div class="borrowing-equipment-user"><div class='mystrong'>อุปกรณ์</div></div>
+                        <div class="borrowing-start-user"><div class='mystrong'>วันเวลาเริ่มจอง</div></div>
+                        <div class="borrowing-end-user"><div class='mystrong'>วันเวลาคืนอุปกรณ์</div></div>
+                        <div class="borrowing-status-user"><div class='mystrong'>สถานะ</div></div>`;
                 
                 element+=
                         `<div class="form-popup" id="removeEquipment${x}">

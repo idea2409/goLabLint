@@ -119,7 +119,15 @@
 
 .borrowing-column div {
     color: black;
-    text-align: center;
+    /* text-align: center; */
+}
+
+.mystrong{
+    width: 100%;    
+    /* background-color: crimson; */
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
 }
 
 .remove-btn {
@@ -161,10 +169,12 @@ input[type="checkbox"] {
 }
 
 .borrowing-equipment {
-    width: 15%;
+    width: 10%;
     box-sizing: border-box;
     overflow: hidden;
+    /* text-align: left; */
 }
+
 
 .borrowing-user {
     width: 25%;
@@ -183,20 +193,21 @@ input[type="checkbox"] {
     width: 5%;
     display: flex;
     flex-direction: row;
-    /* background: chartreuse; */
     justify-content: center;
 }
 
 .borrowing-equipment-user {
-    width: 15%;
+    width: 10%;
 }
 
 .borrowing-start-user {
-    width: 18%;
+    width: 18%;    
+    text-align: center;
 }
 
 .borrowing-end-user {
     width: 18%;
+    text-align: center;
 }
 
 .borrowing-status-user {
