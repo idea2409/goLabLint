@@ -41,7 +41,7 @@
                     <input type="number" name="amount" min="1" style="width:60%"
                         onclick="disableButton('submit-remove')">
                 </form>
-                <input type="submit" id="submit-add" value="ยืนยัน" style="cursor: pointer;" form="add-input">
+                <input type="submit" id="submit-add" value="ยืนยัน"  form="add-input">
             </div>
             <div id="remove">
                 <i class="material-icons" id="remove-bt">remove_circle</i>
@@ -78,12 +78,14 @@
             if (btn == 'submit-add') {
                 document.getElementById(btn).disabled = true;
                 document.getElementById('submit-remove').disabled = false;
-                document.getElementById('submit-add').style.cursor = "pointer";
+                document.getElementById('submit-add').style.cursor = "default";
+                document.getElementById('submit-remove').style.cursor = "pointer";
             }
             else {
                 document.getElementById(btn).disabled = true;
                 document.getElementById('submit-add').disabled = false;
-                document.getElementById('submit-remove').style.cursor = "pointer";
+                document.getElementById('submit-remove').style.cursor = "default";
+                document.getElementById('submit-add').style.cursor = "pointer";
             }
         }
 
