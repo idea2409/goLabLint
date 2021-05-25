@@ -46,6 +46,16 @@ namespace golablint.Controllers {
             ViewBag.borrowingList = JObject.Parse(JsonConvert.SerializeObject(getBorrowingList())).GetValue("Value");
             return View();
         }
+        [Route("~/api/get-user")]
+        public JsonResult getUser(string status = "Normal") {
+            return Json((from user in _db.User where user.status == status && user.role == "นักศึกษา" select user).ToList());
+        }
+        
+        [Route("~/admin/blacklist")]
+        public IActionResult Blacklist() {
+            return View(); 
+        }
+
 
         [Route("~/api/get-borrowing-list")]
         public JsonResult getBorrowingList(string orderBy = "equipmentName") {

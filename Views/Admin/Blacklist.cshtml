@@ -1,0 +1,125 @@
+@{
+    ViewData["Title"] = "Blacklist";
+}
+@section styles {
+<link rel="stylesheet" href="~/css/equipment.css" type="text/css" />
+<link rel="stylesheet" href="~/css/blacklist.css" type="text/css" />
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+}
+<div class="body">
+    <div class="equipment-header">
+        <div class="eqipment-title">
+            <h1>รายชื่อบัญชีดำ</h1>
+        </div>
+        <form class="equipment-search">
+            <input type="text" placeholder="ค้นหา" name="name">
+            <button type="submit"> <img src="~/image/search-icon.png" alt="ค้นหา" class="search-icon" /></button>
+        </form>
+    </div>
+    <div class="borrowing-header" id="trigger1">
+        <div class="state-borrowing-container">
+            <button class="borrowing-state" onclick="triggerState(1)">
+                <h3>บัญชีดำ</h3>
+            </button>
+            <button class="completed-state" onclick="triggerState(2)">
+                <h3>รายชื่อผู้จองทั้งหมด</h3>
+            </button>
+        </div>
+    </div>
+    <div class="completed-header" id="trigger2">
+        <div class="state-borrowing-container">
+            <button class="completed-state" onclick="triggerState(1)">
+                <h3>บัญชีดำ</h3>
+            </button>
+            <button class="borrowing-state" onclick="triggerState(2)">
+                <h3>รายชื่อผู้จองทั้งหมด</h3>
+            </button>
+        </div>
+    </div>
+    <div class="borrowing-title">
+        <div class="state-borrowing-title" id="trigger3">
+            <h2>บัญชีดำ</h2>
+        </div>
+        <div class="state-completed-title" id="trigger4">
+            <h2>รายชื่อผู้จองทั้งหมด</h2>
+        </div>
+    </div>
+    <output id="blacklist">
+
+    </output>
+</div>
+<script>
+    var output = document.getElementById("blacklist");
+    var status = "Blacklist"
+    window.onload = () => {
+        getUser(status);
+    }
+    function getUser(status) {
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function () {
+            if (this.readyState == 4 && this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                console.log(this.responseText);
+                console.log(response);
+                let responseElement = "";
+
+                if (this.responseText == null) {
+                    responseElement += `
+                        <div class="equip-not-found">
+                        <img src="/image/icon.png" alt="logo" style="filter:saturate(50%)" class="oops" />
+                        <h1 class="title">ยินดีด้วย</h1>
+                        <h4>ไม่มีนักศึกษาใน Blacklist</h4>
+                        </div>`;
+                }
+                //blacklist
+                else if (status == "Blacklist") {
+                    for (var a of response) {
+                        responseElement += `
+                        <table id="name-list">
+                            <tr>
+                                <td id="avatar-box"><i class="material-icons" id="avatar">no_accounts</i></td>
+                                <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
+                                <td id="remove-black"><div class="remove-black-btn"><button onclick="">นำออกจากบัญชีดำ</button></div></td>
+                            </tr>
+                        </table>
+    `;
+                    }
+                }
+                //normal
+                else {
+                    for (var a of response) {
+                        responseElement += `
+                        <table id="name-list">
+                            <tr>
+                                <td id="avatar-box"><i class="material-icons" id="avatar">account_circle</i></td>
+                                <td>${a.email.split("@@")[0]} ${a.name} ${a.surname}</td>
+                                <td id="add-black"><div class="add-black-btn"><button onclick="">ขึ้นบัญชีดำ</button></div></td>
+                            </tr>
+                        </table>
+    `;
+                    }
+                }
+                output.innerHTML = responseElement;
+            }
+        }
+        xhttp.open("GET", `/api/get-user?status=${status}`, true);
+        xhttp.send();
+    }
+
+    function triggerState(state) {
+        if (state == 1) {
+            document.getElementById("trigger1").style.display = "flex";
+            document.getElementById("trigger2").style.display = "none";
+            document.getElementById("trigger3").style.display = "flex";
+            document.getElementById("trigger4").style.display = "none";
+            status = "Blacklist";
+        }
+        else {
+            document.getElementById("trigger1").style.display = "none";
+            document.getElementById("trigger2").style.display = "flex";
+            document.getElementById("trigger3").style.display = "none";
+            document.getElementById("trigger4").style.display = "flex";
+            status = "Normal";
+        }
+    }
+</script>
